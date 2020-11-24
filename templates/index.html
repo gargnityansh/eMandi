@@ -1,0 +1,21 @@
+{% extends "bootstrap/base.html" %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}FameGame{% endblock %}</title>
+</head>
+<body>{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+  <nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" ><form action="/search", method='post'>
+			<label>search : </label>
+			<input type="text" name="search">
+			<button type="submit">search</button>
+		</form></a>
+</nav>
+</div>
+{% endblock %}
+</body>
+</html>
