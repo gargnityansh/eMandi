@@ -3,19 +3,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="index.css">
 	<title>{% block title %}FameGame{% endblock %}</title>
 </head>
-<body>{% block navbar %}
-<div class="navbar navbar-fixed-top">
-  <!-- ... -->
-  <nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand" ><form action="/search", method='post'>
+<body>
+	{% block content %}
+<div id="container">
+	<form action="/search", method='post' id="form">
 			<label>search : </label>
 			<input type="text" name="search">
 			<button type="submit">search</button>
-		</form></a>
-</nav>
+		</form>
 </div>
+<div id="item">
+	{% for game in games %}
+	<li>{{game[0]}}</li>
+	{% endfor %}
+	</div>
 {% endblock %}
 </body>
 </html>

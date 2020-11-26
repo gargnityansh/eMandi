@@ -8,7 +8,8 @@ Bootstrap(app)
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	games = searchGame("%")
+	return render_template('index.html', games=games)
 
 @app.route('/search',methods=['POST'])
 def search():
@@ -17,6 +18,6 @@ def search():
 	game_list = searchGame(request.form.get('search'))
 	if game_list == None:
 		return "No such game is found"
-	return str(game_list)
+	return render_template('index.html', games=game_list)
 if __name__ == "__main__":
 	app.run(debug=True)
