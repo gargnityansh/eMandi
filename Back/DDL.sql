@@ -11,20 +11,20 @@ create table User_Details
 	 );
 
 create table Identty
-	(GameID			 serial,
-	 Game_name		 varchar(50) not NULL,
-	 Date_of_release	 date not NULL,
+	(Game_name		 	varchar(50) not NULL,
+	 Date_of_release	date not NULL,
+	 GameID 			text,
 	 primary key(GameID)
 	);
 
 create table Game
-	(Game_name		varchar(50) not NULL,
+	(Game_name			varchar(50) not NULL,
 	 Date_of_release	date not NULL,
-	 Game_size		numeric(4, 1) not NULL,
+	 Game_size			numeric(4, 1) not NULL,
 	 Prod_Studio		varchar(30) not NULL,
-	 MRP			numeric(5, 2) not NULL,
-	 game_link		text not NULL,
-	 Image			text,
+	 MRP				numeric(5, 2) not NULL,
+	 game_link			text not NULL,
+	 Image				text,
 	 Description		text,
 	 Curr_Version		varchar(10) not NULL,
 	 Update_Link		text default NULL,
@@ -33,18 +33,18 @@ create table Game
 	);
 
 create table Category
-	(GameID			serial,
+	(GameID			text,
 	 Cat_Name		varchar(20),
 	 primary key(GameID, Cat_Name),
 	 foreign key(GameID) references Identty
 	);
 	
 create table Transactions
-	(GameID			serial,
+	(GameID			text,
 	 UserID			varchar(20),
-	 Selling_date		date not NULL,
+	 Selling_date	date not NULL,
 	 Price			numeric(5, 2) not NULL,
-	 Curr_Version		varchar(10),
+	 Curr_Version	varchar(10),
 	 PaymentOpt		varchar(20) not NULL,
 	 primary key(GameID, UserID),
 	 foreign key(GameID) references Identty,
@@ -52,7 +52,7 @@ create table Transactions
 	);
 
 create table RateReview
-	(GameID			serial,
+	(GameID			text,
 	 UserID			varchar(20),
 	 Rating			numeric(1,0),
 	 ReviewText		text,
