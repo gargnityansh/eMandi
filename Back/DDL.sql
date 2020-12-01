@@ -24,7 +24,7 @@ create table Game
 	 Prod_Studio		varchar(30) not NULL,
 	 MRP			numeric(5, 2) not NULL,
 	 game_link		text not NULL,
---	 Image			blob,
+	 Image			text,
 	 Description		text,
 	 Curr_Version		varchar(10) not NULL,
 	 Update_Link		text default NULL,
