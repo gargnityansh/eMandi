@@ -92,15 +92,11 @@ https://templatemo.com/tm-556-catalog-z
                         <h3 class="tm-text-gray-dark mb-3">MRP:</h3>
                         <p>${{game_desc[0][4]}}</p>
                     </div>
-                    <div>
-                        <h3 class="tm-text-gray-dark mb-3">Tags</h3>
-                        <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">Cloud</a>
-                        <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">Bluesky</a>
-                        <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">Nature</a>
-                        <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">Background</a>
-                        <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">Timelapse</a>
-                        <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">Night</a>
-                        <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">Real Estate</a>
+                    <div>                        
+                        <h3 class="tm-text-gray-dark mb-3">Category</h3>
+                        {%for cat in category %}
+                        <p class="tm-text-primary mr-4 mb-2 d-inline-block">{{cat[0]}}</p>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

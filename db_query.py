@@ -73,3 +73,25 @@ def checkUser(user):
 	except (Exception, psycopg2.Error) as error :
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
+
+def findGameCategory(gameName):
+	try:
+		connection = psycopg2.connect(user = "postgres",
+	                                  password = "Garg@9406608047",
+	                                  host = "127.0.0.1",
+	                                  port = "5432",
+	                                  database = "game_selling_marketplace")
+		cursor = connection.cursor()
+		cursor.execute("SELECT cat_name FROM category WHERE gameid = (SELECT gameid FROM identty WHERE game_name=%s)",(gameName,))
+		record = cursor.fetchall()
+		#closing database connection.
+		print(record)
+		if(connection):
+			cursor.close()
+			connection.close()
+		if len(record) == 0:
+			return 404, "empty"
+		return 200, record
+	except (Exception, psycopg2.Error) as error :
+		print ("Error while connecting to PostgreSQL", error)
+		return 500,error

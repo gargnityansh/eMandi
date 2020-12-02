@@ -48,10 +48,11 @@ def login():
 def signup():
 	return render_template('signup.html')
 
-@app.route('/photo-detail.html')
+"""@app.route('/photo-detail.html')
 def photodetail():
 	username = request.cookies.get("username")
 	return render_template('photo-detail.html',username=username)
+"""
 
 @app.route('/about.html')
 def about():
@@ -88,7 +89,7 @@ def register():
 			flash(error)
 			return render_template('signup.html')
 		elif registeration==200:
-			resp = make_response(render_template('index.html',username=username))
+			resp = make_response(redirect('/'))
 			resp.set_cookie("username",username)
 			return resp
 
@@ -109,7 +110,7 @@ def signin():
 			flash("invalid login credentials")
 			return render_template('login.html')
 		elif check_status==200:
-			resp = make_response(render_template("index.html",username=error))
+			resp = make_response(redirect("/"))
 			resp.set_cookie("username", error)
 			return resp
 
@@ -120,9 +121,10 @@ def game():
 	gameName = request.args.get("type")
 	print(gameName)
 	game_desc_status, game_desc = db_query.searchGame(gameName)
+	category_status , category = db_query.findGameCategory(gameName)
 	print(game_desc)
 	if game_desc_status==200:
-		return render_template("photo-detail.html",game_desc = game_desc,username=username)
+		return render_template("photo-detail.html",game_desc = game_desc,username=username, category=category)
 	else:
 		return redirect("/")
 
