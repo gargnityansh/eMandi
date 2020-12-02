@@ -12,20 +12,20 @@ create table User_Details
 	 );
 
 create table Identty
-	(Game_name		 	varchar(50) not NULL,
+	(Game_name		varchar(50) not NULL,
 	 Date_of_release	date not NULL,
-	 GameID 			text,
+	 GameID			text,
 	 primary key(GameID)
 	);
 
 create table Game
-	(Game_name			varchar(50) not NULL,
+	(Game_name		varchar(50) not NULL,
 	 Date_of_release	date not NULL,
-	 Game_size			numeric(4, 1) not NULL,
+	 Game_size		numeric(4, 1) not NULL,
 	 Prod_Studio		varchar(30) not NULL,
-	 MRP				numeric(5, 2) not NULL,
-	 game_link			text not NULL,
-	 Image				text,
+	 MRP			numeric(6, 2) not NULL,
+	 game_link		text not NULL,
+	 Image			text,
 	 Description		text,
 	 Curr_Version		varchar(10) not NULL,
 	 Update_Link		text default NULL,
@@ -43,9 +43,9 @@ create table Category
 create table Transactions
 	(GameID			text,
 	 UserID			varchar(20),
-	 Selling_date	date not NULL,
+	 Selling_date		date not NULL,
 	 Price			numeric(5, 2) not NULL,
-	 Curr_Version	varchar(10),
+	 Curr_Version		varchar(10),
 	 PaymentOpt		varchar(20) not NULL,
 	 primary key(GameID, UserID),
 	 foreign key(GameID) references Identty,
