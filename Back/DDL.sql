@@ -1,12 +1,13 @@
 create extension pgcrypto;
 
 create table User_Details
-	(UserID			varchar(20),
+	(UserName			varchar(20),
 	 FName			varchar(15),
 	 LName			varchar(15),
 	 PhNo			char(10),
 	 emailID		varchar(25) not NULL,
 	 password		text not NULL,
+	 UserType		bool default 0, --indicates the type of user 0=regular 1=developer
 	 primary key(UserID)
 	 );
 
