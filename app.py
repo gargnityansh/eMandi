@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 import db_query
 from flask_cors import CORS
 import json
-
+from emails import sendMail
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -63,6 +63,18 @@ def about():
 def contact():
 	username = request.cookies.get("username")
 	return render_template('contact.html',username=username)
+
+@app.route('/contact', methods=["POST"])
+def contactDetails():
+	name = request.form.get("name")
+	email = request.form.get("email")
+	subject = request.form.get("subject")
+	message = request.form.get("message")
+	contactDetails = {"name":name, "email":email, "subject":subject, "message":message}
+	sendMail('famegamecorp2020@gmail.com', contactDetails)
+	flash("Your query has been registered. We will contact you soon")
+	return redirect("/contact.html")
+
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -133,6 +145,26 @@ def logout():
 	resp = make_response(redirect('/'))
 	resp.delete_cookie('username')
 	return resp
+
+@app.route('/forgetpassword', methods=["POST"])
+def forgetPassword():
+	emailid = request.form.get("emailid")
+	if emailid==None:
+		flash("invalid emailid")
+		return render_template("forgetpassword.html")
+	else:
+		mail_status, mail_error = sendMail(emailid)
+		if mail_status == 200:
+			flash("reset link has been sent to your mail id")
+			return render_template("forgetpassword.html")
+		else:
+			flash("Error. Please try again after some time")
+			return render_template("forgetpassword.html")
+
+@app.route("/forgetpassword.html")
+def forgetPasswordPage():
+	return render_template("forgetpassword.html")
+
 
 if __name__ == "__main__":
 	app.run(debug=True)
