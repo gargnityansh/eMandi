@@ -1,1 +1,1 @@
-## The Documents of the project goes in this folder
+## The Documents of the project go in this folder
