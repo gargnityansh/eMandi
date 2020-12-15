@@ -32,7 +32,7 @@ create table Game
 	 Update_Link		text default NULL,
 	 Date_of_update		date default NULL,
 	 primary key(Game_name, Date_of_release),
-	 foreign key(GameID)
+	 foreign key(GameID) references Identty
 	);
 
 create table Category
@@ -45,9 +45,9 @@ create table Category
 create table Transactions
 	(GameID			text,
 	 UserID			varchar(20),
-	 Selling_date	date not NULL,
+	 Selling_date		date not NULL,
 	 Price			numeric(5, 2) not NULL,
-	 Curr_Version	varchar(10),
+	 Curr_Version		varchar(10),
 	 PaymentOpt		varchar(20) not NULL,
 	 primary key(GameID, UserID),
 	 foreign key(GameID) references Identty,
