@@ -12,21 +12,21 @@ create table User_Details
 	 );
 
 create table Identty
-	(Game_name		 	varchar(50) not NULL,
+	(Game_name		varchar(50) not NULL,
 	 Date_of_release	date not NULL,
-	 GameID 			text,
+	 GameID 		text,
 	 primary key(GameID)
 	);
 
 create table Game
-	(Game_name			varchar(50) not NULL,
+	(Game_name		varchar(50) not NULL,
 	 Date_of_release	date not NULL,
-	 Game_size			numeric(4, 1) not NULL,
-	 GameID				text,
+	 Game_size		numeric(4, 1) not NULL,
+	 GameID			text,
 	 Prod_Studio		varchar(30) not NULL,
-	 MRP				numeric(5, 2) not NULL,
-	 game_link			text not NULL,
-	 Image				text,
+	 MRP			numeric(5, 2) not NULL,
+	 game_link		text not NULL,
+	 Image			text,
 	 Description		text,
 	 Curr_Version		varchar(10) not NULL,
 	 Update_Link		text default NULL,
