@@ -97,12 +97,16 @@ https://templatemo.com/tm-556-catalog-z
                     </div>
                     {% elif purchase==True %}
                     <div class="text-center mb-5">
+                        {% if game_desc[0][9] == None %}
                         <a href={{game_desc[0][5]}} class="btn btn-primary tm-btn-big">Download</a>
+                        {% else %}
+                        <a href={{game_desc[0][9]}} class="btn btn-primary tm-btn-big">Download</a>
+                        {% endif %}
                     </div>
                     {% elif update==False %}
                     <div class="text-center mb-5">
-                        <form action="/payment/success/" method="POST">
-                            <script    src="https://checkout.razorpay.com/v1/checkout.js"
+                        <form action="{{url_for('paymentSuccess',game_name=game_desc[0][0] ,order_id=order_id['id'], price=game_desc[0][4], curr_version=game_desc[0][8])}}">
+                            <script src="https://checkout.razorpay.com/v1/checkout.js"
                                 data-key="rzp_test_Y8qqx6ykwxSLLJ"
                                 data-amount={{order_id['amount']}}
                                 data-currency="INR" 
@@ -130,6 +134,10 @@ https://templatemo.com/tm-556-catalog-z
                         <div class="mr-4 mb-2">
                             <span class="tm-text-gray-dark">Production Studio: </span><span class="tm-text-primary">{{game_desc[0][3]}}</span>
                         </div>
+                    </div>
+                    <div class="mb-4">
+                        <h3 class="tm-text-gray-dark mb-3">Version:</h3>
+                        <p>{{game_desc[0][8]}}</p>
                     </div>
                     <div class="mb-4">
                         <h3 class="tm-text-gray-dark mb-3">MRP:</h3>

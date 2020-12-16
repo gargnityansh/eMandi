@@ -145,18 +145,19 @@ def game():
 	game_desc_status, game_desc = db_query.searchGame(gameName)
 	category_status , category = db_query.findGameCategory(gameName)
 	isPurchasedStatus, isPurchased = db_query.purchase(username,gameName)
-	#isPurchased = False
+
+	print(game_desc)
 	order_id=None
-	if username == game_desc[0][11]:
+	if username == game_desc[0][10]:
 		toShowUpdate = True
-		print("update", toShowUpdate)
+		
 	else:
 		if not isPurchased:
 			order_amount = int(game_desc[0][4])*100
 			order_currency = 'INR'
-			print("order_amount", order_amount)
+			
 			order_id = client.order.create({'amount':order_amount, 'currency':order_currency})
-			print("order_id after", order_id)
+			
 
 	if game_desc_status==200:
 		return render_template("photo-detail.html",game_desc = game_desc,username=username, category=category, purchase=isPurchased,usertype=usertype, order_id=order_id, update=toShowUpdate)
@@ -191,18 +192,23 @@ def resetPassword():
 			return render_template("reset.html")
 
 #needs to complete
-@app.route("/payment/success")
-def createOrder():
-	#payment success
-	
-	return redirect("/")
+@app.route("/payment/success/<game_name>/<order_id>/<price>/<curr_version>", methods=['GET'])
+def paymentSuccess(game_name,order_id,price,curr_version):
+	username = request.cookies.get("username")
+	transaction = {'order_id':order_id,'price':price,'curr_version':curr_version,'username':username,
+					'selling_date':datetime.date.today(),'game_name':game_name}
+	transactionStatus, insertTransaction = db_query.insertTransaction(transaction)
+	if transactionStatus==200:
+		return redirect("/mygames")
+	else:
+		return redirect("/")
 
-#needs to be complete
 @app.route("/mygames")
 def myGames():
 	username = request.cookies.get("username")
 	usertype = bool(request.cookies.get("usertype"))
 	games_status, games_list = db_query.myGames(username)
+	print(games_list)
 	if games_status == 200:
 		return render_template('mygames.html', games=games_list,username=username,usertype=usertype)
 	else:
@@ -217,7 +223,6 @@ def addGame():
 	usertype = bool(request.cookies.get("usertype"))
 	return render_template("addgame.html",username=username,usertype=usertype)
 
-#needs to complete
 @app.route("/addgame/success", methods=['POST'])
 def addGameSuccess():
 	username = request.cookies.get("username")
@@ -245,7 +250,6 @@ def addGameSuccess():
 		return render_template("addgame.html",username=username,usertype=usertype)
 
 
-#needs to complete
 @app.route("/update/<game_name>", methods=['GET', 'POST'])
 def updatePage(game_name):
 	if request.method == 'POST':
@@ -269,13 +273,6 @@ def updatePage(game_name):
 		gameName = game_name
 		print(gameName)
 		return render_template("update.html",username=username,usertype=usertype, gameName=gameName)
-
-'''@app.route("/update.html")
-def updatePageHTML():
-	username = request.cookies.get("username")
-	usertype = bool(request.cookies.get("usertype"))
-	return render_template("update.html",username=username,usertype=usertype)
-'''
 
 if __name__ == "__main__":
 	app.run(debug=True)

@@ -7,7 +7,7 @@ def searchGame(game_name):
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 		# Print PostgreSQL Connection properties
 		#print ( connection.get_dsn_parameters(),"\n")
@@ -37,7 +37,7 @@ def registerUser(user):
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 		cursor.execute("INSERT INTO user_details (username,fname,lname,phno,emailid,password,\"isClient\") Values (%s,%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s)", (user['username'],user['fname'],user['lname'],str(user['phno']),user['emailid'],user['password'],user['usertype']))
 		print("is in final")
@@ -59,7 +59,7 @@ def checkUser(user):
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 		cursor.execute("SELECT username,emailid,password,\"isClient\" FROM user_details WHERE emailid=%s AND password = crypt(%s, password)", (user['emailid'],user['password']))
 		record = cursor.fetchall()
@@ -80,7 +80,7 @@ def findGameCategory(gameName):
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 		cursor.execute("SELECT cat_name FROM category WHERE gameid = (SELECT gameid FROM identty WHERE game_name=%s)",(gameName,))
 		record = cursor.fetchall()
@@ -102,7 +102,7 @@ def resetPassword(resetdetails):
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 		if resetdetails['password']==None:
 			return 404, "password not found"
@@ -119,19 +119,19 @@ def resetPassword(resetdetails):
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
 
-#this should implement using transaction table
+
 def myGames(userdetails):
 	try:
 		connection = psycopg2.connect(user = "postgres",
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 
-		cursor.execute("""SELECT game_name FROM identty where gameid in 
-			(SELECT gameid FROM transactions
-			 WHERE transactions.username = %s)""",(userdetails,))
+		cursor.execute("""SELECT * from game where game_name in 
+						(SELECT game_name from identty where gameid in (
+				Select gameid from transactions where username = %s ))""",(userdetails,))
 		record = cursor.fetchall()
 		if(connection):
 			cursor.close()
@@ -151,7 +151,7 @@ def gameDetails(gameName):
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 
 		cursor.execute("""SELECT mrp FROM game where game_name=%s""",(gameName,))
@@ -174,7 +174,7 @@ def purchase(username, gameName):
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 
 		cursor.execute("""SELECT gameid, username FROM transactions 
@@ -199,7 +199,7 @@ def insertGame(game):
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 
 		cursor.execute("""INSERT INTO game(game_name, date_of_release, game_size, prod_studio, mrp, game_link, image, description, curr_version, username)
@@ -224,7 +224,7 @@ def insertCategory(category, gameName):
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 		
 		cursor.execute("""SELECT gameid FROM identty WHERE game_name = %s""",(gameName,))
@@ -249,10 +249,10 @@ def updateGame(game):
 	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "Game")
+	                                  database = "*****")
 		cursor = connection.cursor()
 		
-		cursor.execute("""UPDATE game SET game_link = %s, curr_version=%s
+		cursor.execute("""UPDATE game SET update_link = %s, curr_version=%s
 						WHERE game_name = %s """,(game['game_link'],game['curr_version'],game['game_name']))
 		record = cursor.rowcount			
 		if record!=0:
@@ -262,7 +262,6 @@ def updateGame(game):
 				WHERE username in (SELECT username FROM transactions 
 				WHERE gameid=%s)""",(gameid[0][0],))
 			record = cursor.fetchall()
-			print("error 3")
 			if(connection):
 				connection.commit()
 				cursor.close()
@@ -271,6 +270,31 @@ def updateGame(game):
 
 	except (Exception, psycopg2.Error) as error :
 		print ("Error in updating game", error)
+		return 500,False
+
+def insertTransaction(transaction):
+	try:
+		connection = psycopg2.connect(user = "postgres",
+	                                  password = "***",
+	                                  host = "127.0.0.1",
+	                                  port = "5432",
+	                                  database = "*****")
+		cursor = connection.cursor()
+		cursor.execute("""SELECT gameid FROM identty WHERE game_name = %s""",(transaction['game_name'],))
+		gameid = cursor.fetchall()
+		
+		cursor.execute("""INSERT INTO transactions(gameid, username, selling_date, price, curr_version, order_id)
+				VALUES (%s, %s, %s, %s, %s, %s);""",(gameid[0][0],transaction['username'],transaction['selling_date'],transaction['price'],transaction['curr_version'],transaction['order_id']))
+		record = cursor.rowcount			
+		if record!=0:
+			if(connection):
+				connection.commit()
+				cursor.close()
+				connection.close()
+				return 200,record
+
+	except (Exception, psycopg2.Error) as error :
+		print ("Error in transaction table", error)
 		return 500,False
 
 if __name__ == "__main__":
