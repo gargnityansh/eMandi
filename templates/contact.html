@@ -39,9 +39,22 @@ https://templatemo.com/tm-556-catalog-z
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="login.html">Login</a>
                 </li>
+                {% elif usertype==True %}
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/addgame">Add Game</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
+                </li>                
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
@@ -149,7 +162,7 @@ https://templatemo.com/tm-556-catalog-z
                 </ul>-------->
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-5">
-                <img src="{{url_for('static', filename='images/prabhat.jpeg')}}" alt="Image" class="mb-4 img-fluid">
+                <img src="{{url_for('static', filename='images/prabhat2.jpeg')}}" alt="Image" class="mb-4 img-fluid">
                 <h2 class="tm-text-primary mb-4">Prabhat Singh</h2>
                 <h3 class="tm-text-secondary h5 mb-4">Developer</h3>
                 <p class="mb-4"><!-----write about yourself here------>

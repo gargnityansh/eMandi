@@ -1,20 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{url_for('static', filename='styles/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='fontawesome/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='styles/templatemo-style.css')}}">
-    <title>FameGame-Login</title>
-
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="{{ url_for('static',filename='fonts/material-icon/css/material-design-iconic-font.min.css')}}">
-
-    <!-- Main css -->
-    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css')}}">
+    <title>FameGame-Reset Password</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='fontawesome/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/templatemo-style.css')}}">
 </head>
 <body>
     <!-- Page Loader -->
@@ -27,7 +19,7 @@
     </div>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="/">
                 <i class="fas fa-film mr-2"></i>
                 FameGame
             </a>
@@ -50,32 +42,28 @@
         </div>
     </nav>
 
-    <div>
-
-        <div class="container">
-            <div class="signup-content">
-                {% for message in get_flashed_messages() %}
-                <div class="form-input">{{ message }}</div>
-                {% endfor %}
-                <form method="POST" id="signup-form" class="signup-form" action="/signin">
-                    <h2>Login</h2>
+<div><br><br></div>
+<div class="container tm-container-medium">
+                    <form method="POST" id="contact-form" class="tm-contact-form mx-auto" action="/signin">
+                        <h2 class="tm-text-primary mb-5">Login</h2>
+                        {% for message in get_flashed_messages() %}
+                            <div class="form-input">{{ message }}</div>
+                        {% endfor %}
                     <div class="form-group">
                         <input type="email" class="form-input" name="emailid" id="email" placeholder="Email"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-input" name="password" id="password" placeholder="Password"/>
-                        <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                        <input type="password" class="form-input" name="password" id="password" placeholder="Password"/>
                     </div>
                     <div class="form-group">
                         <input type="submit" name="submit" id="submit" class="form-submit submit" value="Login"/>
                         <a href="signup.html" class="submit-link submit">Register</a>
                     </div>
-                    <p class="form-input"><a href="/forgetpassword.html">Forget password?</p>
-                </form>
-            </div>
-        </div>
+                    <p class="form-input"><a href="/forget">Forget password?</p>
+                </form>   
+</div>
+<div><br><br><br><br></div>
 
-    </div>
 
     <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
         <div class="container-fluid tm-container-small">
@@ -84,6 +72,7 @@
                     <h3 class="tm-text-primary mb-4 tm-footer-title">About FameGame</h3>
                     <p>FameGame is an online game selling marketplace where game developers can enlist and sell their games to the gamers.</p>
                 </div>
+
             </div>
             <div class="row">
                 <div class="col-lg-8 col-md-7 col-12 px-5 mb-3">

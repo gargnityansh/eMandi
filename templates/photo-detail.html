@@ -39,9 +39,22 @@ https://templatemo.com/tm-556-catalog-z
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="login.html">Login</a>
                 </li>
+                {% elif usertype==True %}
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/addgame">Add Game</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
+                </li>                
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
@@ -77,9 +90,39 @@ https://templatemo.com/tm-556-catalog-z
                     <p class="mb-4">
                         {{game_desc[0][7]}}
                     </p>
+                    <!-------{{game_desc[0][5]}} = download link----->
+                    {% if username == None %}
+                    <div class="text-center mb-5">
+                        <a href="/login.html" class="btn btn-primary tm-btn-big">Download</a>
+                    </div>
+                    {% elif purchase==True %}
                     <div class="text-center mb-5">
                         <a href={{game_desc[0][5]}} class="btn btn-primary tm-btn-big">Download</a>
-                    </div>                    
+                    </div>
+                    {% elif update==False %}
+                    <div class="text-center mb-5">
+                        <form action="/payment/success/" method="POST">
+                            <script    src="https://checkout.razorpay.com/v1/checkout.js"
+                                data-key="rzp_test_Y8qqx6ykwxSLLJ"
+                                data-amount={{order_id['amount']}}
+                                data-currency="INR" 
+                                data-order_id={{order_id['id']}}
+                                data-buttontext="Buy Game"
+                                data-button.theme = "#33B5FF"
+                                data-name="FameGame"
+                                data-theme.color="#33B5FF">
+                            </script>
+                            <input type="hidden" custom="Hidden Element" name="hidden">
+                        </form>
+                    </div>
+                    {% else %}
+                    <div></div>
+                    {% endif %}
+                    {% if usertype==True and update==True %}
+                        <div class="text-center mb-5">
+                            <a href="{{url_for('updatePage', game_name=game_desc[0][0])}}" class="btn btn-primary tm-btn-big">Update</a>
+                        </div>
+                    {% endif %}                    
                     <div class="mb-4 d-flex flex-wrap">
                         <div class="mr-4 mb-2">
                             <span class="tm-text-gray-dark">Size: </span><span class="tm-text-primary">{{game_desc[0][2]}}GB</span>
@@ -90,7 +133,7 @@ https://templatemo.com/tm-556-catalog-z
                     </div>
                     <div class="mb-4">
                         <h3 class="tm-text-gray-dark mb-3">MRP:</h3>
-                        <p>${{game_desc[0][4]}}</p>
+                        <p>Rs. {{game_desc[0][4]}}</p>
                     </div>
                     <div>                        
                         <h3 class="tm-text-gray-dark mb-3">Category</h3>
@@ -98,31 +141,35 @@ https://templatemo.com/tm-556-catalog-z
                         <p class="tm-text-primary mr-4 mb-2 d-inline-block">{{cat[0]}}</p>
                         {% endfor %}
                     </div>
+                    <script src="https://apps.elfsight.com/p/platform.js" defer></script>
+                    <div class="elfsight-app-1d18baac-7b20-4535-83c0-e112f96c365a"></div>
+                </div>
                 </div>
             </div>
         </div>
     </div> <!-- container-fluid, tm-container-content -->
 
-    <div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    
-    var disqus_config = function () {
-    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://famegame-2.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
+            <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://famegame-2.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
     <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
         <div class="container-fluid tm-container-small">
             <div class="row">

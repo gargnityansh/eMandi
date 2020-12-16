@@ -28,9 +28,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                {% if username == None%}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="login.html">Login</a>
                 </li>
+                {% elif usertype==True %}
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/addgame">Add Game</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
+                </li>                
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-3" href="about.html">About</a>
                 </li>
@@ -43,42 +62,26 @@
     </nav>
 
 <div><br><br></div>
-<div class="container tm-container-medium">
-                    <form method="POST" id="contact-form" class="tm-contact-form mx-auto" action="/register">
-                    {% for message in get_flashed_messages() %}
-                        <div>{{ message }}</div>
-                    {% endfor %}
-                    <h2 class="tm-text-primary mb-5">Register</h2>
+<div class="container tm-container-small">
+    <form id="contact-form" action="{{url_for('updatePage', game_name=gameName)}}" method="POST" class="tm-contact-form mx-auto">
+    <h2 class="tm-text-primary mb-5">Update Game</h2>
+        {% for message in get_flashed_messages() %}
+            <div class="form-input">{{ message }}</div>
+        {% endfor %}
                     <div class="form-group">
-                        <input type="text" class="form-input" name="username" id="name" placeholder="Username"/>
+                        <input type="text" name="update_link" class="form-control rounded-0" placeholder="Updated Game Link" required />
                     </div>
+                    
                     <div class="form-group">
-                        <input type="text" class="form-input" name="fname" id="name" placeholder="First Name"/>
+                        <input type="text" name="update_version" class="form-control rounded-0" placeholder="Updated Version" required />
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-input" name="lname" id="name" placeholder="Last Name"/>
+                    <!----------<div class="form-group">
+                        <input type="hidden" name="game_name" value={{gameName}}/>
+                    </div>------------>
+                    <div class="form-group tm-text-right">
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
-                    <div class="form-group">
-                        <input type="numeric" class="form-input" name="phno" id="name" placeholder="Mobile Number"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-input" name="emailid" id="email" placeholder="Email"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-input" name="password" id="password" placeholder="Password"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="usertype">User type:</label>
-                        <select id="name" name="usertype" class="form-input">
-                            <option value="Gamer">Gamer</option>
-                            <option value="Developer">Developer</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" name="submit" id="submit" class="form-submit submit" value="Register"/>
-                        <a href="login.html" class="submit-link submit">Login</a>
-                    </div>
-                </form>   
+                </form>       
 </div>
 <div><br><br><br><br></div>
 

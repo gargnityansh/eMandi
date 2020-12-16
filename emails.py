@@ -14,14 +14,13 @@ def sendMail(reciever_address, contactDetails=None):
 			  
 			msg['From'] = fromaddr 
 			msg['To'] = toaddr 
-			msg['Subject'] = "Reset FameGame Password"
-			body = "Click on the below link to reset your FameGame account Password"
-			   
+			msg['Subject'] = "Update Game"
+			body = "A game that you have purchased is recently being updated. Please download the updated version of the game from the website.\n-Regards\nFameGame"
 			msg.attach(MIMEText(body, 'plain')) 
 			  
 			s = smtplib.SMTP('smtp.gmail.com', 587) 
 			s.starttls()
-			s.login(fromaddr, "***********")
+			s.login(fromaddr, "ooiwdnabpsbnwouf")
 			text = msg.as_string() 
 			s.sendmail(fromaddr, toaddr, text) 
 			s.quit()
@@ -29,24 +28,24 @@ def sendMail(reciever_address, contactDetails=None):
 			msg = MIMEMultipart() 
 			  
 			msg['From'] = fromaddr 
-			msg['To'] = toaddr
+			msg['To'] = fromaddr
 			msg['Subject'] = contactDetails['subject']
-			body = "Query from "+contactDetails["name"]+" "+contactDetails['email'] +"\n"+contactDetails['message']
+			body = "Query from "+contactDetails["name"]+"\n "+contactDetails['email'] +"\n"+contactDetails['message']
 			   
 			msg.attach(MIMEText(body, 'plain')) 
-			  
 			s = smtplib.SMTP('smtp.gmail.com', 587) 
 			s.starttls()
-			s.login(fromaddr, "**********")
+			s.login(fromaddr, "ooiwdnabpsbnwouf")
 			text = msg.as_string() 
 			s.sendmail(fromaddr, toaddr, text) 
 			s.quit()
-		
-	except:
-		print("mail")
+			print("mail sent successfully")
+	except Exception as e:
+		print(e)
 		return 500, "mail not send"
 
 	print("mail sent")		
 	return 200, "mail sent"
 
-#sendMail('famegamecorp2020@gmail.com')
+if __name__ == "__main__":
+	sendMail('famegamecorp2020@gmail.com')

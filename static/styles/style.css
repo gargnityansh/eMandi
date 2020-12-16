@@ -206,14 +206,14 @@ body {
   font-weight: 600;
   font-family: 'Poppins';
   margin: 0px;
-  background-image: url(../images/body-bg.jpg);
+  background-image: url(../images/white.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   -moz-background-size: cover;
   -webkit-background-size: cover;
   -o-background-size: cover;
   -ms-background-size: cover;
-  background-position: center center; }
+  background-position: center center;}
 
 .main {
   position: relative; }
@@ -224,7 +224,7 @@ body {
   width: 1123px;
   padding-top: 135px;
   padding-bottom: 115px;
-  background-image: url(../images/container-bg.png);
+  background-image: url(../images/white.png);
   background-repeat: no-repeat;
   background-size: cover;
   -moz-background-size: cover;
