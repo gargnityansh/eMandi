@@ -4,7 +4,7 @@ import json
 def searchGame(game_name):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
@@ -34,7 +34,7 @@ def searchGame(game_name):
 def registerUser(user):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
@@ -56,7 +56,7 @@ def registerUser(user):
 def checkUser(user):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
@@ -77,7 +77,7 @@ def checkUser(user):
 def findGameCategory(gameName):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
@@ -99,7 +99,7 @@ def findGameCategory(gameName):
 def resetPassword(resetdetails):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
@@ -123,7 +123,7 @@ def resetPassword(resetdetails):
 def myGames(userdetails):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
@@ -148,7 +148,7 @@ def myGames(userdetails):
 def gameDetails(gameName):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
@@ -171,7 +171,7 @@ def gameDetails(gameName):
 def purchase(username, gameName):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
@@ -196,7 +196,7 @@ def purchase(username, gameName):
 def insertGame(game):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
@@ -221,7 +221,7 @@ def insertGame(game):
 def insertCategory(category, gameName):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
@@ -246,7 +246,7 @@ def insertCategory(category, gameName):
 def updateGame(game):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
+	                                  password = "***",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  database = "Game")
