@@ -23,12 +23,12 @@ SET row_security = off;
 -- Name: Game; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE DATABASE "Game" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'English_India.1252';
+-- CREATE DATABASE "Game" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'English_India.1252';
 
 
-ALTER DATABASE "Game" OWNER TO postgres;
+-- ALTER DATABASE "Game" OWNER TO postgres;
 
-\connect "Game"
+-- \connect "Game"
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
