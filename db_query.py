@@ -1,5 +1,18 @@
 import psycopg2
 import json
+from datetime import datetime
+import random
+import string
+
+
+def connection():
+	connection = psycopg2.connect(user = "postgres",
+	                 password = "***********",
+	                 host = "127.0.0.1",
+	                 port = "5432",
+	                 dbname = "eMandi")
+	return connection
+
 
 def searchGame(game_name):
 	try:
@@ -33,13 +46,16 @@ def searchGame(game_name):
 
 def registerUser(user):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
+		connection = psycopg2.connect(user = "postgres",
+	                                  password = "***********",
+	                                  host = "127.0.0.1",
 	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
+	                                  dbname = "eMandi")
 		cursor = connection.cursor()
-		cursor.execute("INSERT INTO user_details (username,fname,lname,phno,emailid,password,\"isClient\") Values (%s,%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s)", (user['username'],user['fname'],user['lname'],str(user['phno']),user['emailid'],user['password'],user['usertype']))
+		if user['usertype']=='Farmer':
+			cursor.execute("INSERT INTO \"Farmer\" (f_username,farmer_name,f_phone,f_email,f_password,farmer_loc,farmer_city,farmer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))
+		else:
+			cursor.execute("INSERT INTO \"Buyer\" (b_username,buyer_name,b_phone,b_email,b_password,buyer_loc,buyer_city,buyer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))
 		print("is in final")
 		#closing database connection.
 		if(connection):
@@ -55,18 +71,17 @@ def registerUser(user):
 
 def checkUser(user):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
-	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
-		cursor = connection.cursor()
-		cursor.execute("SELECT username,emailid,password,\"isClient\" FROM user_details WHERE emailid=%s AND password = crypt(%s, password)", (user['emailid'],user['password']))
+		connect = connection()
+		cursor = connect.cursor()
+		if user['usertype']=='Farmer':
+			cursor.execute("SELECT * FROM \"Farmer\" WHERE f_email=%s AND f_password = crypt(%s, f_password)", (user['emailid'],user['password']))
+		else:
+			cursor.execute("SELECT * FROM \"Buyer\" WHERE b_email=%s AND b_password = crypt(%s, b_password)", (user['emailid'],user['password']))
 		record = cursor.fetchall()
 		#closing database connection.
-		if(connection):
+		if(connect):
 			cursor.close()
-			connection.close()
+			connect.close()
 		if len(record) == 0:
 			return 404, "empty"
 		return 200, record[0]
@@ -76,19 +91,15 @@ def checkUser(user):
 
 def findGameCategory(gameName):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
-	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
-		cursor = connection.cursor()
+		connect = connection()
+		cursor = connect.cursor()
 		cursor.execute("SELECT cat_name FROM category WHERE gameid = (SELECT gameid FROM identty WHERE game_name=%s)",(gameName,))
 		record = cursor.fetchall()
 		#closing database connection.
 		print(record)
-		if(connection):
+		if(connect):
 			cursor.close()
-			connection.close()
+			connect.close()
 		if len(record) == 0:
 			return 404, "empty"
 		return 200, record
@@ -98,11 +109,7 @@ def findGameCategory(gameName):
 
 def resetPassword(resetdetails):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
-	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
+		connection = connection()
 		cursor = connection.cursor()
 		if resetdetails['password']==None:
 			return 404, "password not found"
@@ -122,11 +129,7 @@ def resetPassword(resetdetails):
 
 def myGames(userdetails):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
-	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
+		connection = connection()
 		cursor = connection.cursor()
 
 		cursor.execute("""SELECT * from game where game_name in 
@@ -147,11 +150,7 @@ def myGames(userdetails):
 
 def gameDetails(gameName):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
-	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
+		connection = connection()
 		cursor = connection.cursor()
 
 		cursor.execute("""SELECT mrp FROM game where game_name=%s""",(gameName,))
@@ -170,11 +169,7 @@ def gameDetails(gameName):
 
 def purchase(username, gameName):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
-	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
+		connection = connection()
 		cursor = connection.cursor()
 
 		cursor.execute("""SELECT gameid, username FROM transactions 
@@ -195,21 +190,16 @@ def purchase(username, gameName):
 
 def insertGame(game):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
-	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
-		cursor = connection.cursor()
-
-		cursor.execute("""INSERT INTO game(game_name, date_of_release, game_size, prod_studio, mrp, game_link, image, description, curr_version, username)
-		VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",(game['game_name'],game['date_of_release'],game['game_size'],game['prod_studio'],game['mrp'],game['game_link'],game['image'],game['description'],game['curr_version'],game['username']))
+		connect = connection()
+		cursor = connect.cursor()
+		crop_id = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k = 6))
+		cursor.execute("""INSERT INTO "Crop"("crop_ID", crop_type, crop_region, crop_name, "upload_Date", f_username, crop_weight_kg, crop_img)
+		VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",(crop_id,game['crop_type'],game['crop_region'],game['crop_name'],datetime.today().strftime('%Y-%m-%d'),game['f_username'],game['crop_weight'],game['crop_img']))
 		record = cursor.rowcount
-		if(connection):
-			connection.commit()
+		if(connect):
+			connect.commit()
 			cursor.close()
-			connection.close()
-
+			connect.close()
 		if record!=0:
 			return 200,True
 		return 404, False
@@ -220,11 +210,7 @@ def insertGame(game):
 
 def insertCategory(category, gameName):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
-	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
+		connection = connection()
 		cursor = connection.cursor()
 		
 		cursor.execute("""SELECT gameid FROM identty WHERE game_name = %s""",(gameName,))
@@ -245,11 +231,7 @@ def insertCategory(category, gameName):
 
 def updateGame(game):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
-	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
+		connection = connection()
 		cursor = connection.cursor()
 		
 		cursor.execute("""UPDATE game SET update_link = %s, curr_version=%s
@@ -274,11 +256,7 @@ def updateGame(game):
 
 def insertTransaction(transaction):
 	try:
-		connection = psycopg2.connect(user = "nkhtxgbfglczah",
-	                                  password = "6136a94cd1f1c0faae5fb3380df7f70dc064f6ad7efaabc4e667b7055db847c3",
-	                                  host = "ec2-34-239-33-57.compute-1.amazonaws.com",
-	                                  port = "5432",
-	                                  database = "deob53en4bmk8d")
+		connection = connection()
 		cursor = connection.cursor()
 		cursor.execute("""SELECT gameid FROM identty WHERE game_name = %s""",(transaction['game_name'],))
 		gameid = cursor.fetchall()

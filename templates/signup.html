@@ -48,15 +48,12 @@
                     {% for message in get_flashed_messages() %}
                         <div>{{ message }}</div>
                     {% endfor %}
-                    <h2 class="tm-text-primary mb-5">Register</h2>
+                    <h2 class="tm-text-primary mb-5">Registeration Form</h2>
                     <div class="form-group">
                         <input type="text" class="form-input" name="username" id="name" placeholder="Username"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-input" name="fname" id="name" placeholder="First Name"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-input" name="lname" id="name" placeholder="Last Name"/>
+                        <input type="text" class="form-input" name="fname" id="name" placeholder="Full Name"/>
                     </div>
                     <div class="form-group">
                         <input type="numeric" class="form-input" name="phno" id="name" placeholder="Mobile Number"/>
@@ -65,13 +62,23 @@
                         <input type="email" class="form-input" name="emailid" id="email" placeholder="Email"/>
                     </div>
                     <div class="form-group">
+                        <input type="text" class="form-input" name="location" id="address" placeholder="Street Address"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="city" id="city" placeholder="City"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="state" id="state" placeholder="State"/>
+                    </div>
+                    <div class="form-group">
                         <input type="password" class="form-input" name="password" id="password" placeholder="Password"/>
                     </div>
                     <div class="form-group">
                         <label for="usertype">User type:</label>
                         <select id="name" name="usertype" class="form-input">
-                            <option value="Gamer">Gamer</option>
-                            <option value="Developer">Developer</option>
+                            <option value="role" selected>Select your role</option>
+                            <option value="Buyer">Buyer</option>
+                            <option value="Farmer">Farmer</option>
                         </select>
                     </div>
                     <div class="form-group">

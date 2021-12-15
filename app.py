@@ -14,6 +14,10 @@ CORS(app)
 app.secret_key = "super secret key"
 client = razorpay.Client(auth=("rzp_test_Y8qqx6ykwxSLLJ", "CR89f0GyAecvqO4DSNgLCmYC"))
 
+@app.route('/hello')
+def hello():
+	return "Hello World"
+
 @app.route('/')
 @app.route('/index.html')
 def index():
@@ -84,22 +88,26 @@ def register():
 	#method to register user into database
 	username = request.form.get('username')
 	fname = request.form.get('fname')
-	lname = request.form.get('lname')
+	# lname = request.form.get('lname') #deleted
 	phno = request.form.get('phno')
 	emailid = request.form.get('emailid')
 	password = request.form.get('password')
 	usertype = request.form.get('usertype')
+	location = request.form.get('location')
+	city = request.form.get('city')
+	state = request.form.get('state')
+
 	print("usertype", usertype)
-	if usertype=="Gamer":
-		usertype = False
+	if usertype=="Farmer":
+		usertype = True
 
 	else:
-		usertype = True
-	if username==None or fname==None or lname == None or phno ==None or emailid==None or password==None:
+		usertype = False
+	if username==None or fname==None or location == None or phno ==None or emailid==None or password==None:
 		flash("incorrect input")
 		return render_template('signup.html')
 	else:
-		user = {"username":username,"fname":fname, "lname":lname, "phno":phno, "emailid":emailid, "password":password, "usertype":usertype}
+		user = {"username":username,"fname":fname, "phno":phno, "emailid":emailid, "password":password, "usertype":usertype, "location":location, "city":city,"state":state}
 		print(user)
 		registeration,error = db_query.registerUser(user)
 		if registeration==500:
@@ -115,10 +123,12 @@ def register():
 def signin():
 	emailid = request.form.get('emailid')
 	password = request.form.get('password')
-	if emailid==None or password==None:
+	usertype = request.form.get('usertype')
+	if emailid==None or password==None or usertype=='role':
+		flash('invalid login credentials')
 		return render_template('login.html')
 	else:
-		user = {'emailid':emailid, "password":password}
+		user = {'emailid':emailid, "password":password , 'usertype' : usertype}
 		check_status, error = db_query.checkUser(user)
 		print(user)
 		if check_status==500:
@@ -131,7 +141,7 @@ def signin():
 			print(error[3], type(error))
 			resp = make_response(redirect("/"))
 			resp.set_cookie("username", error[0])
-			resp.set_cookie("usertype", bytes(error[3]))
+			resp.set_cookie("usertype", bytes(True if usertype=='Farmer' else False))
 			return resp
 
 
@@ -223,26 +233,19 @@ def addGame():
 	usertype = bool(request.cookies.get("usertype"))
 	return render_template("addgame.html",username=username,usertype=usertype)
 
-@app.route("/addgame/success", methods=['POST'])
-def addGameSuccess():
+@app.route("/addcrop/success", methods=['POST'])
+def addCropSuccess():
 	username = request.cookies.get("username")
 	usertype = bool(request.cookies.get("usertype"))
-	category = list(request.form.get('category').split(','))
-	game = {'game_name':request.form.get('game_name'),
-			'date_of_release':request.form.get('date_of_release'),
-			'game_size':request.form.get('game_size'),
-			'prod_studio':request.form.get('prod_studio'),
-			'mrp':request.form.get('mrp'),
-			'game_link':request.form.get('game_link'),
-			'image':request.form.get('image'),
-			'description':request.form.get('description'),
-			'curr_version':request.form.get('game_name'),
-			'username':username
+	game = {'crop_name':request.form.get('crop_name'),
+			'crop_type':request.form.get('crop_type'),
+			'crop_region':request.form.get('crop_region'),
+			'f_username':username,
+			'crop_weight':request.form.get('crop_weight'),
+			'crop_img': 'https://sc04.alicdn.com/kf/Uadb37e80f09f439e9af7951a0659eae2a.jpg'
 			}
 	gameInsertStatus, gameInsert = db_query.insertGame(game)
-	print(category)
-	categoryInsertStatus, categoryInsert = db_query.insertCategory(category, game['game_name'])
-	if gameInsertStatus==200 and categoryInsertStatus==200:
+	if gameInsertStatus==200:
 		flash("Your Game is added successfully")
 		return render_template("addgame.html",username=username,usertype=usertype)
 	else:

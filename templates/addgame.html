@@ -37,17 +37,14 @@
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/addgame">Add Game</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
-                </li>                
+                    <a class="nav-link nav-link-2" href="/addgame">Add Crops</a>
+                </li>          
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
+                    <a class="nav-link nav-link-2" href="/mygames">My Crops</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
@@ -62,59 +59,34 @@
     </nav>
 <div><br></div>
 <div class="container tm-container-small">
-    <form id="contact-form" action="/addgame/success" method="POST" class="tm-contact-form mx-auto">
-    <h2 class="tm-text-primary mb-5">Add Game</h2>
+    <form id="contact-form" action="/addcrop/success" method="POST" class="tm-contact-form mx-auto">
+    <h2 class="tm-text-primary mb-5">Add Crops</h2>
         {% for message in get_flashed_messages() %}
             <div class="form-input">{{ message }}</div>
         {% endfor %}
                     <div class="form-group">
-                        <label>Game Name</label>
-                        <input type="text" name="game_name" class="form-control rounded-0" placeholder="Game Name" autocomplete="off" required />
+                        <label>Crop Name</label>
+                        <input type="text" name="crop_name" class="form-control rounded-0" placeholder="Crop Name" autocomplete="off" required />
                     </div>
 
                     <div class="form-group">
-                        <label>Game Description</label>
-                        <textarea rows="6" name="description" class="form-control rounded-0" placeholder="Game Description" required=></textarea>
+                        <label>Crop Type</label>
+                        <input type="text" name="crop_type" class="form-control rounded-0" placeholder="Crop Type" autocomplete="off" />
                     </div>
 
                     <div class="form-group">
-                        <label>Date of Release</label>
-                        <input type="date" name="date_of_release" class="form-control rounded-0" placeholder="DD/MM/YYYY" autocomplete="off" required />
+                        <label>Crop Region</label>
+                        <input type="text" name="crop_region" class="form-control rounded-0" placeholder="Crop Region" autocomplete="off" required />
                     </div>
 
                     <div class="form-group">
-                        <label>Game Size (GB)</label>
-                        <input type="text" name="game_size" class="form-control rounded-0" placeholder="Game Size" autocomplete="off" required />
+                        <label>Crop Quantity(in Kg)</label>
+                        <input type="text" name="crop_weight" class="form-control rounded-0" placeholder="Crop Weight(Kg)" autocomplete="off" required />
                     </div>
 
                     <div class="form-group">
-                        <label>Production Studio</label>
-                        <input type="text" name="prod_studio" class="form-control rounded-0" placeholder="Production Studion" autocomplete="off" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label>MRP (Rs)</label>
-                        <input type="number" name="mrp" min="0" step=".01" class="form-control rounded-0" placeholder="Price" autocomplete="off" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Version</label>
-                        <input type="text" name="curr_version" class="form-control rounded-0" placeholder="Game Version" autocomplete="off" required />
-                    </div>
-                                        
-                    <div class="form-group">
-                        <label>Game Link</label>
-                        <input type="text" name="game_link" class="form-control rounded-0" placeholder="Game Link" autocomplete="off" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Cover Image (link)</label>
-                        <input type="text" name="image" class="form-control rounded-0" placeholder="Image Link" autocomplete="off" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Category</label>
-                        <input type = "text" name="category" class="form-control rounded-0" placeholder="Categories (',' separated)" autocomplete="off" required/>
+                        <label>Crop Image</label>
+                        <input type="file" name="crop_img" class="form-control rounded-0" placeholder="Crop Image" autocomplete="off" />
                     </div>
                     
                     <div class="form-group tm-text-right">

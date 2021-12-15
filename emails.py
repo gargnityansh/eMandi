@@ -20,7 +20,7 @@ def sendMail(reciever_address, contactDetails=None):
 			  
 			s = smtplib.SMTP('smtp.gmail.com', 587) 
 			s.starttls()
-			s.login(fromaddr, "yowxmvaacpolqakj")
+			s.login(fromaddr, "")
 			text = msg.as_string() 
 			s.sendmail(fromaddr, toaddr, text) 
 			s.quit()
@@ -35,7 +35,7 @@ def sendMail(reciever_address, contactDetails=None):
 			msg.attach(MIMEText(body, 'plain')) 
 			s = smtplib.SMTP('smtp.gmail.com', 587) 
 			s.starttls()
-			s.login(fromaddr, "yowxmvaacpolqakj")
+			s.login(fromaddr, "")
 			text = msg.as_string() 
 			s.sendmail(fromaddr, toaddr, text) 
 			s.quit()

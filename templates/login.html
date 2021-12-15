@@ -50,6 +50,14 @@
                             <div class="form-input">{{ message }}</div>
                         {% endfor %}
                     <div class="form-group">
+                        <label for="usertype">User type:</label>
+                        <select id="name" name="usertype" class="form-input">
+                            <option value="role" selected>Select your role</option>
+                            <option value="Buyer">Buyer</option>
+                            <option value="Farmer">Farmer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <input type="email" class="form-input" name="emailid" id="email" placeholder="Email"/>
                     </div>
                     <div class="form-group">
