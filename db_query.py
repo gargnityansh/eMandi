@@ -7,7 +7,7 @@ import string
 
 def connection():
 	connection = psycopg2.connect(user = "postgres",
-	                 password = "***********",
+	                 password = "Garg@9406608047",
 	                 host = "127.0.0.1",
 	                 port = "5432",
 	                 dbname = "eMandi")
@@ -47,7 +47,7 @@ def searchGame(game_name):
 def registerUser(user):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "***********",
+	                                  password = "Garg@9406608047",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  dbname = "eMandi")
@@ -274,6 +274,32 @@ def insertTransaction(transaction):
 	except (Exception, psycopg2.Error) as error :
 		print ("Error in transaction table", error)
 		return 500,False
+
+
+#auditor login method
+def AuditorLogin(user):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		cursor.execute("SELECT * From public.\"Auditor\" WHERE a_email=%s and a_password=crypt(%s,a_password)", (user['emailid'],user['password']))
+		record = cursor.fetchall()
+		#closing database connection.
+		if(connect):
+			cursor.close()
+			connect.close()
+		if len(record) == 0:
+			return 404, "empty"
+		return 200, record[0]
+	except (Exception, psycopg2.Error) as error :
+		print ("Error while connecting to PostgreSQL", error)
+		return 500,error
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
 	insertCategory(['Open World',"Action"],"Among Us")

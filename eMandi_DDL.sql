@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.0
--- Dumped by pg_dump version 14.0
+-- Dumped from database version 13.4
+-- Dumped by pg_dump version 13.4
 
--- Started on 2021-10-25 15:22:06
+-- Started on 2021-12-19 14:50:49
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,26 +18,31 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-SET default_tablespace = '';
-
-SET default_table_access_method = heap;
-
 --
--- TOC entry 213 (class 1259 OID 16436)
--- Name: Auction; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 2 (class 3079 OID 25369)
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
 --
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 
 --
--- TOC entry 3086 (class 0 OID 0)
+-- TOC entry 3074 (class 0 OID 0)
 -- Dependencies: 2
 -- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 201 (class 1259 OID 25406)
+-- Name: Auction; Type: TABLE; Schema: public; Owner: postgres
+--
 
 CREATE TABLE public."Auction" (
     "auction_ID" character varying NOT NULL,
@@ -53,7 +58,7 @@ CREATE TABLE public."Auction" (
 ALTER TABLE public."Auction" OWNER TO postgres;
 
 --
--- TOC entry 210 (class 1259 OID 16415)
+-- TOC entry 202 (class 1259 OID 25412)
 -- Name: Auditor; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -62,35 +67,33 @@ CREATE TABLE public."Auditor" (
     auditor_name character varying NOT NULL,
     a_email character varying,
     a_password text NOT NULL,
-    "a_phoneNo" numeric(10,0) NOT NULL
+    a_phno character varying NOT NULL
 );
 
 
 ALTER TABLE public."Auditor" OWNER TO postgres;
 
 --
--- TOC entry 211 (class 1259 OID 16422)
+-- TOC entry 203 (class 1259 OID 25418)
 -- Name: Buyer; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Buyer" (
     b_username character varying NOT NULL,
     buyer_name character varying NOT NULL,
-    b_kyc_flag boolean NOT NULL,
-    b_upi character varying(30) NOT NULL,
     buyer_loc character varying(30) NOT NULL,
     buyer_city character varying(30) NOT NULL,
     buyer_state character varying(30) NOT NULL,
     b_password text NOT NULL,
-    b_email character varying,
-    "b_phoneNo" numeric(10,0) NOT NULL
+    b_email character varying NOT NULL,
+    b_phone character varying NOT NULL
 );
 
 
 ALTER TABLE public."Buyer" OWNER TO postgres;
 
 --
--- TOC entry 214 (class 1259 OID 16448)
+-- TOC entry 204 (class 1259 OID 25424)
 -- Name: Complaint; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -109,14 +112,14 @@ CREATE TABLE public."Complaint" (
 ALTER TABLE public."Complaint" OWNER TO postgres;
 
 --
--- TOC entry 215 (class 1259 OID 16470)
+-- TOC entry 205 (class 1259 OID 25430)
 -- Name: Crop; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Crop" (
     "crop_ID" character varying NOT NULL,
     crop_type character varying,
-    crop_city character varying(30) NOT NULL,
+    crop_region character varying(30) NOT NULL,
     crop_name character varying(30) NOT NULL,
     "upload_Date" date NOT NULL,
     final_bid_price numeric,
@@ -125,44 +128,39 @@ CREATE TABLE public."Crop" (
     min_bid_price numeric,
     "pickup_Date" date,
     "delivery_Date" date,
-    buyer_loc character varying(30),
-    buyer_city character varying(30),
-    buyer_state character varying(30),
-    farmer_loc character varying(30),
-    farmer_city character varying(30),
-    farmer_state character varying(30),
     f_username character varying NOT NULL,
     "auction_ID" character varying,
     a_username character varying,
-    "truck_chasisNo" character varying(17)
+    "truck_chasisNo" character varying(17),
+    b_username character varying,
+    crop_img text,
+    crop_weight_kg numeric NOT NULL
 );
 
 
 ALTER TABLE public."Crop" OWNER TO postgres;
 
 --
--- TOC entry 209 (class 1259 OID 16408)
+-- TOC entry 206 (class 1259 OID 25436)
 -- Name: Farmer; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Farmer" (
     f_username character varying NOT NULL,
     farmer_name character varying NOT NULL,
-    f_kyc_flag boolean NOT NULL,
-    f_upi character varying(30) NOT NULL,
     farmer_loc character varying(30) NOT NULL,
     farmer_city character varying(30) NOT NULL,
     farmer_state character varying(30) NOT NULL,
     f_password text NOT NULL,
-    f_email character varying,
-    "f_phoneNo" numeric(10,0) NOT NULL
+    f_email character varying NOT NULL,
+    f_phone character varying NOT NULL
 );
 
 
 ALTER TABLE public."Farmer" OWNER TO postgres;
 
 --
--- TOC entry 212 (class 1259 OID 16429)
+-- TOC entry 207 (class 1259 OID 25442)
 -- Name: Truck; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -178,7 +176,7 @@ CREATE TABLE public."Truck" (
 ALTER TABLE public."Truck" OWNER TO postgres;
 
 --
--- TOC entry 3196 (class 2606 OID 16442)
+-- TOC entry 2917 (class 2606 OID 25449)
 -- Name: Auction auction_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -187,7 +185,7 @@ ALTER TABLE ONLY public."Auction"
 
 
 --
--- TOC entry 3190 (class 2606 OID 16421)
+-- TOC entry 2919 (class 2606 OID 25451)
 -- Name: Auditor auditor_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -196,7 +194,7 @@ ALTER TABLE ONLY public."Auditor"
 
 
 --
--- TOC entry 3192 (class 2606 OID 16428)
+-- TOC entry 2921 (class 2606 OID 25453)
 -- Name: Buyer buyer_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -205,7 +203,7 @@ ALTER TABLE ONLY public."Buyer"
 
 
 --
--- TOC entry 3198 (class 2606 OID 16454)
+-- TOC entry 2923 (class 2606 OID 25455)
 -- Name: Complaint complaint_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -214,7 +212,7 @@ ALTER TABLE ONLY public."Complaint"
 
 
 --
--- TOC entry 3200 (class 2606 OID 16476)
+-- TOC entry 2925 (class 2606 OID 25457)
 -- Name: Crop crop_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -223,7 +221,7 @@ ALTER TABLE ONLY public."Crop"
 
 
 --
--- TOC entry 3188 (class 2606 OID 16414)
+-- TOC entry 2927 (class 2606 OID 25459)
 -- Name: Farmer farmer_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -232,7 +230,7 @@ ALTER TABLE ONLY public."Farmer"
 
 
 --
--- TOC entry 3194 (class 2606 OID 16435)
+-- TOC entry 2929 (class 2606 OID 25461)
 -- Name: Truck truck_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -241,7 +239,7 @@ ALTER TABLE ONLY public."Truck"
 
 
 --
--- TOC entry 3201 (class 2606 OID 16443)
+-- TOC entry 2930 (class 2606 OID 25462)
 -- Name: Auction auction_buyer_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -250,7 +248,7 @@ ALTER TABLE ONLY public."Auction"
 
 
 --
--- TOC entry 3205 (class 2606 OID 16477)
+-- TOC entry 2934 (class 2606 OID 25467)
 -- Name: Crop auction_crop_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -259,7 +257,7 @@ ALTER TABLE ONLY public."Crop"
 
 
 --
--- TOC entry 3206 (class 2606 OID 16482)
+-- TOC entry 2935 (class 2606 OID 25472)
 -- Name: Crop auditor_crop_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -268,7 +266,16 @@ ALTER TABLE ONLY public."Crop"
 
 
 --
--- TOC entry 3204 (class 2606 OID 16465)
+-- TOC entry 2938 (class 2606 OID 25502)
+-- Name: Crop buyer_crop_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Crop"
+    ADD CONSTRAINT "buyer_crop_FK" FOREIGN KEY (b_username) REFERENCES public."Buyer"(b_username) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 2931 (class 2606 OID 25477)
 -- Name: Complaint complaint_auditor_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -277,7 +284,7 @@ ALTER TABLE ONLY public."Complaint"
 
 
 --
--- TOC entry 3202 (class 2606 OID 16455)
+-- TOC entry 2932 (class 2606 OID 25482)
 -- Name: Complaint complaint_buyer_Fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -286,7 +293,7 @@ ALTER TABLE ONLY public."Complaint"
 
 
 --
--- TOC entry 3203 (class 2606 OID 16460)
+-- TOC entry 2933 (class 2606 OID 25487)
 -- Name: Complaint complaint_farmer_Fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -295,7 +302,7 @@ ALTER TABLE ONLY public."Complaint"
 
 
 --
--- TOC entry 3208 (class 2606 OID 16492)
+-- TOC entry 2936 (class 2606 OID 25492)
 -- Name: Crop farmer_crop_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -304,7 +311,7 @@ ALTER TABLE ONLY public."Crop"
 
 
 --
--- TOC entry 3207 (class 2606 OID 16487)
+-- TOC entry 2937 (class 2606 OID 25497)
 -- Name: Crop truck_crop_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -312,7 +319,7 @@ ALTER TABLE ONLY public."Crop"
     ADD CONSTRAINT "truck_crop_FK" FOREIGN KEY ("truck_chasisNo") REFERENCES public."Truck"("truck_chasisNo") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
--- Completed on 2021-10-25 15:22:07
+-- Completed on 2021-12-19 14:50:50
 
 --
 -- PostgreSQL database dump complete

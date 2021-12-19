@@ -277,5 +277,32 @@ def updatePage(game_name):
 		print(gameName)
 		return render_template("update.html",username=username,usertype=usertype, gameName=gameName)
 
+
+#auditor login page rendering
+@app.route("/auditor/login")
+def auditor_login():
+	return render_template('auditor_login.html')
+
+#auditor login methods
+@app.route("/auditor/signin", methods=['Post'])
+def auditor_login_signin():
+	emailid = request.form.get("emailid")
+	password = request.form.get("password")
+	status, error = db_query.AuditorLogin({'emailid':emailid,'password':password})
+	if status==500:
+		flash(error)
+		return render_template('auditor_login.html')
+	elif status==404:
+		flash("invalid login credentials")
+		return render_template('auditor_login.html')
+	elif status==200:
+		print(error[3], type(error))
+		resp = make_response(redirect("/"))
+		resp.set_cookie("username", error[0])
+		# resp.set_cookie("usertype", bytes(True if usertype=='Farmer' else False))
+		return resp
+
+
+
 if __name__ == "__main__":
 	app.run(debug=True)
