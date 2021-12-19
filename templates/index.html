@@ -32,21 +32,27 @@
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="login.html">Login</a>
                 </li>
-                {% elif usertype==True %}
+                {% elif usertype=='Farmer' %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/addgame">Add Crop</a>
+                    <a class="nav-link nav-link-2" href="/addcrop">Add Crop</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/mycrops">My Crops</a>
                 </li>            
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mygames">My Crops</a>
+                    <a class="nav-link nav-link-2" href="/mycrops">My Crops</a>
                 </li>
                 {% endif %}
+
                 <li class="nav-item">
                     <a class="nav-link nav-link-3" href="about.html">About</a>
                 </li>
@@ -59,12 +65,12 @@
     </nav>
 
     <div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="{{url_for('static',filename='images/hero.jpg')}}">
-        <form class="d-flex tm-search-form" action="/search", method="get">
+        <!-- <form class="d-flex tm-search-form" action="/search", method="get">
             <input class="form-control tm-search-input" type="search" placeholder="Search" aria-label="Search" name="search">
             <button class="btn btn-outline-success tm-search-btn" type="submit">
                 <i class="fas fa-search"></i>
             </button>
-        </form>
+        </form> -->
     </div>
 
     {% for message in get_flashed_messages() %}
@@ -74,13 +80,13 @@
     {% endfor %}
     <div class="container-fluid tm-container-content tm-mt-60">
         <div class="row tm-mb-90 tm-gallery">
-            {% for game in games %}
+            {% for crop_ in crops %}
         	<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
                 <figure class="effect-ming tm-video-item">
-                    <img src="{{game[6]}}" alt="Image" class="img-fluid">
+                    <img src="{{crop_[15]}}" alt="Image" class="img-fluid">
                     <figcaption class="d-flex align-items-center justify-content-center">
-                        <h2>{{game[0]}}</h2>
-                        <a href="{{url_for('game', type=game[0])}}">View more</a>
+                        <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
+                        <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
                     </figcaption>                    
                 </figure>
             </div>
@@ -92,8 +98,8 @@
         <div class="container-fluid tm-container-small">
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
-                    <h3 class="tm-text-primary mb-4 tm-footer-title">About FameGame</h3>
-                    <p>FameGame is an online game selling marketplace where game developers can enlist and sell their games to the gamers.</p>
+                    <h3 class="tm-text-primary mb-4 tm-footer-title">About eMandi</h3>
+                    <p>eMandi is an online game selling marketplace where game developers can enlist and sell their games to the gamers.</p>
                 </div>
 
             </div>

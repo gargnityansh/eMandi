@@ -12,7 +12,7 @@ app = Flask(__name__)
 Bootstrap(app)
 CORS(app)
 app.secret_key = "super secret key"
-client = razorpay.Client(auth=("rzp_test_Y8qqx6ykwxSLLJ", "CR89f0GyAecvqO4DSNgLCmYC"))
+client = razorpay.Client(auth=("rzp_test_UGcdp8a9kJX5GE", "gGX2vt9HpHbC7IbAmIKPsyIX"))
 
 @app.route('/hello')
 def hello():
@@ -22,14 +22,13 @@ def hello():
 @app.route('/index.html')
 def index():
 	username = request.cookies.get("username")
-	usertype = bool(request.cookies.get("usertype"))
-	print("in index usertype", usertype)
-	games_status, games_list = db_query.searchGame("%")
-	if games_status == 200:
-		return render_template('index.html', games=games_list,username=username,usertype=usertype)
+	usertype = request.cookies.get("usertype")
+	crop_status, crop_list = db_query.searchCrop("%")
+	if crop_status == 200:
+		return render_template('index.html', crops=crop_list,username=username,usertype=usertype)
 	else:
-		flash(games_list)
-		return render_template('index.html',games=0,username=username,usertype=usertype)
+		flash(crop_list)
+		return render_template('index.html',crops=[],username=username,usertype=usertype)
 
 
 @app.route('/search',  methods=['GET'])
@@ -96,13 +95,6 @@ def register():
 	location = request.form.get('location')
 	city = request.form.get('city')
 	state = request.form.get('state')
-
-	print("usertype", usertype)
-	if usertype=="Farmer":
-		usertype = True
-
-	else:
-		usertype = False
 	if username==None or fname==None or location == None or phno ==None or emailid==None or password==None:
 		flash("incorrect input")
 		return render_template('signup.html')
@@ -116,7 +108,7 @@ def register():
 		elif registeration==200:
 			resp = make_response(redirect('/'))
 			resp.set_cookie("username",username)
-			resp.set_cookie("usertype", bytes(usertype))
+			resp.set_cookie("usertype", usertype)	
 			return resp
 
 @app.route('/signin', methods=['POST'])
@@ -141,36 +133,30 @@ def signin():
 			print(error[3], type(error))
 			resp = make_response(redirect("/"))
 			resp.set_cookie("username", error[0])
-			resp.set_cookie("usertype", bytes(True if usertype=='Farmer' else False))
+			resp.set_cookie("usertype", usertype)
 			return resp
 
 
-@app.route('/game', methods=["GET","POST"])
-def game():
+@app.route('/crop', methods=["GET","POST"])
+def crop():
 	username = request.cookies.get("username")
-	usertype = bool(request.cookies.get("usertype"))
-	gameName = request.args.get("type")
-	toShowUpdate = False
+	usertype = request.cookies.get("usertype")
+	cropID = request.args.get("type")
 
-	game_desc_status, game_desc = db_query.searchGame(gameName)
-	category_status , category = db_query.findGameCategory(gameName)
-	isPurchasedStatus, isPurchased = db_query.purchase(username,gameName)
-
-	print(game_desc)
+	crop_desc_status, crop_desc = db_query.searchCrop(cropID)
+	query_status,bidder_name = db_query.finalBidderName(cropID)
+	# if crop_desc_status==200 and username != bidder_name[0]:
+	# 	return render_template("photo-detail.html",crop_desc = crop_desc,username=username,usertype=usertype,order_id={},isPaid=None)
+	status_code, isPaid = db_query.is_Paid(username, cropID)#return True or False
 	order_id=None
-	if username == game_desc[0][10]:
-		toShowUpdate = True
-		
-	else:
-		if not isPurchased:
-			order_amount = int(game_desc[0][4])*100
-			order_currency = 'INR'
-			
-			order_id = client.order.create({'amount':order_amount, 'currency':order_currency})
-			
-
-	if game_desc_status==200:
-		return render_template("photo-detail.html",game_desc = game_desc,username=username, category=category, purchase=isPurchased,usertype=usertype, order_id=order_id, update=toShowUpdate)
+	if isPaid != True:
+		isPaid = True if bidder_name[0]!=username else False
+	if not isPaid:
+		order_amount = int(crop_desc[0][5])*100
+		order_currency = 'INR'
+		order_id = client.order.create({'amount':order_amount, 'currency':order_currency})
+	if status_code == 200:
+		return render_template("photo-detail.html",crop_desc = crop_desc,username=username,usertype=usertype,isPaid=isPaid,order_id=order_id)
 	else:
 		return redirect("/")
 
@@ -202,36 +188,35 @@ def resetPassword():
 			return render_template("reset.html")
 
 #needs to complete
-@app.route("/payment/success/<game_name>/<order_id>/<price>/<curr_version>", methods=['GET'])
-def paymentSuccess(game_name,order_id,price,curr_version):
+@app.route("/payment/success/<crop_id>/<order_id>/<price>", methods=['GET'])
+def paymentSuccess(crop_id,order_id,price):
 	username = request.cookies.get("username")
-	transaction = {'order_id':order_id,'price':price,'curr_version':curr_version,'username':username,
-					'selling_date':datetime.date.today(),'game_name':game_name}
+	transaction = {'order_id':order_id,'price':price,'username':username,
+					'selling_date':datetime.date.today(),'crop_id':crop_id}
 	transactionStatus, insertTransaction = db_query.insertTransaction(transaction)
 	if transactionStatus==200:
-		return redirect("/mygames")
+		return redirect("/mycrops")
 	else:
 		return redirect("/")
 
-@app.route("/mygames")
-def myGames():
+@app.route("/mycrops")
+def my_crops():
 	username = request.cookies.get("username")
-	usertype = bool(request.cookies.get("usertype"))
-	games_status, games_list = db_query.myGames(username)
-	print(games_list)
-	if games_status == 200:
-		return render_template('mygames.html', games=games_list,username=username,usertype=usertype)
+	usertype = request.cookies.get("usertype")
+	crop_status, crop_list = db_query.myCrops(username,usertype)
+	if crop_status == 200:
+		return render_template('mycrops.html', crops=crop_list,username=username,usertype=usertype)
 	else:
-		flash("No Games purchased")
-		return render_template('mygames.html',games=[],username=username,usertype=usertype)
+		flash("No Crops to display")
+		return render_template('mycrops.html',crops=[],username=username,usertype=usertype)
 
 
 
-@app.route("/addgame")
-def addGame():
+@app.route("/addcrop")
+def addCrop():
 	username = request.cookies.get("username")
-	usertype = bool(request.cookies.get("usertype"))
-	return render_template("addgame.html",username=username,usertype=usertype)
+	usertype = request.cookies.get("usertype")
+	return render_template("addcrop.html",username=username,usertype=usertype)
 
 @app.route("/addcrop/success", methods=['POST'])
 def addCropSuccess():
@@ -246,11 +231,11 @@ def addCropSuccess():
 			}
 	gameInsertStatus, gameInsert = db_query.insertGame(game)
 	if gameInsertStatus==200:
-		flash("Your Game is added successfully")
-		return render_template("addgame.html",username=username,usertype=usertype)
+		flash("Your Crop is added successfully")
+		return render_template("addcrop.html",username=username,usertype=usertype)
 	else:
-		flash("Game Not Added. Please Try Again")
-		return render_template("addgame.html",username=username,usertype=usertype)
+		flash("Crop Not Added. Please Try Again")
+		return render_template("addcrop.html",username=username,usertype=usertype)
 
 
 @app.route("/update/<game_name>", methods=['GET', 'POST'])
@@ -301,6 +286,27 @@ def auditor_login_signin():
 		resp.set_cookie("username", error[0])
 		# resp.set_cookie("usertype", bytes(True if usertype=='Farmer' else False))
 		return resp
+
+#update biding price
+@app.route('/makebid', methods=['post'])
+def make_bid():
+	username = request.cookies.get("username")
+	usertype = request.cookies.get("usertype")
+	bid_price = request.form.get("bid_price")
+	crop_id = request.form.get("crop_id")
+	min_bid = request.form.get("min_bid")
+	if float(bid_price)>float(min_bid):
+		bid = {"username": username, "bid_price":bid_price, "crop_id":crop_id}
+		bid_status, bid_error = db_query.insertBid(bid)
+		if bid_status == 200:
+			return redirect('/')
+		else:
+			flash(bid_error)
+			return redirect('/')
+
+	else:
+		flash("Insert Amount Greater than Minimum Bid Price")
+		return redirect("/")
 
 
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FameGame-My Games</title>
+    <title>FameGame-Add Game</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/templatemo-style.css')}}">
@@ -19,7 +19,7 @@
     </div>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="/index.html">
                 <i class="fas fa-film mr-2"></i>
                 FameGame
             </a>
@@ -32,24 +32,21 @@
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="login.html">Login</a>
                 </li>
-                {% elif usertype==True %}
+                {% elif usertype=='Farmer' %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/addgame">Add Game</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
-                </li>                
+                    <a class="nav-link nav-link-2" href="/addcrop">Add Crops</a>
+                </li>          
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
-                </li>
                 {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="/mycrops">My Crops</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-3" href="about.html">About</a>
                 </li>
@@ -60,37 +57,46 @@
             </div>
         </div>
     </nav>
+<div><br></div>
+<div class="container tm-container-small">
+    <form id="contact-form" action="/addcrop/success" method="POST" class="tm-contact-form mx-auto">
+    <h2 class="tm-text-primary mb-5">Add Crops</h2>
+        {% for message in get_flashed_messages() %}
+            <div class="form-input">{{ message }}</div>
+        {% endfor %}
+                    <div class="form-group">
+                        <label>Crop Name</label>
+                        <input type="text" name="crop_name" class="form-control rounded-0" placeholder="Crop Name" autocomplete="off" required />
+                    </div>
 
-    <div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="{{url_for('static',filename='images/hero.jpg')}}">
-        <form class="d-flex tm-search-form" action="/search", method="get">
-            <input class="form-control tm-search-input" type="search" placeholder="Search" aria-label="Search" name="search">
-            <button class="btn btn-outline-success tm-search-btn" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
-    </div>
+                    <div class="form-group">
+                        <label>Crop Type</label>
+                        <input type="text" name="crop_type" class="form-control rounded-0" placeholder="Crop Type" autocomplete="off" />
+                    </div>
 
-    {% for message in get_flashed_messages() %}
-        <h2 class="col-6 tm-text-primary">
-                {{message}}
-            </h2>
-    {% endfor %}
-    <div class="container-fluid tm-container-content tm-mt-60">
-        <div class="row tm-mb-90 tm-gallery">
-            {% for game in games %}
-        	<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                <figure class="effect-ming tm-video-item">
-                    <img src="{{game[6]}}" alt="Image" class="img-fluid">
-                    <figcaption class="d-flex align-items-center justify-content-center">
-                        <h2>{{game[0]}}</h2>
-                        <a href="{{url_for('game', type=game[0])}}">View more</a>
-                    </figcaption>                    
-                </figure>
-            </div>
-            {% endfor %}
-            
-        </div>
-    </div> <!-- container-fluid, tm-container-content -->
+                    <div class="form-group">
+                        <label>Crop Region</label>
+                        <input type="text" name="crop_region" class="form-control rounded-0" placeholder="Crop Region" autocomplete="off" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Crop Quantity(in Kg)</label>
+                        <input type="text" name="crop_weight" class="form-control rounded-0" placeholder="Crop Weight(Kg)" autocomplete="off" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Crop Image</label>
+                        <input type="file" name="crop_img" class="form-control rounded-0" placeholder="Crop Image" autocomplete="off" />
+                    </div>
+                    
+                    <div class="form-group tm-text-right">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>       
+</div>
+<div><br></div>
+
+
     <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
         <div class="container-fluid tm-container-small">
             <div class="row">
