@@ -7,7 +7,7 @@ import string
 
 def connection():
 	connection = psycopg2.connect(user = "postgres",
-	                 password = "Garg@9406608047",
+	                 password = "******",
 	                 host = "127.0.0.1",
 	                 port = "5432",
 	                 dbname = "eMandi")
@@ -39,22 +39,18 @@ def searchCrop(cropID='%'):
 
 def registerUser(user):
 	try:
-		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
-	                                  host = "127.0.0.1",
-	                                  port = "5432",
-	                                  dbname = "eMandi")
-		cursor = connection.cursor()
+		connect = connection()
+		cursor = connect.cursor()
 		if user['usertype']=='Farmer':
 			cursor.execute("INSERT INTO \"Farmer\" (f_username,farmer_name,f_phone,f_email,f_password,farmer_loc,farmer_city,farmer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))
 		else:
 			cursor.execute("INSERT INTO \"Buyer\" (b_username,buyer_name,b_phone,b_email,b_password,buyer_loc,buyer_city,buyer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))
 		print("is in final")
 		#closing database connection.
-		if(connection):
-			connection.commit()
+		if(connect):
+			connect.commit()
 			cursor.close()
-			connection.close()
+			connect.close()
 			print("PostgreSQL connection is closed")
 		
 		return 200, "OK"
