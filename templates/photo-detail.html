@@ -96,7 +96,7 @@ https://templatemo.com/tm-556-catalog-z
                     </div>
                     <div class="mb-4">
                         <h3 class="tm-text-gray-dark mb-3">Bid Price:</h3>
-                        <p>Rs. {{crop_desc[0][8]}}</p>
+                        <p>Rs. {{crop_desc[0][5]}}</p>
                     </div>
                     <!-------{{crop_desc[0][5]}} = download link----->
                     {% if usertype == None %}
@@ -105,11 +105,11 @@ https://templatemo.com/tm-556-catalog-z
                     </div>
                     {% elif usertype == 'Buyer' %}
                     <div class="text-center mb-5">
-                        {% if crop_desc[0][5] == None %}
+                        {% if crop_desc[0][14] == None %}
                         <a href='#bid' class="btn btn-primary tm-btn-big">Bid</a>
                         {% else %}
                         <label>Final Bid Price: Rs. {{crop_desc[0][5]}}</label>
-                            {% if not isPaid %}
+                            {% if order_id != None %}
                             <form action="{{url_for('paymentSuccess',crop_id=crop_desc[0][0] ,order_id=order_id['id'], price=crop_desc[0][5])}}">
                                 <script src="https://checkout.razorpay.com/v1/checkout.js"
                                     data-key="rzp_test_UGcdp8a9kJX5GE"
@@ -125,31 +125,8 @@ https://templatemo.com/tm-556-catalog-z
                             </form>
                             {% endif %}
                         {% endif %}
-                    </div><!-- 
-                    {% elif update==False %}
-                    <div class="text-center mb-5">
-                        <form action="{{url_for('paymentSuccess',game_name=crop_desc[0][0] ,order_id=order_id['id'], price=crop_desc[0][4], curr_version=crop_desc[0][8])}}">
-                            <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                data-key="rzp_test_Y8qqx6ykwxSLLJ"
-                                data-amount={{order_id['amount']}}
-                                data-currency="INR" 
-                                data-order_id={{order_id['id']}}
-                                data-buttontext="Buy Game"
-                                data-button.theme = "#33B5FF"
-                                data-name="FameGame"
-                                data-theme.color="#33B5FF">
-                            </script>
-                            <input type="hidden" custom="Hidden Element" name="hidden">
-                        </form>
                     </div>
-                    {% else %}
-                    <div></div>
                     {% endif %}
-                    {% if usertype=='Farmer' and update==True %}
-                        <div class="text-center mb-5">
-                            <a href="{{url_for('updatePage', game_name=crop_desc[0][0])}}" class="btn btn-primary tm-btn-big">Update</a>
-                        </div> -->
-                    <!-- {% endif %} -->
                 </div>
                 </div>
             </div>
