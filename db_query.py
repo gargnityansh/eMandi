@@ -7,50 +7,31 @@ import string
 
 def connection():
 	connection = psycopg2.connect(user = "postgres",
-	                 password = "******",
+	                 password = "4597",
 	                 host = "127.0.0.1",
-	                 port = "5432",
+	                 port = "",
 	                 dbname = "eMandi")
 	return connection
 
-
-def searchCrop(cropID='%'):
-	try:
-		connect = connection()
-		cursor = connect.cursor()
-		cursor.execute("SELECT * FROM \"Crop\" WHERE \"crop_ID\" like %s",(cropID,))
-		record = cursor.fetchall()
-		#print (record,"\n")
-		#closing database connection.
-		if(connect):
-			cursor.close()
-			connect.close()
-
-		if len(record)!=0:
-			return 200,record
-		return 404, "No Such Crops"
-
-	except (Exception, psycopg2.Error) as error :
-		print ("Error in crop searching", error)
-		return 500,error
-	
-		
-#print(searchGame("%"))
-
+#################### REGISTER USER #################### 
 def registerUser(user):
 	try:
-		connect = connection()
-		cursor = connect.cursor()
+		connection = psycopg2.connect(user = "postgres",
+	                                  password = "4597",
+	                                  host = "127.0.0.1",
+	                                  port = "",
+	                                  dbname = "eMandi")
+		cursor = connection.cursor()
 		if user['usertype']=='Farmer':
 			cursor.execute("INSERT INTO \"Farmer\" (f_username,farmer_name,f_phone,f_email,f_password,farmer_loc,farmer_city,farmer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))
 		else:
 			cursor.execute("INSERT INTO \"Buyer\" (b_username,buyer_name,b_phone,b_email,b_password,buyer_loc,buyer_city,buyer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))
 		print("is in final")
 		#closing database connection.
-		if(connect):
-			connect.commit()
+		if(connection):
+			connection.commit()
 			cursor.close()
-			connect.close()
+			connection.close()
 			print("PostgreSQL connection is closed")
 		
 		return 200, "OK"
@@ -58,6 +39,7 @@ def registerUser(user):
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
 
+#################### CHECK USER LOGIN #################### 
 def checkUser(user):
 	try:
 		connect = connection()
@@ -78,24 +60,7 @@ def checkUser(user):
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
 
-def findGameCategory(gameName):
-	try:
-		connect = connection()
-		cursor = connect.cursor()
-		cursor.execute("SELECT cat_name FROM category WHERE gameid = (SELECT gameid FROM identty WHERE game_name=%s)",(gameName,))
-		record = cursor.fetchall()
-		#closing database connection.
-		print(record)
-		if(connect):
-			cursor.close()
-			connect.close()
-		if len(record) == 0:
-			return 404, "empty"
-		return 200, record
-	except (Exception, psycopg2.Error) as error :
-		print ("Error in category", error)
-		return 500,error
-
+#################### RESET PASS #################### 
 def resetPassword(resetdetails):
 	try:
 		connection = connection()
@@ -115,7 +80,46 @@ def resetPassword(resetdetails):
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
 
+#################### AUDITOR LOGIN #################### 
+def AuditorLogin(user):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		cursor.execute("SELECT * From public.\"Auditor\" WHERE a_email=%s and a_password=crypt(%s,a_password)", (user['emailid'],user['password']))
+		record = cursor.fetchall()
+		#closing database connection.
+		if(connect):
+			cursor.close()
+			connect.close()
+		if len(record) == 0:
+			return 404, "empty"
+		return 200, record[0]
+	except (Exception, psycopg2.Error) as error :
+		print ("Error while connecting to PostgreSQL", error)
+		return 500,error
 
+#################### CROP SEARCH FOR DISPLAY #################### 
+def searchCrop(cropID='%'):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		cursor.execute("SELECT * FROM \"Crop\" WHERE \"crop_ID\" like %s",(cropID,))
+		record = cursor.fetchall()
+
+		#closing database connection.
+		if(connect):
+			cursor.close()
+			connect.close()
+
+		if len(record)!=0:
+			return 200,record
+		return 404, "No Such Crops"
+
+	except (Exception, psycopg2.Error) as error :
+		print ("Error in crop searching", error)
+		return 500,error
+
+#################### MY CROPS #################### 
 def myCrops(uname, utype):
 	try:
 		connect = connection()
@@ -138,25 +142,24 @@ def myCrops(uname, utype):
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
 
-def gameDetails(gameName):
+#################### INSERT BID #################### 
+def insertBid(bid):
 	try:
-		connection = connection()
-		cursor = connection.cursor()
-
-		cursor.execute("""SELECT mrp FROM game where game_name=%s""",(gameName,))
-		record = cursor.fetchall()
-		if(connection):
+		connect = connection()
+		cursor = connect.cursor()
+		cursor.execute("INSERT INTO \"Auction\"( \"bidAmount\", b_username, bid_time, \"crop_ID\") VALUES (%s, %s, %s, %s)", (bid['bid_price'],bid['username'],datetime.now(), bid['crop_id']))
+		# cursor.execute("UPDATE \"Crop\" SET final_bid_price=%s, b_username=%s WHERE \"crop_ID\"=%s", (bid['bid_price'],bid['username'],bid['crop_id']))
+		cursor.execute("UPDATE \"Crop\" SET final_bid_price=%s WHERE \"crop_ID\"=%s", (bid['bid_price'], bid['crop_id']))
+		if(connect):
 			cursor.close()
-			connection.close()
-
-		if len(record)!=0:
-			return 200,record
-		return 404, "No Such Games"
-
+			connect.commit()
+			connect.close()
+		return 200, 'no error'
 	except (Exception, psycopg2.Error) as error :
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
 
+#################### FINAL BIDDER #################### 
 def finalBidderName(crop_id):
 	try:
 		connect = connection()
@@ -175,6 +178,44 @@ def finalBidderName(crop_id):
 	except (Exception, psycopg2.Error) as error :
 		print ("Error in purchase", error)
 		return 500,error
+
+#################### TRANSACTION #################### 
+def insertTransaction(transaction):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		cursor.execute("""INSERT INTO "Transaction"("crop_ID", b_username, order_id, pay_date) VALUES (%s, %s, %s, %s);""",(transaction['crop_id'],transaction['username'],transaction['order_id'],transaction['selling_date']))
+		record = cursor.rowcount			
+		if record!=0:
+			if(connect):
+				connect.commit()
+				cursor.close()
+				connect.close()
+				return 200,record
+
+	except (Exception, psycopg2.Error) as error :
+		print ("Error in transaction table", error)
+		return 500,False
+
+#################### PAYMENT CHECK #################### 
+def is_Paid(uname, crop_id):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		cursor.execute("SELECT * FROM \"Transaction\" WHERE \"crop_ID\" = %s", (crop_id,))
+		record = cursor.fetchall()
+		if(connect):
+			cursor.close()
+			connect.close()
+		if len(record) == 0:
+			return 200, False
+		return 200, True
+	except (Exception, psycopg2.Error) as error :
+		print ("Error while connecting to PostgreSQL", error)
+		return 500,error
+
+
+#########################################################
 
 def insertGame(game):
 	try:
@@ -242,72 +283,39 @@ def updateGame(game):
 		print ("Error in updating game", error)
 		return 500,False
 
-def insertTransaction(transaction):
+def gameDetails(gameName):
 	try:
-		connect = connection()
-		cursor = connect.cursor()
-		cursor.execute("""INSERT INTO "Transaction"("crop_ID", b_username, order_id, pay_date) VALUES (%s, %s, %s, %s);""",(transaction['crop_id'],transaction['username'],transaction['order_id'],transaction['selling_date']))
-		record = cursor.rowcount			
-		if record!=0:
-			if(connect):
-				connect.commit()
-				cursor.close()
-				connect.close()
-				return 200,record
+		connection = connection()
+		cursor = connection.cursor()
+
+		cursor.execute("""SELECT mrp FROM game where game_name=%s""",(gameName,))
+		record = cursor.fetchall()
+		if(connection):
+			cursor.close()
+			connection.close()
+
+		if len(record)!=0:
+			return 200,record
+		return 404, "No Such Games"
 
 	except (Exception, psycopg2.Error) as error :
-		print ("Error in transaction table", error)
-		return 500,False
+		print ("Error while connecting to PostgreSQL", error)
+		return 500,error
 
-
-#auditor login method
-def AuditorLogin(user):
+def findGameCategory(gameName):
 	try:
 		connect = connection()
 		cursor = connect.cursor()
-		cursor.execute("SELECT * From public.\"Auditor\" WHERE a_email=%s and a_password=crypt(%s,a_password)", (user['emailid'],user['password']))
+		cursor.execute("SELECT cat_name FROM category WHERE gameid = (SELECT gameid FROM identty WHERE game_name=%s)",(gameName,))
 		record = cursor.fetchall()
 		#closing database connection.
+		print(record)
 		if(connect):
 			cursor.close()
 			connect.close()
 		if len(record) == 0:
 			return 404, "empty"
-		return 200, record[0]
+		return 200, record
 	except (Exception, psycopg2.Error) as error :
-		print ("Error while connecting to PostgreSQL", error)
-		return 500,error
-
-
-#update auction table for bid that placed by the buyer
-def insertBid(bid):
-	try:
-		connect = connection()
-		cursor = connect.cursor()
-		cursor.execute("INSERT INTO \"Auction\"( \"bidAmount\", b_username, bid_time, \"crop_ID\") VALUES (%s, %s, %s, %s)", (bid['bid_price'],bid['username'],datetime.now(), bid['crop_id']))
-		cursor.execute("UPDATE \"Crop\" SET min_bid_price=%s, b_username=%s WHERE \"crop_ID\"=%s", (bid['bid_price'],bid['username'],bid['crop_id']))
-		if(connect):
-			cursor.close()
-			connect.commit()
-			connect.close()
-		return 200, 'no error'
-	except (Exception, psycopg2.Error) as error :
-		print ("Error while connecting to PostgreSQL", error)
-		return 500,error
-
-#check if buyer has made a payment or not
-def is_Paid(uname, crop_id):
-	try:
-		connect = connection()
-		cursor = connect.cursor()
-		cursor.execute("SELECT * FROM \"Transaction\" WHERE \"crop_ID\" = %s", (crop_id,))
-		record = cursor.fetchall()
-		if(connect):
-			cursor.close()
-			connect.close()
-		if len(record) == 0:
-			return 200, False
-		return 200, True
-	except (Exception, psycopg2.Error) as error :
-		print ("Error while connecting to PostgreSQL", error)
+		print ("Error in category", error)
 		return 500,error
