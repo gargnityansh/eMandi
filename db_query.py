@@ -7,9 +7,9 @@ import string
 
 def connection():
 	connection = psycopg2.connect(user = "postgres",
-	                 password = "4597",
+	                 password = "admin123",
 	                 host = "127.0.0.1",
-	                 port = "",
+	                 port = "5432",
 	                 dbname = "eMandi")
 	return connection
 
@@ -17,9 +17,9 @@ def connection():
 def registerUser(user):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "4597",
+	                                  password = "admin123",
 	                                  host = "127.0.0.1",
-	                                  port = "",
+	                                  port = "5432",
 	                                  dbname = "eMandi")
 		cursor = connection.cursor()
 		if user['usertype']=='Farmer':
