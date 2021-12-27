@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eMandi-Contact</title>
+    <title>eMandi-Complaint</title>
     <link rel="stylesheet" href="{{url_for('static', filename='styles/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='styles/templatemo-style.css')}}">
@@ -39,29 +39,29 @@ https://templatemo.com/tm-556-catalog-z
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="login.html">Login</a>
                 </li>
-                {% elif usertype==True %}
+                {% elif usertype==Farmer %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/addgame">Add Game</a>
+                    <a class="nav-link nav-link-2" href="/addgame">Add Crop</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
+                    <a class="nav-link nav-link-2" href="/mycrops">My Crops</a>
                 </li>                
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
+                    <a class="nav-link nav-link-2" href="/mycrops">My crops</a>
                 </li>
                 {% endif %}
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link nav-link-3" href="about.html">About</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                    <a class="nav-link nav-link-4" href="contact.html">Contact</a>
+                    <a class="nav-link nav-link-4" href="contact.html">Complaints</a>
                 </li>
             </ul>
             </div>
@@ -74,7 +74,7 @@ https://templatemo.com/tm-556-catalog-z
     <div class="container-fluid tm-mt-60">
         <div class="row tm-mb-50">
             <div class="col-lg-4 col-12 mb-5">
-                <h2 class="tm-text-primary mb-5">Contact Page</h2>
+                <h2 class="tm-text-primary mb-5">Complaint Page</h2>
                 <form id="contact-form" action="/contact" method="POST" class="tm-contact-form mx-auto">
                     {% for message in get_flashed_messages() %}
                     <div class="form-input">{{ message }}</div>
@@ -97,7 +97,7 @@ https://templatemo.com/tm-556-catalog-z
                     </div>
                 </form>                
             </div>
-            <div class="col-lg-4 col-12 mb-5">
+            <!-- <div class="col-lg-4 col-12 mb-5">
                 <div class="tm-address-col">
                     <h2 class="tm-text-primary mb-5">Our Address</h2>
                     <p class="tm-mb-50">H. Bhabha Boys Hostel, SGSITS Campus, Indore, Madhya Pradesh </p>
@@ -123,7 +123,7 @@ https://templatemo.com/tm-556-catalog-z
                         </li>
                     </ul>
                 </div>                
-            </div>
+            </div> -->
             <div class="col-lg-4 col-12">
                 <h2 class="tm-text-primary mb-5">Our Location</h2>
                 <!-- Map -->
@@ -136,71 +136,23 @@ https://templatemo.com/tm-556-catalog-z
                 </div>               
             </div>
         </div>
-        <div class="row tm-mb-74 tm-people-row">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-5">
-                <img src="{{url_for('static', filename='images/Ayush.jpg')}}" alt="Image" class="mb-4 img-fluid">
-                <h2 class="tm-text-primary mb-4">Ayush Pawar</h2>
-                <h3 class="tm-text-secondary h5 mb-4">Developer</h3>
-                <p class="mb-4"><!-----write about yourself here------>
-                </p>
-                <!---------<ul class="tm-social pl-0 mb-0">
-                    <li><a href="https://facebook.com"><i class="fab fa-facebook"></i></a></li>
-                    <li><a href="https://twitter.com"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a></li>
-                </ul>-------->
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-5">
-                <img src="{{url_for('static', filename='images/Nityansh.jpg')}}" alt="Image" class="mb-4 img-fluid">
-                <h2 class="tm-text-primary mb-4">Nityansh Garg</h2>
-                <h3 class="tm-text-secondary h5 mb-4">Developer</h3>
-                <p class="mb-4"><!-----write about yourself here------>
-                </p>
-                <!---------<ul class="tm-social pl-0 mb-0">
-                    <li><a href="https://facebook.com"><i class="fab fa-facebook"></i></a></li>
-                    <li><a href="https://twitter.com"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a></li>
-                </ul>-------->
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-5">
-                <img src="{{url_for('static', filename='images/Ptabhat.jpg')}}" alt="Image" class="mb-4 img-fluid">
-                <h2 class="tm-text-primary mb-4">Prabhat Singh</h2>
-                <h3 class="tm-text-secondary h5 mb-4">Developer</h3>
-                <p class="mb-4"><!-----write about yourself here------>
-                </p>
-                <!---------<ul class="tm-social pl-0 mb-0">
-                    <li><a href="https://facebook.com"><i class="fab fa-facebook"></i></a></li>
-                    <li><a href="https://twitter.com"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a></li>
-                </ul>-------->
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-5">
-                <img src="{{url_for('static', filename='images/Sourin.jpg')}}" alt="Image" class="mb-4 img-fluid">
-                <h2 class="tm-text-primary mb-4">Sourin Roy</h2>
-                <h3 class="tm-text-secondary h5 mb-4">Developer</h3>
-                <p class="mb-4"><!-----write about yourself here------>
-                </p>
-                <!---------<ul class="tm-social pl-0 mb-0">
-                    <li><a href="https://facebook.com"><i class="fab fa-facebook"></i></a></li>
-                    <li><a href="https://twitter.com"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a></li>
-                </ul>-------->
-            </div>
-    </div> <!-- container-fluid, tm-container-content -->
+    
 
 <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
         <div class="container-fluid tm-container-small">
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">About eMandi</h3>
-                    <p>FameGame is an online game selling marketplace where game developers can enlist and sell their games to the gamers.</p>
+                    <p>eMandi is a platform to give farmers easy and hassle free means to sell their
+                         produce and for buyers to be able to buy products from the comforts of their homes.</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8 col-md-7 col-12 px-5 mb-3">
-                    Copyright 2020 eMandi. All rights reserved.
+                    Copyright 2021 eMandi. All rights reserved.
                 </div>
                 <div class="col-lg-4 col-md-5 col-12 px-5 text-right">
-                    Designed by <a href="/" class="tm-text-gray" rel="sponsored" target="_parent">FameGame</a>
+                    Designed by <a href="/" class="tm-text-gray" rel="sponsored" target="_parent">eMandi</a>
                 </div>
             </div>
         </div>
