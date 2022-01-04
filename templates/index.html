@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FameGame</title>
+    <title>eMandi</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/templatemo-style.css')}}">
@@ -21,7 +21,7 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">
                 <i class="fas fa-film mr-2"></i>
-                FameGame
+                eMandi
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
@@ -53,11 +53,11 @@
                 </li>
                 {% endif %}
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link nav-link-3" href="about.html">About</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                    <a class="nav-link nav-link-4" href="contact.html">Contact</a>
+                    <a class="nav-link nav-link-4" href="contact.html">Complaint</a>
                 </li>
             </ul>
             </div>
@@ -80,15 +80,19 @@
     {% endfor %}
     <div class="container-fluid tm-container-content tm-mt-60">
         <div class="row tm-mb-90 tm-gallery">
+
             {% for crop_ in crops %}
         	<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                <h5>{{crop_[3]}}</h5>   
                 <figure class="effect-ming tm-video-item">
                     <img src="{{crop_[15]}}" alt="Image" class="img-fluid">
                     <figcaption class="d-flex align-items-center justify-content-center">
                         <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
                         <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
-                    </figcaption>                    
+                    </figcaption>  
+                               
                 </figure>
+               
             </div>
             {% endfor %}
             
@@ -99,16 +103,18 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
                     <h3 class="tm-text-primary mb-4 tm-footer-title">About eMandi</h3>
-                    <p>eMandi is an online game selling marketplace where game developers can enlist and sell their games to the gamers.</p>
+                    <p>
+                        eMandi is a platform to give farmers easy and hassle free means to sell their
+                        produce and for buyers to be able to buy products from the comforts of their homes.</p>
                 </div>
 
             </div>
             <div class="row">
                 <div class="col-lg-8 col-md-7 col-12 px-5 mb-3">
-                    Copyright 2020 FameGame. All rights reserved.
+                    Copyright 2021 eMandi. All rights reserved.
                 </div>
                 <div class="col-lg-4 col-md-5 col-12 px-5 text-right">
-                    Designed by <a href="/" class="tm-text-gray" rel="sponsored" target="_parent">FameGame</a>
+                    Designed by <a href="/" class="tm-text-gray" rel="sponsored" target="_parent">eMandi</a>
                 </div>
             </div>
         </div>
