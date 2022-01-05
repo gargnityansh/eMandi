@@ -16,11 +16,7 @@ def connection():
 #################### REGISTER USER #################### 
 def registerUser(user):
 	try:
-		connection = psycopg2.connect(user = "postgres",
-	                                  password = "4597",
-	                                  host = "127.0.0.1",
-	                                  port = "5432",
-	                                  dbname = "eMandi")
+		connection = connection()
 		cursor = connection.cursor()
 		if user['usertype']=='Farmer':
 			cursor.execute("INSERT INTO \"Farmer\" (f_username,farmer_name,f_phone,f_email,f_password,farmer_loc,farmer_city,farmer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))

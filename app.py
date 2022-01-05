@@ -77,7 +77,7 @@ def contactDetails():
 	message = request.form.get("message")
 	contactDetails = {"name":name, "email":email, "subject":subject, "message":message}
 	print("contactdetails", contactDetails)
-	sendMail('famegamecorp2020@gmail.com', contactDetails)
+	sendMail('emandi@gmail.com', contactDetails)
 	flash("Your query has been registered. We will contact you soon")
 	return redirect("/contact.html")
 

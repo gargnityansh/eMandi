@@ -6,7 +6,7 @@ from email import encoders
    
 
 def sendMail(reciever_address, contactDetails=None):
-	fromaddr = "famegamecorp2020@gmail.com"
+	fromaddr = "emandi@gmail.com"
 	toaddr = reciever_address
 	try:   
 		if contactDetails == None:
@@ -48,4 +48,4 @@ def sendMail(reciever_address, contactDetails=None):
 	return 200, "mail sent"
 
 if __name__ == "__main__":
-	sendMail('famegamecorp2020@gmail.com')
+	sendMail('emandi@gmail.com')

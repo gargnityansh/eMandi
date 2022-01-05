@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FameGame-About</title>
+    <title>eMandi-About</title>
     <link rel="stylesheet" href="{{url_for('static', filename='styles/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='styles/templatemo-style.css')}}">
@@ -28,7 +28,7 @@ https://templatemo.com/tm-556-catalog-z
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">
                 <i class="fas fa-film mr-2"></i>
-                FameGame
+                eMandi
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
@@ -39,29 +39,29 @@ https://templatemo.com/tm-556-catalog-z
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="login.html">Login</a>
                 </li>
-                {% elif usertype==True %}
+                {% elif usertype==Farmer %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/addgame">Add Game</a>
+                    <a class="nav-link nav-link-2" href="/addgame">Add Crop</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
+                    <a class="nav-link nav-link-2" href="/mycrops">My Crops</a>
                 </li>                
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mygames">My Games</a>
+                    <a class="nav-link nav-link-2" href="/mycrops">My Crops</a>
                 </li>
                 {% endif %}
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link nav-link-3" href="about.html">About</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                    <a class="nav-link nav-link-4" href="contact.html">Contact</a>
+                    <a class="nav-link nav-link-4" href="contact.html">Complaint</a>
                 </li>
             </ul>
             </div>
@@ -73,7 +73,7 @@ https://templatemo.com/tm-556-catalog-z
     <div class="container-fluid tm-mt-60">
         <div class="row mb-4">
             <h2 class="col-12 tm-text-primary">
-                About FameGame
+                About eMandi
             </h2>
         </div>
         <div class="row tm-mb-74 tm-row-1640">            
@@ -83,7 +83,7 @@ https://templatemo.com/tm-556-catalog-z
             <div class="col-lg-7 col-md-6 col-12">
                 <div class="tm-about-img-text">
                     <p class="mb-4">
-                  We at FameGame strive towards perfection to provide our users with the best games for PC, at the cheapest price. And while we can't guarantee that you'll never encounter a glitch (hard as we might try), we can guarantee that we'll make it right if something goes wrong. Our excellent community of honed gamers and game developers will try their utmost to help you out in case of such difficulties. </p>
+                  We at eMandi strive towards perfection to provide our users with the best games for PC, at the cheapest price. And while we can't guarantee that you'll never encounter a glitch (hard as we might try), we can guarantee that we'll make it right if something goes wrong. Our excellent community of honed gamers and game developers will try their utmost to help you out in case of such difficulties. </p>
                 </div>                
             </div>
         </div>
@@ -91,19 +91,19 @@ https://templatemo.com/tm-556-catalog-z
             <div class="col-md-4 col-12">
                 <div class="tm-about-3-col">               
                     <h2 class="tm-text-primary mb-4">Royalty free<sup>TM</sup> Profits</h2>
-                    <p class="mb-4">We at FameGame provide developers with the best and the rightful. You as a game developer, will get absolutely what you deserve, no questions asked. We deliver royalty free profits with a 5% margin to help us incur our server maintenance and currency transaction dues.</p>
+                    <p class="mb-4">We at eMandi provide developers with the best and the rightful. You as a game developer, will get absolutely what you deserve, no questions asked. We deliver royalty free profits with a 5% margin to help us incur our server maintenance and currency transaction dues.</p>
                 </div>                
             </div>
             <div class="col-md-4 col-12">
                 <div class="tm-about-3-col">               
                     <h2 class="tm-text-primary mb-4">Best price for games</h2>
-                    <p class="tm-mb-50">FameGame provides games at cheapest prices with regular sales at least every month, with 4 huge sales occurring throughout the year, at certain pre-determined dates. We also offer 30 days no questions asked, money back guarantee, in case we fail to cater your wants and needs.</p>                
+                    <p class="tm-mb-50">eMandi provides games at cheapest prices with regular sales at least every month, with 4 huge sales occurring throughout the year, at certain pre-determined dates. We also offer 30 days no questions asked, money back guarantee, in case we fail to cater your wants and needs.</p>                
                 </div>                
             </div>
             <div class="col-md-4 col-12">
                 <div class="tm-about-3-col">              
                     <h2 class="tm-text-primary mb-4">Awesome Community Support</h2>
-                    <p class="mb-4">FameGame works in collaboration with active game developers and production studios to cater to each and every issue that the users might face. The embedded disqus platform can be used as a support medium to ask for advice in case stuff goes awry. </p>
+                    <p class="mb-4">eMandi works in collaboration with active game developers and production studios to cater to each and every issue that the users might face. The embedded disqus platform can be used as a support medium to ask for advice in case stuff goes awry. </p>
                 </div>                
             </div>
         </div>
@@ -113,16 +113,18 @@ https://templatemo.com/tm-556-catalog-z
         <div class="container-fluid tm-container-small">
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
-                    <h3 class="tm-text-primary mb-4 tm-footer-title">About FameGame</h3>
-                    <p>FameGame is an online game selling marketplace where game developers can enlist and sell their games to the gamers.</p>
+                    <h3 class="tm-text-primary mb-4 tm-footer-title">About eMandi</h3>
+                    <p>
+                        eMandi is a platform to give farmers easy and hassle free means to sell their
+                        produce and for buyers to be able to buy products from the comforts of their homes.</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8 col-md-7 col-12 px-5 mb-3">
-                    Copyright 2020 FameGame. All rights reserved.
+                    Copyright 2021 eMandi. All rights reserved.
                 </div>
                 <div class="col-lg-4 col-md-5 col-12 px-5 text-right">
-                    Designed by <a href="/" class="tm-text-gray" rel="sponsored" target="_parent">FameGame</a>
+                    Designed by <a href="/" class="tm-text-gray" rel="sponsored" target="_parent">eMandi</a>
                 </div>
             </div>
         </div>
