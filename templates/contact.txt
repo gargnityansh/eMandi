@@ -1,0 +1,51 @@
+line 139
+    <div class="row tm-mb-74 tm-people-row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-5">
+                <img src="{{url_for('static', filename='images/Ayush.jpg')}}" alt="Image" class="mb-4 img-fluid">
+                <h2 class="tm-text-primary mb-4">Ayush Pawar</h2>
+                <h3 class="tm-text-secondary h5 mb-4">Developer</h3>
+                <p class="mb-4"><!-----write about yourself here------>
+                </p>
+                <!---------<ul class="tm-social pl-0 mb-0">
+                    <li><a href="https://facebook.com"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="https://twitter.com"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a></li>
+                </ul>-------->
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-5">
+                <img src="{{url_for('static', filename='images/Nityansh.jpg')}}" alt="Image" class="mb-4 img-fluid">
+                <h2 class="tm-text-primary mb-4">Nityansh Garg</h2>
+                <h3 class="tm-text-secondary h5 mb-4">Developer</h3>
+                <p class="mb-4"><!-----write about yourself here------>
+                </p>
+                <!---------<ul class="tm-social pl-0 mb-0">
+                    <li><a href="https://facebook.com"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="https://twitter.com"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a></li>
+                </ul>-------->
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-5">
+                <img src="{{url_for('static', filename='images/Ptabhat.jpg')}}" alt="Image" class="mb-4 img-fluid">
+                <h2 class="tm-text-primary mb-4">Prabhat Singh</h2>
+                <h3 class="tm-text-secondary h5 mb-4">Developer</h3>
+                <p class="mb-4"><!-----write about yourself here------>
+                </p>
+                <!---------<ul class="tm-social pl-0 mb-0">
+                    <li><a href="https://facebook.com"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="https://twitter.com"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a></li>
+                </ul>-------->
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-5">
+                <img src="{{url_for('static', filename='images/Sourin.jpg')}}" alt="Image" class="mb-4 img-fluid">
+                <h2 class="tm-text-primary mb-4">Sourin Roy</h2>
+                <h3 class="tm-text-secondary h5 mb-4">Developer</h3>
+                <p class="mb-4"><!-----write about yourself here------>
+                </p>
+                <!---------<ul class="tm-social pl-0 mb-0">
+                    <li><a href="https://facebook.com"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="https://twitter.com"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a></li>
+                </ul>-------->
+            </div>
+    </div> container-fluid, tm-container-content
