@@ -7,7 +7,7 @@ import string
 
 def connection():
 	connection = psycopg2.connect(user = "postgres",
-	                 password = "admin123",
+	                 password = "4597",
 	                 host = "127.0.0.1",
 	                 port = "5432",
 	                 dbname = "eMandi")
@@ -16,11 +16,7 @@ def connection():
 #################### REGISTER USER #################### 
 def registerUser(user):
 	try:
-		connection = psycopg2.connect(user = "postgres",
-	                                  password = "admin123",
-	                                  host = "127.0.0.1",
-	                                  port = "5432",
-	                                  dbname = "eMandi")
+		connection = connection()
 		cursor = connection.cursor()
 		if user['usertype']=='Farmer':
 			cursor.execute("INSERT INTO \"Farmer\" (f_username,farmer_name,f_phone,f_email,f_password,farmer_loc,farmer_city,farmer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))
@@ -98,6 +94,62 @@ def AuditorLogin(user):
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
 
+
+#################### INSERT CROP ####################
+def insert_crop(game):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		crop_id = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k = 6))
+		cursor.execute("""INSERT INTO "Crop"("crop_ID", crop_type, crop_region, crop_name, "upload_Date", f_username, crop_weight_kg, crop_img)
+		VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",(crop_id,game['crop_type'],game['crop_region'],game['crop_name'],datetime.today().strftime('%Y-%m-%d'),game['f_username'],game['crop_weight'],game['crop_img']))
+		record = cursor.rowcount
+		if(connect):
+			connect.commit()
+			cursor.close()
+			connect.close()
+		if record!=0:
+			return 200, crop_id
+		return 404, 0
+
+	except (Exception, psycopg2.Error) as error :
+		print ("Error in adding crop", error)
+		return 500, 0
+
+
+################### TEMP AUDIT ###################
+def add_price_crop(crop_id):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		cursor.execute("UPDATE \"Crop\" SET final_bid_price=%s, min_bid_price=%s WHERE \"crop_ID\"=%s", (100, 100, crop_id))
+		if(connect):
+			cursor.close()
+			connect.commit()
+			connect.close()
+		return 200, 'no error'
+	except (Exception, psycopg2.Error) as error :
+		print ("Error while connecting to PostgreSQL", error)
+		return 500,error
+
+def close(crop_id):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		cursor.execute("SELECT b_username, \"bidAmount\" from \"Auction\" WHERE \"crop_ID\"=%s ORDER BY \"bidAmount\" desc limit 1", (crop_id,))
+		record = cursor.fetchall()
+		winner = record[0][0]
+		cursor.execute("UPDATE \"Crop\" SET b_username=%s WHERE \"crop_ID\"=%s", (winner, crop_id))
+		if(connect):
+			cursor.close()
+			connect.commit()
+			connect.close()
+		return winner, 'no error'
+	except (Exception, psycopg2.Error) as error :
+		print ("Error while connecting to PostgreSQL", error)
+		return 500,error
+
+
 #################### CROP SEARCH FOR DISPLAY #################### 
 def searchCrop(cropID='%'):
 	try:
@@ -148,7 +200,6 @@ def insertBid(bid):
 		connect = connection()
 		cursor = connect.cursor()
 		cursor.execute("INSERT INTO \"Auction\"( \"bidAmount\", b_username, bid_time, \"crop_ID\") VALUES (%s, %s, %s, %s)", (bid['bid_price'],bid['username'],datetime.now(), bid['crop_id']))
-		# cursor.execute("UPDATE \"Crop\" SET final_bid_price=%s, b_username=%s WHERE \"crop_ID\"=%s", (bid['bid_price'],bid['username'],bid['crop_id']))
 		cursor.execute("UPDATE \"Crop\" SET final_bid_price=%s WHERE \"crop_ID\"=%s", (bid['bid_price'], bid['crop_id']))
 		if(connect):
 			cursor.close()
@@ -216,26 +267,6 @@ def is_Paid(uname, crop_id):
 
 
 #########################################################
-
-def insertGame(game):
-	try:
-		connect = connection()
-		cursor = connect.cursor()
-		crop_id = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k = 6))
-		cursor.execute("""INSERT INTO "Crop"("crop_ID", crop_type, crop_region, crop_name, "upload_Date", f_username, crop_weight_kg, crop_img)
-		VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",(crop_id,game['crop_type'],game['crop_region'],game['crop_name'],datetime.today().strftime('%Y-%m-%d'),game['f_username'],game['crop_weight'],game['crop_img']))
-		record = cursor.rowcount
-		if(connect):
-			connect.commit()
-			cursor.close()
-			connect.close()
-		if record!=0:
-			return 200,True
-		return 404, False
-
-	except (Exception, psycopg2.Error) as error :
-		print ("Error in adding game", error)
-		return 500,False
 
 def insertCategory(category, gameName):
 	try:
