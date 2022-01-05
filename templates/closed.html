@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eMandi</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='fontawesome/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/templatemo-style.css')}}">
+</head>
+<body>
+    <!-- Page Loader -->
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+
+    </div>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-film mr-2"></i>
+                eMandi
+            </a>
+        </div>
+    </nav>
+
+    <h2 class="col-6 tm-text-primary">
+            Crop_ID: {{crop_id}} <br>
+            Winner: {{buyer}}
+    </h2>
+    <script src="{{url_for('static', filename='js/plugins.js')}}"></script>
+    <script>
+        $(window).on("load", function() {
+            $('body').addClass('loaded');
+        });
+    </script>
+</body>
+</html>
