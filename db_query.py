@@ -7,7 +7,7 @@ import string
 
 def connection():
 	connection = psycopg2.connect(user = "postgres",
-	                 password = "admin123",
+	                 password = "Garg@9406608047",
 	                 host = "127.0.0.1",
 	                 port = "5432",
 	                 dbname = "eMandi")
@@ -17,7 +17,7 @@ def connection():
 def registerUser(user):
 	try:
 		connection = psycopg2.connect(user = "postgres",
-	                                  password = "admin123",
+	                                  password = "Garg@9406608047",
 	                                  host = "127.0.0.1",
 	                                  port = "5432",
 	                                  dbname = "eMandi")
@@ -318,4 +318,19 @@ def findGameCategory(gameName):
 		return 200, record
 	except (Exception, psycopg2.Error) as error :
 		print ("Error in category", error)
+		return 500,error
+
+########## Update Crop Quality in Crops table ##################
+def updateCropGrade(crop):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		cursor.execute("""UPDATE "Crop" SET crop_grade=%s, "grading_Date"=%s, min_bid_price=%s, a_username=%s	WHERE "crop_ID"=%s""",(crop['crop_grade'],datetime.now(),crop['min_bid_price'],crop['a_username'],crop['crop_id']))
+		if(connect):
+			connect.commit()
+			cursor.close()
+			connect.close()
+		return 200, None
+	except (Exception, psycopg2.Error) as error :
+		print ("Error in update crop", error)
 		return 500,error

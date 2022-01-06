@@ -181,11 +181,41 @@ def auditor_login_signin():
 		flash("invalid login credentials")
 		return render_template('auditor_login.html')
 	elif status==200:
-		print(error[3], type(error))
-		resp = make_response(redirect("/"))
+		crop_status, crop_list = db_query.searchCrop("%")
+		resp = make_response(render_template("auditor_index.html", username=error[0], crops=crop_list))
 		resp.set_cookie("username", error[0])
-		# resp.set_cookie("usertype", bytes(True if usertype=='Farmer' else False))
 		return resp
+
+###################### Grade Crops By Auditor ##############
+@app.route("/grade/crops", methods=['POST'])
+def grade_crops():
+	username = request.cookies.get("username")
+	usertype = request.cookies.get("usertype")
+	crop = {'crop_id':request.form.get('crop_id'),
+			'crop_grade':request.form.get('grade'),
+			'min_bid_price':request.form.get('min_bid_price'),
+			'a_username':username
+			}
+	grade_status, error = db_query.updateCropGrade(crop)
+	if grade_status ==200:
+		crop_status, crop_list = db_query.searchCrop("%")
+		return render_template("auditor_index.html",username=username, crops=crop_list)
+	else:
+		flash(error)
+		return render_template("auditor_index.html",username=username, crops=[])
+
+
+#################### CROPS Auditor PAGE ####################
+@app.route('/crop/audited', methods=["GET","POST"])
+def crop_audited():
+	username = request.cookies.get("username")
+	usertype = request.cookies.get("usertype")
+	cropID = request.args.get("type")
+	crop_desc_status, crop_desc = db_query.searchCrop(cropID)
+	if crop_desc_status == 200:
+		return render_template("auditor_crop_details_page.html",crop_desc = crop_desc,username=username)
+	else:
+		return redirect("/")
 
 #################### CROPS MAIN PAGE ####################
 @app.route('/crop', methods=["GET","POST"])
