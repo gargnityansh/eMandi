@@ -185,10 +185,10 @@ https://templatemo.com/tm-556-catalog-z
             <form action='/makebid' id='bid-form' method="post" name="bid-form">
                 <a class='close' href="#">&times;</a>
                 <h2>Make Bid</h2>
-                <label>Current Price: {{crop_desc[0][8]}}</label>
+                <label>Current Price: {{crop_desc[0][5]}}</label>
                 <br><br>
                 <input type="text" name="crop_id" value="{{crop_desc[0][0]}}" hidden>
-                <input type="text" name="min_bid" value="{{crop_desc[0][8]}}" hidden>
+                <input type="text" name="min_bid" value="{{crop_desc[0][5]}}" hidden>
                 <input type="text" name="bid_price" placeholder="Your Bid">
                 <br><br>
                 <input type="submit" name="placebid" value="Place Bid">

@@ -325,7 +325,7 @@ def updateCropGrade(crop):
 	try:
 		connect = connection()
 		cursor = connect.cursor()
-		cursor.execute("""UPDATE "Crop" SET crop_grade=%s, "grading_Date"=%s, min_bid_price=%s, a_username=%s	WHERE "crop_ID"=%s""",(crop['crop_grade'],datetime.now(),crop['min_bid_price'],crop['a_username'],crop['crop_id']))
+		cursor.execute("""UPDATE "Crop" SET crop_grade=%s, "grading_Date"=%s, final_bid_price=%s,min_bid_price=%s, a_username=%s	WHERE "crop_ID"=%s""",(crop['crop_grade'],datetime.now(),crop['min_bid_price'],crop['min_bid_price'],crop['a_username'],crop['crop_id']))
 		if(connect):
 			connect.commit()
 			cursor.close()
