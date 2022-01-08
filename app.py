@@ -14,9 +14,11 @@ CORS(app)
 app.secret_key = "super secret key"
 client = razorpay.Client(auth=("rzp_test_UGcdp8a9kJX5GE", "gGX2vt9HpHbC7IbAmIKPsyIX"))
 
+
 @app.route('/hello')
 def hello():
 	return "Hello World"
+
 
 @app.route('/')
 @app.route('/index.html')
@@ -53,9 +55,11 @@ def search():
 def login():
 	return render_template('login.html')
 
+
 @app.route('/signup.html')
 def signup():
 	return render_template('signup.html')
+
 
 @app.route('/about.html')
 def about():
@@ -63,11 +67,13 @@ def about():
 	usertype = bool(request.cookies.get("usertype"))
 	return render_template("about.html",username=username,usertype=usertype)
 
+
 @app.route('/contact.html')
 def contact():
 	username = request.cookies.get("username")
 	usertype = bool(request.cookies.get("usertype"))
 	return render_template('contact.html',username=username,usertype=usertype)
+
 
 @app.route('/contact', methods=["POST"])
 def contactDetails():
@@ -111,6 +117,7 @@ def register():
 			resp.set_cookie("usertype", usertype)	
 			return resp
 
+
 @app.route('/signin', methods=['POST'])
 def signin():
 	emailid = request.form.get('emailid')
@@ -136,15 +143,18 @@ def signin():
 			resp.set_cookie("usertype", usertype)
 			return resp
 
+
 @app.route('/logout')
 def logout():
 	resp = make_response(redirect('/'))
 	resp.delete_cookie('username')
 	return resp
 
+
 @app.route("/forget")
 def ResetPasswordPage():
 	return render_template("reset.html")
+
 
 @app.route('/reset',methods=['POST'])
 def resetPassword():
@@ -162,6 +172,7 @@ def resetPassword():
 		else:
 			flash(resetMessage)
 			return render_template("reset.html")
+
 
 #################### AUDITOR LOGIN ####################
 @app.route("/auditor/login")
@@ -186,6 +197,7 @@ def auditor_login_signin():
 		resp.set_cookie("username", error[0])
 		return resp
 
+<<<<<<< HEAD
 ###################### Grade Crops By Auditor ##############
 @app.route("/grade/crops", methods=['POST'])
 def grade_crops():
@@ -216,6 +228,8 @@ def crop_audited():
 		return render_template("auditor_crop_details_page.html",crop_desc = crop_desc,username=username)
 	else:
 		return redirect("/")
+=======
+>>>>>>> feb12e48e37b302c0cf56d8bb729281ebc99ac9f
 
 #################### CROPS MAIN PAGE ####################
 @app.route('/crop', methods=["GET","POST"])
@@ -240,6 +254,7 @@ def crop():
 	else:
 		return redirect("/")
 
+
 #################### MY CROPS ####################
 @app.route("/mycrops")
 def my_crops():
@@ -252,6 +267,7 @@ def my_crops():
 		flash("No Crops to display")
 		return render_template('mycrops.html',crops=[],username=username,usertype=usertype)
 
+
 #################### ADD CROPS ####################
 @app.route("/addcrop")
 def addCrop():
@@ -263,20 +279,31 @@ def addCrop():
 def addCropSuccess():
 	username = request.cookies.get("username")
 	usertype = bool(request.cookies.get("usertype"))
-	game = {'crop_name':request.form.get('crop_name'),
-			'crop_type':request.form.get('crop_type'),
-			'crop_region':request.form.get('crop_region'),
-			'f_username':username,
-			'crop_weight':request.form.get('crop_weight'),
-			'crop_img': 'https://sc04.alicdn.com/kf/Uadb37e80f09f439e9af7951a0659eae2a.jpg'
-			}
-	gameInsertStatus, gameInsert = db_query.insertGame(game)
-	if gameInsertStatus==200:
+	crop = {
+		'crop_name':request.form.get('crop_name'),
+		'crop_type':request.form.get('crop_type'),
+		'crop_region':request.form.get('crop_region'),
+		'f_username':username,
+		'crop_weight':request.form.get('crop_weight'),
+		'crop_img': 'https://sc04.alicdn.com/kf/Uadb37e80f09f439e9af7951a0659eae2a.jpg'
+	}
+	crop_insert_status, crop_id = db_query.insert_crop(crop)
+	if crop_insert_status == 200:
 		flash("Your Crop is added successfully")
+		db_query.add_price_crop(crop_id)
 		return render_template("addcrop.html",username=username,usertype=usertype)
 	else:
 		flash("Crop Not Added. Please Try Again")
 		return render_template("addcrop.html",username=username,usertype=usertype)
+
+
+#################### TEMP CLOSE ####################
+@app.route('/closeauction', methods=['POST'])
+def close_auction():
+	crop_id = request.form.get("crop_id")
+	b_username, error = db_query.close(crop_id)
+	return render_template('/closed.html', crop_id=crop_id, buyer=b_username)
+
 
 #################### BIDDING ####################
 @app.route('/makebid', methods=['post'])
@@ -295,10 +322,10 @@ def make_bid():
 		else:
 			flash(bid_error)
 			return redirect('/')
-
 	else:
 		flash("Insert Amount Greater than Minimum Bid Price")
-		return redirect("/")
+		return redirect('/')
+
 
 #################### PAYMENT ####################
 @app.route("/payment/success/<crop_id>/<order_id>/<price>", methods=['GET'])
@@ -313,29 +340,6 @@ def paymentSuccess(crop_id,order_id,price):
 		return redirect("/")
 
 
-@app.route("/update/<game_name>", methods=['GET', 'POST'])
-def updatePage(game_name):
-	if request.method == 'POST':
-		username = request.cookies.get("username")
-		usertype = bool(request.cookies.get("usertype"))
-		game = {'game_name':game_name, 'game_link':request.form.get('update_link'),
-				'curr_version':request.form.get('update_version')}
-		print(game)
-		updateGameStatus, updateGame = db_query.updateGame(game)
-		if updateGameStatus==200:
-			for mail in updateGame:
-				sendMail(mail[0])
-			flash("Game is updated successfully")
-			return render_template("update.html",username=username,usertype=usertype)
-		else:
-			flash("Game is not updated")
-			return render_template("update.html",username=username,usertype=usertype)
-	else:
-		username = request.cookies.get("username")
-		usertype = bool(request.cookies.get("usertype"))
-		gameName = game_name
-		print(gameName)
-		return render_template("update.html",username=username,usertype=usertype, gameName=gameName)
-
+##################### MAIN #####################
 if __name__ == "__main__":
 	app.run(debug=True)
