@@ -59,7 +59,7 @@
     </nav>
 <div><br></div>
 <div class="container tm-container-small">
-    <form id="contact-form" action="/addcrop/success" method="POST" class="tm-contact-form mx-auto">
+    <form id="contact-form" action="/addcrop/success" method="POST" class="tm-contact-form mx-auto" enctype="multipart/form-data">
     <h2 class="tm-text-primary mb-5">Add Crops</h2>
         {% for message in get_flashed_messages() %}
             <div class="form-input">{{ message }}</div>
@@ -86,11 +86,11 @@
 
                     <div class="form-group">
                         <label>Crop Image</label>
-                        <input type="file" name="crop_img" class="form-control rounded-0" placeholder="Crop Image" autocomplete="off" />
+                        <input type="file" name="crop_ig" class="form-control rounded-0" autocomplete="off" required/>
                     </div>
                     
                     <div class="form-group tm-text-right">
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <input type="submit" class="btn btn-primary" value="Add"></input>
                     </div>
                 </form>       
 </div>

@@ -7,11 +7,8 @@ import string
 
 def connection():
 	connection = psycopg2.connect(user = "postgres",
-<<<<<<< HEAD
 	                 password = "Garg@9406608047",
-=======
-	                 password = "4597",
->>>>>>> feb12e48e37b302c0cf56d8bb729281ebc99ac9f
+	                #  password = "4597",
 	                 host = "127.0.0.1",
 	                 port = "5432",
 	                 dbname = "eMandi")
@@ -20,15 +17,7 @@ def connection():
 #################### REGISTER USER #################### 
 def registerUser(user):
 	try:
-<<<<<<< HEAD
-		connection = psycopg2.connect(user = "postgres",
-	                                  password = "Garg@9406608047",
-	                                  host = "127.0.0.1",
-	                                  port = "5432",
-	                                  dbname = "eMandi")
-=======
 		connection = connection()
->>>>>>> feb12e48e37b302c0cf56d8bb729281ebc99ac9f
 		cursor = connection.cursor()
 		if user['usertype']=='Farmer':
 			cursor.execute("INSERT INTO \"Farmer\" (f_username,farmer_name,f_phone,f_email,f_password,farmer_loc,farmer_city,farmer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))

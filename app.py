@@ -6,6 +6,10 @@ import json
 from emails import sendMail
 import razorpay
 import datetime
+import base64
+import cloudinary
+import cloudinary.uploader
+
 
 
 app = Flask(__name__)
@@ -13,6 +17,12 @@ Bootstrap(app)
 CORS(app)
 app.secret_key = "super secret key"
 client = razorpay.Client(auth=("rzp_test_UGcdp8a9kJX5GE", "gGX2vt9HpHbC7IbAmIKPsyIX"))
+
+cloudinary.config( 
+  cloud_name = "emandi", 
+  api_key = "973971686227723", 
+  api_secret = "jfZ522s3tUO58HAthloblmxvC-U" 
+)
 
 
 @app.route('/hello')
@@ -197,7 +207,7 @@ def auditor_login_signin():
 		resp.set_cookie("username", error[0])
 		return resp
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
 ###################### Grade Crops By Auditor ##############
 @app.route("/grade/crops", methods=['POST'])
 def grade_crops():
@@ -228,8 +238,8 @@ def crop_audited():
 		return render_template("auditor_crop_details_page.html",crop_desc = crop_desc,username=username)
 	else:
 		return redirect("/")
-=======
->>>>>>> feb12e48e37b302c0cf56d8bb729281ebc99ac9f
+#=======
+#>>>>>>> feb12e48e37b302c0cf56d8bb729281ebc99ac9f
 
 #################### CROPS MAIN PAGE ####################
 @app.route('/crop', methods=["GET","POST"])
@@ -285,8 +295,12 @@ def addCropSuccess():
 		'crop_region':request.form.get('crop_region'),
 		'f_username':username,
 		'crop_weight':request.form.get('crop_weight'),
-		'crop_img': 'https://sc04.alicdn.com/kf/Uadb37e80f09f439e9af7951a0659eae2a.jpg'
+		'crop_img': 'https://img.favpng.com/4/11/16/euclidean-vector-crop-png-favpng-8UHm9vw84d5QCaX6ZaQt30kiq.jpg'
 	}
+	crop_img = request.files.get("crop_ig")
+	cloudinaryResult = cloudinary.uploader.upload(crop_img,public_id=crop['crop_name'])
+	if 'error' not in cloudinaryResult:
+		crop['crop_img'] = cloudinaryResult['secure_url']
 	crop_insert_status, crop_id = db_query.insert_crop(crop)
 	if crop_insert_status == 200:
 		flash("Your Crop is added successfully")
