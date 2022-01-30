@@ -95,6 +95,10 @@ https://templatemo.com/tm-556-catalog-z
                         <h3 class="tm-text-gray-dark mb-3">Bid Price:</h3>
                         <p>Rs. {{crop_desc[0][5]}}</p>
                     </div>
+                    <div class="text-center mb-5">
+                        <a href="data:application/pdf;base64,{{crop_desc[0][-1]}}" class="btn btn-primary tm-btn-big" target="_blank" rel="noopener noreferrer">Crop Certificate</a>
+                    </div>
+                    
                     {% if usertype == None %}
                     <div class="text-center mb-5">
                         <a href="/login.html" class="btn btn-primary tm-btn-big">Bid</a>

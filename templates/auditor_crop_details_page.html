@@ -65,7 +65,7 @@ https://templatemo.com/tm-556-catalog-z
                             <h4>Quantity: {{crop_desc[0][16]}}Kg</h4>
                         </div>
                     </div>
-                    <form action="/grade/crops" method="Post">
+                    <form action="/grade/crops" method="Post" enctype="multipart/form-data">
                         <input type="text" name="crop_id" value="{{crop_desc[0][0]}}" hidden>
                         <label for="grade">Crop Grade:</label>
                           <select name="grade" id="crop_grade">
@@ -78,73 +78,14 @@ https://templatemo.com/tm-556-catalog-z
                           </select><br>
                         <label>Set Minimum Bidding Price: </label>
                         <input type="text" name="min_bid_price">
+                        <label>Crop Certificate</label>
+                        <input type="file" name="crop_certificate" class="form-control rounded-0" autocomplete="off" required/>
                         <input type="submit" value="Submit">
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <style type="text/css">
-        .overlay {
-          position: fixed;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: rgba(0, 0, 0, 0.7);
-          transition: opacity 500ms;
-          visibility: hidden;
-          opacity: 0;
-        }
-        .overlay:target {
-          visibility: visible;
-          opacity: 1;
-        }
-        #popupBid {
-          margin: 70px auto;
-          padding: 20px;
-          background: #fff;
-          border-radius: 5px;
-          width: 30%;
-          position: relative;
-          transition: all 5s ease-in-out;
-        }
-        #popupBid .close {
-              position: absolute;
-              top: 20px;
-              right: 30px;
-              transition: all 200ms;
-              font-size: 30px;
-              font-weight: bold;
-              text-decoration: none;
-              color: #333;
-            }
-            #popupBid .close:hover {
-              color: #06D85F;
-            }
-            #popupBid #bid-form {
-              max-height: 30%;
-              overflow: auto;
-            }
-    </style>
-    <div id='bid' class="overlay">
-        <div id='popupBid'>
-            <form action='/makebid' id='bid-form' method="post" name="bid-form">
-                <a class='close' href="#">&times;</a>
-                <h2>Make Bid</h2>
-                <label>Current Price: {{crop_desc[0][8]}}</label>
-                <br><br>
-                <input type="text" name="crop_id" value="{{crop_desc[0][0]}}" hidden>
-                <input type="text" name="min_bid" value="{{crop_desc[0][8]}}" hidden>
-                <input type="text" name="bid_price" placeholder="Your Bid">
-                <br><br>
-                <input type="submit" name="placebid" value="Place Bid">
-            </form>
-        </div>
-    </div>
-
-
-
     <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
         <div class="container-fluid tm-container-small">
             <div class="row">

@@ -36,6 +36,7 @@ def index():
 	username = request.cookies.get("username")
 	usertype = request.cookies.get("usertype")
 	crop_status, crop_list = db_query.searchCrop("%")
+	print(crop_list[0])
 	if crop_status == 200:
 		return render_template('index.html', crops=crop_list,username=username,usertype=usertype)
 	else:
@@ -213,10 +214,12 @@ def auditor_login_signin():
 def grade_crops():
 	username = request.cookies.get("username")
 	usertype = request.cookies.get("usertype")
+	# print('certificate',base64.b64encode(request.files.get("crop_certificate").read()))
 	crop = {'crop_id':request.form.get('crop_id'),
 			'crop_grade':request.form.get('grade'),
 			'min_bid_price':request.form.get('min_bid_price'),
-			'a_username':username
+			'a_username':username,
+			'crop_certificate' : request.files.get("crop_certificate").read()
 			}
 	grade_status, error = db_query.updateCropGrade(crop)
 	if grade_status ==200:
