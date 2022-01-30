@@ -32,30 +32,11 @@
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="login.html">Login</a>
                 </li>
-                {% elif usertype=='Farmer' %}
-                <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/addcrop">Add Crop</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mycrops">My Crops</a>
-                </li>            
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link nav-link-2" href="/logout">{{username}}(Logout)</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link nav-link-2" href="/mycrops">My Crops</a>
-                </li>
                 {% endif %}
-
-                <!-- <li class="nav-item">
-                    <a class="nav-link nav-link-3" href="about.html">About</a>
-                </li> -->
                 <li class="nav-item">
                     <a class="nav-link nav-link-4" href="contact.html">Complaint</a>
                 </li>
@@ -65,12 +46,6 @@
     </nav>
 
     <div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="{{url_for('static',filename='images/hero.jpg')}}">
-        <!-- <form class="d-flex tm-search-form" action="/search", method="get">
-            <input class="form-control tm-search-input" type="search" placeholder="Search" aria-label="Search" name="search">
-            <button class="btn btn-outline-success tm-search-btn" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
-        </form> -->
     </div>
 
     {% for message in get_flashed_messages() %}
@@ -80,57 +55,21 @@
     {% endfor %}
     <div class="container-fluid tm-container-content tm-mt-60">
         <div class="row tm-mb-90 tm-gallery">
-            <h4>Current Auctions</h4>
-            {% for crop_ in crops %}
-        	<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                {% if(crop_[-3] <= today and crop_[-2] >= today) %}
-                <h5>{{crop_[3]}}</h5>   
-                <figure class="effect-ming tm-video-item">
-                    <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
-                    <figcaption class="d-flex align-items-center justify-content-center">
-                        <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
-                        <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
-                    </figcaption>
-                </figure>
-                {% endif %}
-            </div>
-            {% endfor %}
 
-            <h4>Future Auctions</h4>
             {% for crop_ in crops %}
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                {% if(crop_[-3] > today) %}
-                <h5>{{crop_[3]}}</h5>   
-                <figure class="effect-ming tm-video-item">
-                    <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
-                    <figcaption class="d-flex align-items-center justify-content-center">
-                        <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
-                        <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
-                    </figcaption>
-                </figure>
+                {% if crop_[8] == None %}
+        	       <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                        <h5>{{crop_[3]}}</h5>   
+                        <figure class="effect-ming tm-video-item">
+                        <img src="{{crop_[15]}}" alt="Image" class="img-fluid">
+                        <figcaption class="d-flex align-items-center justify-content-center">
+                            <h2>Type: {{crop_[1]}}<br>Region: {{crop_[2]}}</h2>
+                            <a href="{{url_for('crop_audited', type=crop_[0])}}">View more</a>
+                        </figcaption>  
+                        </figure>
+                    </div>
                 {% endif %}
-            </div>
-            {% endfor %}
-
-            <h4>Past Auctions</h4>
-            {% for crop_ in crops %}
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                {% if(today > crop_[-2]) %}
-                <h5>{{crop_[3]}}</h5>   
-                <figure class="effect-ming tm-video-item">
-                    <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
-                    <figcaption class="d-flex align-items-center justify-content-center">
-                        <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
-                        <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
-                    </figcaption>
-                </figure>
-                {% endif %}
-                    </figcaption>  
-                               
-                </figure>
-            </div>
-            {% endfor %}
-            
+            {% endfor %}        
         </div>
     </div> <!-- container-fluid, tm-container-content -->
     <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">

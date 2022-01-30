@@ -6,6 +6,9 @@ import json
 from emails import sendMail
 import razorpay
 import datetime
+import base64
+import cloudinary
+import cloudinary.uploader
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -13,11 +16,16 @@ CORS(app)
 app.secret_key = "super secret key"
 client = razorpay.Client(auth=("rzp_test_UGcdp8a9kJX5GE", "gGX2vt9HpHbC7IbAmIKPsyIX"))
 
+cloudinary.config( 
+  cloud_name = "emandi", 
+  api_key = "973971686227723", 
+  api_secret = "jfZ522s3tUO58HAthloblmxvC-U" 
+)
+
 
 @app.route('/hello')
 def hello():
 	return "Hello World"
-
 
 @app.route('/')
 @app.route('/index.html')
@@ -27,10 +35,10 @@ def index():
 	crop_status, crop_list = db_query.searchCrop("%")
 	if crop_status == 200:
 		print(datetime.date(22, 3, 2))
-		return render_template('index.html', crops=crop_list,username=username,usertype=usertype, today=datetime.date(2022, 3, 2))
+		return render_template('index.html', crops=crop_list,username=username,usertype=usertype, today=datetime.date.today())
 	else:
 		flash(crop_list)
-		return render_template('index.html',crops=[],username=username,usertype=usertype, today=datetime.date(2022, 3, 2))
+		return render_template('index.html',crops=[],username=username,usertype=usertype, today=datetime.date.today())
 
 
 @app.route('/search',  methods=['GET'])
@@ -192,11 +200,44 @@ def auditor_login_signin():
 		flash("invalid login credentials")
 		return render_template('auditor_login.html')
 	elif status==200:
-		print(error[3], type(error))
-		resp = make_response(redirect("/"))
+		crop_status, crop_list = db_query.searchCrop("%")
+		resp = make_response(render_template("auditor_index.html", username=error[0], crops=crop_list))
 		resp.set_cookie("username", error[0])
-		# resp.set_cookie("usertype", bytes(True if usertype=='Farmer' else False))
 		return resp
+
+################## CROP GRADING AUDITOR ##################
+@app.route("/grade/crops", methods=['POST'])
+def grade_crops():
+	username = request.cookies.get("username")
+	usertype = request.cookies.get("usertype")
+	# print('certificate',base64.b64encode(request.files.get("crop_certificate").read()))
+	crop = {
+		'crop_id':request.form.get('crop_id'),
+		'crop_grade':request.form.get('grade'),
+		'min_bid_price':request.form.get('min_bid_price'),
+		'a_username':username,
+		'crop_certificate' : request.files.get("crop_certificate").read()
+	}
+	grade_status, error = db_query.updateCropGrade(crop)
+	if grade_status ==200:
+		crop_status, crop_list = db_query.searchCrop("%")
+		return render_template("auditor_index.html",username=username, crops=crop_list)
+	else:
+		flash(error)
+		return render_template("auditor_index.html",username=username, crops=[])
+
+
+#################### AUDITOR CROPS PAGE ####################
+@app.route('/crop/audited', methods=["GET","POST"])
+def crop_audited():
+	username = request.cookies.get("username")
+	usertype = request.cookies.get("usertype")
+	cropID = request.args.get("type")
+	crop_desc_status, crop_desc = db_query.searchCrop(cropID)
+	if crop_desc_status == 200:
+		return render_template("auditor_crop_details_page.html",crop_desc = crop_desc,username=username)
+	else:
+		return redirect("/")
 
 
 #################### CROPS MAIN PAGE ####################
@@ -262,6 +303,12 @@ def addCropSuccess():
 		'end_date': end
 	}
 
+	crop_img = request.files.get("crop_img")
+	print(crop_img)
+	cloudinaryResult = cloudinary.uploader.upload(crop_img, public_id=crop['crop_name'])
+	if 'error' not in cloudinaryResult:
+		crop['crop_img'] = cloudinaryResult['secure_url']
+
 	crop_insert_status, crop_id = db_query.insert_crop(crop)
 	if crop_insert_status == 200:
 		flash("Your Crop is added successfully")
@@ -269,14 +316,6 @@ def addCropSuccess():
 	else:
 		flash("Crop Not Added. Please Try Again")
 		return render_template("addcrop.html",username=username,usertype=usertype)
-
-
-#################### TEMP CLOSE ####################
-@app.route('/closeauction', methods=['POST'])
-def close_auction():
-	crop_id = request.form.get("crop_id")
-	b_username, error = db_query.close(crop_id)
-	return render_template('/closed.html', crop_id=crop_id, buyer=b_username)
 
 
 #################### BIDDING ####################
@@ -317,3 +356,14 @@ def paymentSuccess(crop_id,order_id,price):
 ##################### MAIN #####################
 if __name__ == "__main__":
 	app.run(debug=True)
+
+
+'''
+#################### TEMP CLOSE ####################
+@app.route('/closeauction', methods=['POST'])
+def close_auction():
+	crop_id = request.form.get("crop_id")
+	b_username, error = db_query.close(crop_id)
+	return render_template('/closed.html', crop_id=crop_id, buyer=b_username)
+
+'''

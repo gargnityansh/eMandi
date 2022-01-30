@@ -13,6 +13,7 @@ def connection():
 	                 dbname = "eMandi")
 	return connection
 
+
 #################### REGISTER USER #################### 
 def registerUser(user):
 	try:
@@ -35,6 +36,7 @@ def registerUser(user):
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
 
+
 #################### CHECK USER LOGIN #################### 
 def checkUser(user):
 	try:
@@ -56,6 +58,7 @@ def checkUser(user):
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
 
+
 #################### RESET PASS #################### 
 def resetPassword(resetdetails):
 	try:
@@ -75,6 +78,7 @@ def resetPassword(resetdetails):
 	except (Exception, psycopg2.Error) as error :
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
+
 
 #################### AUDITOR LOGIN #################### 
 def AuditorLogin(user):
@@ -117,21 +121,23 @@ def insert_crop(crop):
 		return 500, 0
 
 
-################### TEMP AUDIT ###################
-def add_price_crop(crop_id):
+############## Update Crop Quality in Crops table ##################
+def updateCropGrade(crop):
 	try:
 		connect = connection()
 		cursor = connect.cursor()
-		cursor.execute("UPDATE \"Crop\" SET final_bid_price=%s, min_bid_price=%s WHERE \"crop_ID\"=%s", (100, 100, crop_id))
+		cursor.execute("""UPDATE "Crop" SET crop_grade=%s, "grading_Date"=%s, final_bid_price=%s,min_bid_price=%s, a_username=%s,crop_certificate=%s	WHERE "crop_ID"=%s""",(crop['crop_grade'],datetime.now(),crop['min_bid_price'],crop['min_bid_price'],crop['a_username'],crop['crop_certificate'],crop['crop_id']))
 		if(connect):
-			cursor.close()
 			connect.commit()
+			cursor.close()
 			connect.close()
-		return 200, 'no error'
+		return 200, None
 	except (Exception, psycopg2.Error) as error :
-		print ("Error while connecting to PostgreSQL", error)
+		print ("Error in update crop", error)
 		return 500,error
 
+
+##################### CLOSE AUCTION [MANUAL] ####################
 def close(crop_id):
 	try:
 		connect = connection()
@@ -174,6 +180,7 @@ def searchCrop(cropID='%'):
 		print ("Error in crop searching", error)
 		return 500,error
 
+
 #################### MY CROPS #################### 
 def myCrops(uname, utype):
 	try:
@@ -197,6 +204,7 @@ def myCrops(uname, utype):
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
 
+
 #################### INSERT BID #################### 
 def insertBid(bid):
 	try:
@@ -212,6 +220,7 @@ def insertBid(bid):
 	except (Exception, psycopg2.Error) as error :
 		print ("Error while connecting to PostgreSQL", error)
 		return 500,error
+
 
 #################### FINAL BIDDER #################### 
 def finalBidderName(crop_id):
@@ -233,6 +242,7 @@ def finalBidderName(crop_id):
 		print ("Error in purchase", error)
 		return 500,error
 
+
 #################### TRANSACTION #################### 
 def insertTransaction(transaction):
 	try:
@@ -250,6 +260,7 @@ def insertTransaction(transaction):
 	except (Exception, psycopg2.Error) as error :
 		print ("Error in transaction table", error)
 		return 500,False
+
 
 #################### PAYMENT CHECK #################### 
 def is_Paid(uname, crop_id):
@@ -353,3 +364,22 @@ def findGameCategory(gameName):
 	except (Exception, psycopg2.Error) as error :
 		print ("Error in category", error)
 		return 500,error
+
+
+'''
+################### TEMP AUDIT ###################
+def add_price_crop(crop_id):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		cursor.execute("UPDATE \"Crop\" SET final_bid_price=%s, min_bid_price=%s WHERE \"crop_ID\"=%s", (100, 100, crop_id))
+		if(connect):
+			cursor.close()
+			connect.commit()
+			connect.close()
+		return 200, 'no error'
+	except (Exception, psycopg2.Error) as error :
+		print ("Error while connecting to PostgreSQL", error)
+		return 500,error
+
+'''

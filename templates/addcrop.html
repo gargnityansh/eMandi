@@ -83,9 +83,7 @@
 
     <div class="container tm-container-small">
         <form id="contact-form" action="/addcrop/success" method="POST" class="tm-contact-form mx-auto">
-        <h2 class="tm-text-primary mb-5">
-            Add Crops
-        </h2>
+            <h2 class="tm-text-primary mb-5">Add Crops</h2>
             {% for message in get_flashed_messages() %}
                 <div class="form-input">{{ message }}</div>
             {% endfor %}
@@ -103,7 +101,7 @@
                 <label>Crop Region</label>
                 <input type="text" name="crop_region" class="form-control rounded-0" placeholder="Crop Region" autocomplete="off" required />
             </div>
-
+            
             <div class="form-group">
                 <label>Crop Quantity(in Kg)</label>
                 <input type="text" name="crop_weight" class="form-control rounded-0" placeholder="Crop Weight(Kg)" autocomplete="off" required />
@@ -111,7 +109,7 @@
 
             <div class="form-group">
                 <label>Crop Image</label>
-                <input type="file" name="crop_img" class="form-control rounded-0" placeholder="Crop Image" autocomplete="off" />
+                <input type="file" name="crop_img" class="form-control rounded-0" autocomplete="off" required/>
             </div>
 
             <div class="form-group">
@@ -119,7 +117,7 @@
                 <select class="form-control custom" id="datepicker" name="datepicker" autocomplete="off">
                     <script type ="text/javascript" src = "https://MomentJS.com/downloads/moment.js"></script>
                     <script>
-                        const today = moment();
+                        const today = moment().date();
                         // today = 1;
 
                         if(today <= 8) {
@@ -194,7 +192,7 @@
             </div>
             
             <div class="form-group tm-text-right">
-                <button type="submit" class="btn btn-primary">Add</button>
+                <input type="submit" class="btn btn-primary" value="Add"></input>
             </div>
         </form>
     </div>
