@@ -5,7 +5,7 @@
 -- Dumped from database version 13.4
 -- Dumped by pg_dump version 13.4
 
--- Started on 2022-01-20 22:42:35
+-- Started on 2022-01-30 20:25:49
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,6 +18,7 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+DROP DATABASE "eMandi";
 --
 -- TOC entry 3083 (class 1262 OID 25368)
 -- Name: eMandi; Type: DATABASE; Schema: -; Owner: postgres
@@ -155,7 +156,8 @@ CREATE TABLE public."Crop" (
     "truck_chasisNo" character varying(17),
     b_username character varying,
     crop_img text,
-    crop_weight_kg numeric NOT NULL
+    crop_weight_kg numeric NOT NULL,
+    crop_certificate bytea
 );
 
 
@@ -382,7 +384,7 @@ ALTER TABLE ONLY public."Crop"
     ADD CONSTRAINT "truck_crop_FK" FOREIGN KEY ("truck_chasisNo") REFERENCES public."Truck"("truck_chasisNo") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
--- Completed on 2022-01-20 22:42:36
+-- Completed on 2022-01-30 20:25:49
 
 --
 -- PostgreSQL database dump complete
