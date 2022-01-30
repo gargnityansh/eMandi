@@ -7,6 +7,27 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/templatemo-style.css')}}">
+
+    <!-- Date Picker Requirements-->
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> -->
+    
+    <style type="text/css">
+        select.custom{
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: transparent;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position-x: 98%;
+            background-position-y: 50%;
+            border: 1px solid #dfdfdf;
+            border-radius: 2px;
+            margin-right: 2rem;
+            padding: 1rem;
+            padding-right: 2rem;
+        }
+    </style>
+
 </head>
 <body>
     <!-- Page Loader -->
@@ -57,45 +78,128 @@
             </div>
         </div>
     </nav>
-<div><br></div>
-<div class="container tm-container-small">
-    <form id="contact-form" action="/addcrop/success" method="POST" class="tm-contact-form mx-auto">
-    <h2 class="tm-text-primary mb-5">Add Crops</h2>
-        {% for message in get_flashed_messages() %}
-            <div class="form-input">{{ message }}</div>
-        {% endfor %}
-                    <div class="form-group">
-                        <label>Crop Name</label>
-                        <input type="text" name="crop_name" class="form-control rounded-0" placeholder="Crop Name" autocomplete="off" required />
-                    </div>
 
-                    <div class="form-group">
-                        <label>Crop Type</label>
-                        <input type="text" name="crop_type" class="form-control rounded-0" placeholder="Crop Type" autocomplete="off" />
-                    </div>
+    <div><br></div>
 
-                    <div class="form-group">
-                        <label>Crop Region</label>
-                        <input type="text" name="crop_region" class="form-control rounded-0" placeholder="Crop Region" autocomplete="off" required />
-                    </div>
+    <div class="container tm-container-small">
+        <form id="contact-form" action="/addcrop/success" method="POST" class="tm-contact-form mx-auto">
+        <h2 class="tm-text-primary mb-5">
+            Add Crops
+        </h2>
+            {% for message in get_flashed_messages() %}
+                <div class="form-input">{{ message }}</div>
+            {% endfor %}
+            <div class="form-group">
+                <label>Crop Name</label>
+                <input type="text" name="crop_name" class="form-control rounded-0" placeholder="Crop Name" autocomplete="off" required />
+            </div>
 
-                    <div class="form-group">
-                        <label>Crop Quantity(in Kg)</label>
-                        <input type="text" name="crop_weight" class="form-control rounded-0" placeholder="Crop Weight(Kg)" autocomplete="off" required />
-                    </div>
+            <div class="form-group">
+                <label>Crop Type</label>
+                <input type="text" name="crop_type" class="form-control rounded-0" placeholder="Crop Type" autocomplete="off" />
+            </div>
 
-                    <div class="form-group">
-                        <label>Crop Image</label>
-                        <input type="file" name="crop_img" class="form-control rounded-0" placeholder="Crop Image" autocomplete="off" />
-                    </div>
-                    
-                    <div class="form-group tm-text-right">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                    </div>
-                </form>       
-</div>
-<div><br></div>
+            <div class="form-group">
+                <label>Crop Region</label>
+                <input type="text" name="crop_region" class="form-control rounded-0" placeholder="Crop Region" autocomplete="off" required />
+            </div>
 
+            <div class="form-group">
+                <label>Crop Quantity(in Kg)</label>
+                <input type="text" name="crop_weight" class="form-control rounded-0" placeholder="Crop Weight(Kg)" autocomplete="off" required />
+            </div>
+
+            <div class="form-group">
+                <label>Crop Image</label>
+                <input type="file" name="crop_img" class="form-control rounded-0" placeholder="Crop Image" autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label>Choose Auction Date</label>
+                <select class="form-control custom" id="datepicker" name="datepicker" autocomplete="off">
+                    <script type ="text/javascript" src = "https://MomentJS.com/downloads/moment.js"></script>
+                    <script>
+                        const today = moment();
+                        // today = 1;
+
+                        if(today <= 8) {
+                            var slot1_start = moment().startOf('month').add(15, 'days');
+                            var slot1_end = moment().startOf('month').add(19, 'days');
+                            
+                            var slot2_start = moment().startOf('month').add(1, 'M');
+                            var slot2_end = moment().startOf('month').add(1, 'M').add(4, 'days');
+
+                            var slot3_start = moment().startOf('month').add(1, 'M').add(14, 'days');
+                            var slot3_end = moment().startOf('month').add(1, 'M').add(19, 'days');
+
+                            var slot4_start = moment().startOf('month').add(2, 'M');
+                            var slot4_end = moment().startOf('month').add(2, 'M').add(4, 'days');
+
+                            var slot5_start = moment().startOf('month').add(2, 'M').add(14, 'days');
+                            var slot5_end = moment().startOf('month').add(2, 'M').add(19, 'days');
+                        }
+                        else if(today > 8 && today <= 23) {
+                            var slot1_start = moment().startOf('month').add(1, 'M');
+                            var slot1_end = moment().startOf('month').add(1, 'M').add(4, 'days');
+
+                            var slot2_start = moment().startOf('month').add(1, 'M').add(15, 'days');
+                            var slot2_end = moment().startOf('month').add(1, 'M').add(19, 'days');
+                            
+                            var slot3_start = moment().startOf('month').add(2, 'M');
+                            var slot3_end = moment().startOf('month').add(2, 'M').add(4, 'days');
+
+                            var slot4_start = moment().startOf('month').add(2, 'M').add(15, 'days');
+                            var slot4_end = moment().startOf('month').add(2, 'M').add(19, 'days');
+
+                            var slot5_start = moment().startOf('month').add(3, 'M');
+                            var slot5_end = moment().startOf('month').add(3, 'M').add(4, 'days');
+                        }
+                        else if(today > 23) {
+                            var slot1_start = moment().startOf('month').add(1, 'M').add(15, 'days');
+                            var slot1_end = moment().startOf('month').add(1, 'M').add(19, 'days');
+
+                            var slot2_start = moment().startOf('month').add(2, 'M');
+                            var slot2_end = moment().startOf('month').add(2, 'M').add(4, 'days');
+                            
+                            var slot3_start = moment().startOf('month').add(2, 'M').add(14, 'days');
+                            var slot3_end = moment().startOf('month').add(2, 'M').add(19, 'days');
+
+                            var slot4_start = moment().startOf('month').add(3, 'M');
+                            var slot4_end = moment().startOf('month').add(3, 'M').add(4, 'days');
+
+                            var slot5_start = moment().startOf('month').add(3, 'M').add(14, 'days');
+                            var slot5_end = moment().startOf('month').add(3, 'M').add(19, 'days');
+                        }
+
+                        var slot1 = slot1_start.format('LL').concat(" - ", slot1_end.format('LL'));
+                        var slot2 = slot2_start.format('LL').concat(" - ", slot2_end.format('LL'));
+                        var slot3 = slot3_start.format('LL').concat(" - ", slot3_end.format('LL'));
+                        var slot4 = slot4_start.format('LL').concat(" - ", slot4_end.format('LL'));
+                        var slot5 = slot5_start.format('LL').concat(" - ", slot5_end.format('LL'));
+
+                        var dates = {};
+                        dates[slot1] = slot1;
+                        dates[slot2] = slot2;
+                        dates[slot3] = slot3;
+                        dates[slot4] = slot4;
+                        dates[slot5] = slot5;
+
+                        var select = document.getElementById("datepicker");
+                        for(index in dates) {
+                            select.options[select.options.length] = new Option(dates[index], index);
+                        }
+                        // console.log(dates);
+                    </script>
+                </select>
+            </div>
+            
+            <div class="form-group tm-text-right">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+
+    <div><br></div>
 
     <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
         <div class="container-fluid tm-container-small">
@@ -106,7 +210,6 @@
                         eMandi is a platform to give farmers easy and hassle free means to sell their
                         produce and for buyers to be able to buy products from the comforts of their homes.</p>
                 </div>
-
             </div>
             <div class="row">
                 <div class="col-lg-8 col-md-7 col-12 px-5 mb-3">
@@ -125,5 +228,33 @@
             $('body').addClass('loaded');
         });
     </script>
+
+    <!-- <script type="text/javascript">
+        $(document).ready(function(){
+            $('#datepicker').daterangepicker({
+                "dateLimit": {
+                    "days": 7
+                },
+                "ranges": {
+                    "Today": [
+                        "2022-01-22T19:36:28.187Z",
+                        "2022-01-22T19:36:28.187Z"
+                    ],
+                    "Yesterday": [
+                        "2022-01-21T19:36:28.187Z",
+                        "2022-01-21T19:36:28.187Z"
+                    ]
+                },
+                "startDate": "01/17/2019",
+                "endDate": "01/23/2025"
+            }, function(start, end, label) {
+              console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+            });
+        });
+    </script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->    
 </body>
 </html>

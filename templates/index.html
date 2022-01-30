@@ -80,19 +80,51 @@
     {% endfor %}
     <div class="container-fluid tm-container-content tm-mt-60">
         <div class="row tm-mb-90 tm-gallery">
-
+            <h4>Current Auctions</h4>
             {% for crop_ in crops %}
         	<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                {% if(crop_[-2] <= today and crop_[-1] >= today) %}
                 <h5>{{crop_[3]}}</h5>   
                 <figure class="effect-ming tm-video-item">
-                    <img src="{{crop_[15]}}" alt="Image" class="img-fluid">
+                    <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
                     <figcaption class="d-flex align-items-center justify-content-center">
                         <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
                         <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
-                    </figcaption>  
-                               
+                    </figcaption>
                 </figure>
-               
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <h4>Future Auctions</h4>
+            {% for crop_ in crops %}
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                {% if(crop_[-2] > today) %}
+                <h5>{{crop_[3]}}</h5>   
+                <figure class="effect-ming tm-video-item">
+                    <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
+                    <figcaption class="d-flex align-items-center justify-content-center">
+                        <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
+                        <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
+                    </figcaption>
+                </figure>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <h4>Past Auctions</h4>
+            {% for crop_ in crops %}
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                {% if(today > crop_[-1]) %}
+                <h5>{{crop_[3]}}</h5>   
+                <figure class="effect-ming tm-video-item">
+                    <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
+                    <figcaption class="d-flex align-items-center justify-content-center">
+                        <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
+                        <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
+                    </figcaption>
+                </figure>
+                {% endif %}
             </div>
             {% endfor %}
             

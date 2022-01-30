@@ -7,7 +7,6 @@ from emails import sendMail
 import razorpay
 import datetime
 
-
 app = Flask(__name__)
 Bootstrap(app)
 CORS(app)
@@ -27,10 +26,11 @@ def index():
 	usertype = request.cookies.get("usertype")
 	crop_status, crop_list = db_query.searchCrop("%")
 	if crop_status == 200:
-		return render_template('index.html', crops=crop_list,username=username,usertype=usertype)
+		print(datetime.date(22, 3, 2))
+		return render_template('index.html', crops=crop_list,username=username,usertype=usertype, today=datetime.date(2022, 3, 2))
 	else:
 		flash(crop_list)
-		return render_template('index.html',crops=[],username=username,usertype=usertype)
+		return render_template('index.html',crops=[],username=username,usertype=usertype, today=datetime.date(2022, 3, 2))
 
 
 @app.route('/search',  methods=['GET'])
@@ -247,19 +247,25 @@ def addCrop():
 def addCropSuccess():
 	username = request.cookies.get("username")
 	usertype = bool(request.cookies.get("usertype"))
+	start = request.form.get('datepicker').split(' - ')[0]
+	end = request.form.get('datepicker').split(' - ')[1]
+	end_time = datetime.datetime.strptime(end, '%B %d, %Y') + datetime.timedelta(hours=22)
+	
 	crop = {
 		'crop_name':request.form.get('crop_name'),
 		'crop_type':request.form.get('crop_type'),
 		'crop_region':request.form.get('crop_region'),
 		'f_username':username,
 		'crop_weight':request.form.get('crop_weight'),
-		'crop_img': 'https://sc04.alicdn.com/kf/Uadb37e80f09f439e9af7951a0659eae2a.jpg'
+		'crop_img': 'https://sc04.alicdn.com/kf/Uadb37e80f09f439e9af7951a0659eae2a.jpg',
+		'start_date': start,
+		'end_date': end
 	}
+
 	crop_insert_status, crop_id = db_query.insert_crop(crop)
 	if crop_insert_status == 200:
 		flash("Your Crop is added successfully")
-		db_query.add_price_crop(crop_id)
-		return render_template("addcrop.html",username=username,usertype=usertype)
+		return redirect("/mycrops")
 	else:
 		flash("Crop Not Added. Please Try Again")
 		return render_template("addcrop.html",username=username,usertype=usertype)

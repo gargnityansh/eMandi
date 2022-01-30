@@ -96,13 +96,13 @@ def AuditorLogin(user):
 
 
 #################### INSERT CROP ####################
-def insert_crop(game):
+def insert_crop(crop):
 	try:
 		connect = connection()
 		cursor = connect.cursor()
 		crop_id = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k = 6))
-		cursor.execute("""INSERT INTO "Crop"("crop_ID", crop_type, crop_region, crop_name, "upload_Date", f_username, crop_weight_kg, crop_img)
-		VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",(crop_id,game['crop_type'],game['crop_region'],game['crop_name'],datetime.today().strftime('%Y-%m-%d'),game['f_username'],game['crop_weight'],game['crop_img']))
+		cursor.execute("""INSERT INTO "Crop"("crop_ID", crop_type, crop_region, crop_name, "upload_Date", f_username, crop_weight_kg, crop_img, start_date, end_date)
+		VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",(crop_id, crop['crop_type'], crop['crop_region'], crop['crop_name'],datetime.today().strftime('%Y-%m-%d'), crop['f_username'], crop['crop_weight'], crop['crop_img'], crop['start_date'], crop['end_date']))
 		record = cursor.rowcount
 		if(connect):
 			connect.commit()
@@ -138,8 +138,11 @@ def close(crop_id):
 		cursor = connect.cursor()
 		cursor.execute("SELECT b_username, \"bidAmount\" from \"Auction\" WHERE \"crop_ID\"=%s ORDER BY \"bidAmount\" desc limit 1", (crop_id,))
 		record = cursor.fetchall()
-		winner = record[0][0]
-		cursor.execute("UPDATE \"Crop\" SET b_username=%s WHERE \"crop_ID\"=%s", (winner, crop_id))
+		if len(record)==0:
+			return None, "No Bidders Found"
+		else:
+			winner = record[0][0]
+			cursor.execute("UPDATE \"Crop\" SET b_username=%s WHERE \"crop_ID\"=%s", (winner, crop_id))
 		if(connect):
 			cursor.close()
 			connect.commit()
@@ -147,7 +150,7 @@ def close(crop_id):
 		return winner, 'no error'
 	except (Exception, psycopg2.Error) as error :
 		print ("Error while connecting to PostgreSQL", error)
-		return 500,error
+		return None, error
 
 
 #################### CROP SEARCH FOR DISPLAY #################### 
