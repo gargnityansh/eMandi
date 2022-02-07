@@ -252,7 +252,6 @@ def crop():
 	status_code, isPaid = db_query.is_Paid(username, cropID)#return True or False
 	
 	order_id = None
-
 	if not isPaid and bidder_name[0]==username:
 		order_amount = int(crop_desc[0][5])*100
 		order_currency = 'INR'
