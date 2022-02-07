@@ -82,7 +82,7 @@
     <div><br></div>
 
     <div class="container tm-container-small">
-        <form id="contact-form" action="/addcrop/success" method="POST" class="tm-contact-form mx-auto">
+        <form id="contact-form" action="/addcrop/success" method="POST" class="tm-contact-form mx-auto" enctype="multipart/form-data">
             <h2 class="tm-text-primary mb-5">Add Crops</h2>
             {% for message in get_flashed_messages() %}
                 <div class="form-input">{{ message }}</div>

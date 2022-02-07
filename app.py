@@ -302,13 +302,12 @@ def addCropSuccess():
 		'start_date': start,
 		'end_date': end
 	}
-
+	# print(request.files['crop_img'])
 	crop_img = request.files.get("crop_img")
-	print(crop_img)
+	# print('this is the image file',crop_img)
 	cloudinaryResult = cloudinary.uploader.upload(crop_img, public_id=crop['crop_name'])
 	if 'error' not in cloudinaryResult:
 		crop['crop_img'] = cloudinaryResult['secure_url']
-
 	crop_insert_status, crop_id = db_query.insert_crop(crop)
 	if crop_insert_status == 200:
 		flash("Your Crop is added successfully")
