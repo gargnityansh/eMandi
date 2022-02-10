@@ -9,6 +9,7 @@ import datetime
 import base64
 import cloudinary
 import cloudinary.uploader
+import cloudinary.api
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -304,7 +305,6 @@ def addCropSuccess():
 	}
 
 	crop_img = request.files.get("crop_img")
-	print(crop_img)
 	cloudinaryResult = cloudinary.uploader.upload(crop_img, public_id=crop['crop_name'])
 	if 'error' not in cloudinaryResult:
 		crop['crop_img'] = cloudinaryResult['secure_url']

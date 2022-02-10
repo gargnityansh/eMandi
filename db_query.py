@@ -17,24 +17,24 @@ def connection():
 #################### REGISTER USER #################### 
 def registerUser(user):
 	try:
-		connection = connection()
-		cursor = connection.cursor()
+		connect = connection()
+		cursor = connect.cursor()
 		if user['usertype']=='Farmer':
 			cursor.execute("INSERT INTO \"Farmer\" (f_username,farmer_name,f_phone,f_email,f_password,farmer_loc,farmer_city,farmer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))
 		else:
 			cursor.execute("INSERT INTO \"Buyer\" (b_username,buyer_name,b_phone,b_email,b_password,buyer_loc,buyer_city,buyer_state) Values (%s,%s,%s,%s,crypt(%s,gen_salt('bf')),%s,%s,%s)", (user['username'],user['fname'],str(user['phno']),user['emailid'],user['password'],user['location'],user['city'],user['state']))
 		print("is in final")
 		#closing database connection.
-		if(connection):
-			connection.commit()
+		if(connect):
+			connect.commit()
 			cursor.close()
-			connection.close()
+			connect.close()
 			print("PostgreSQL connection is closed")
 		
 		return 200, "OK"
 	except (Exception, psycopg2.Error) as error :
 		print ("Error while connecting to PostgreSQL", error)
-		return 500,error
+		return 500, error
 
 
 #################### CHECK USER LOGIN #################### 
@@ -126,7 +126,7 @@ def updateCropGrade(crop):
 	try:
 		connect = connection()
 		cursor = connect.cursor()
-		cursor.execute("""UPDATE "Crop" SET crop_grade=%s, "grading_Date"=%s, final_bid_price=%s,min_bid_price=%s, a_username=%s,crop_certificate=%s	WHERE "crop_ID"=%s""",(crop['crop_grade'],datetime.now(),crop['min_bid_price'],crop['min_bid_price'],crop['a_username'],crop['crop_certificate'],crop['crop_id']))
+		cursor.execute("""UPDATE "Crop" SET crop_grade=%s, "grading_Date"=%s, final_bid_price=%s,min_bid_price=%s, auditor_un=%s,crop_certificate=%s	WHERE "crop_ID"=%s""",(crop['crop_grade'],datetime.now(),crop['min_bid_price'],crop['min_bid_price'],crop['a_username'],crop['crop_certificate'],crop['crop_id']))
 		if(connect):
 			connect.commit()
 			cursor.close()
@@ -164,7 +164,7 @@ def searchCrop(cropID='%'):
 	try:
 		connect = connection()
 		cursor = connect.cursor()
-		cursor.execute("SELECT * FROM \"Crop\" WHERE \"crop_ID\" like %s",(cropID,))
+		cursor.execute("SELECT \"crop_ID\", crop_type, crop_region, crop_name, \"upload_Date\", final_bid_price, crop_grade, \"grading_Date\", min_bid_price, f_username, auditor_un, b_username, crop_img, crop_weight_kg, start_date, end_date, encode(crop_certificate,'base64') FROM \"Crop\" WHERE \"crop_ID\" like %s",(cropID,))
 		record = cursor.fetchall()
 
 		#closing database connection.
