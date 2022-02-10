@@ -253,7 +253,6 @@ def crop():
 	status_code, isPaid = db_query.is_Paid(username, cropID)#return True or False
 	
 	order_id = None
-
 	if not isPaid and bidder_name[0]==username:
 		order_amount = int(crop_desc[0][5])*100
 		order_currency = 'INR'
@@ -308,7 +307,6 @@ def addCropSuccess():
 	cloudinaryResult = cloudinary.uploader.upload(crop_img, public_id=crop['crop_name'])
 	if 'error' not in cloudinaryResult:
 		crop['crop_img'] = cloudinaryResult['secure_url']
-
 	crop_insert_status, crop_id = db_query.insert_crop(crop)
 	if crop_insert_status == 200:
 		flash("Your Crop is added successfully")
