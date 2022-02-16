@@ -82,53 +82,56 @@
         <div class="row tm-mb-90 tm-gallery">
             <h4>Current Auctions</h4>
             {% for crop_ in crops %}
-        	<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                {% if(crop_[-3] <= today and crop_[-2] >= today) %}
-                <h5>{{crop_[3]}}</h5>   
-                <figure class="effect-ming tm-video-item">
-                    <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
-                    <figcaption class="d-flex align-items-center justify-content-center">
-                        <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
-                        <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
-                    </figcaption>
-                </figure>
+                {% if crop_[-1] != None %}
+            	   <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                        {% if(crop_[-3] <= today and crop_[-2] >= today) %}
+                        <h5>{{crop_[3]}}</h5>   
+                        <figure class="effect-ming tm-video-item">
+                            <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
+                            <figcaption class="d-flex align-items-center justify-content-center">
+                                <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
+                                <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
+                            </figcaption>
+                        </figure>
+                        {% endif %}
+                    </div>
                 {% endif %}
-            </div>
             {% endfor %}
 
             <h4>Future Auctions</h4>
             {% for crop_ in crops %}
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                {% if(crop_[-3] > today) %}
-                <h5>{{crop_[3]}}</h5>   
-                <figure class="effect-ming tm-video-item">
-                    <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
-                    <figcaption class="d-flex align-items-center justify-content-center">
-                        <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
-                        <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
-                    </figcaption>
-                </figure>
+                {% if crop_[-1] != None %}
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                        {% if(crop_[-3] > today) %}
+                        <h5>{{crop_[3]}}</h5>   
+                        <figure class="effect-ming tm-video-item">
+                            <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
+                            <figcaption class="d-flex align-items-center justify-content-center">
+                                <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
+                                <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
+                            </figcaption>
+                        </figure>
+                        {% endif %}
+                    </div>
                 {% endif %}
-            </div>
             {% endfor %}
 
             <h4>Past Auctions</h4>
             {% for crop_ in crops %}
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
-                {% if(today > crop_[-2]) %}
-                <h5>{{crop_[3]}}</h5>   
-                <figure class="effect-ming tm-video-item">
-                    <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
-                    <figcaption class="d-flex align-items-center justify-content-center">
-                        <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
-                        <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
-                    </figcaption>
-                </figure>
-                {% endif %}
-                    </figcaption>  
-                               
-                </figure>
-            </div>
+                {% if crop_[-1] != None %}
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+                        {% if(today > crop_[-2]) %}
+                        <h5>{{crop_[3]}}</h5>   
+                        <figure class="effect-ming tm-video-item">
+                            <img src="{{crop_[12]}}" alt="Image" class="img-fluid">
+                            <figcaption class="d-flex align-items-center justify-content-center">
+                                <h2>{{crop_[3]}}<br>{{crop_[1]}}</h2>
+                                <a href="{{url_for('crop', type=crop_[0])}}">View more</a>
+                            </figcaption>
+                        </figure>
+                        {% endif %}
+                    </div>
+                {% endif %}    
             {% endfor %}
             
         </div>

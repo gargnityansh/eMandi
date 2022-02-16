@@ -34,7 +34,7 @@ def registerUser(user):
 		return 200, "OK"
 	except (Exception, psycopg2.Error) as error :
 		print ("Error while connecting to PostgreSQL", error)
-		return 500,error
+		return 500, error
 
 
 #################### CHECK USER LOGIN #################### 
