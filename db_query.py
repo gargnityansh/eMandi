@@ -7,10 +7,10 @@ import string
 
 def connection():
 	connection = psycopg2.connect(user = "postgres",
-	                 password = "4567",
+	                 password = "4597",
 	                 host = "127.0.0.1",
 	                 port = "5432",
-	                 dbname = "emandi_local")
+	                 dbname = "eMandi")
 	return connection
 
 
