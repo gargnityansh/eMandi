@@ -12,3 +12,15 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+app.py.orig
+db_query.py.orig
+node_modules/
+package-lock.json
+templates/addcrop.html.orig
+templates/daterangepicker-master.zip
+templates/daterangepicker-master/
+templates/moment.min.js
+
+CROP_DATA/
+CROP_DATA.zip

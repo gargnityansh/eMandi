@@ -10,7 +10,7 @@ def connection():
 	                 password = "Garg@9406608047",
 	                 host = "127.0.0.1",
 	                 port = "5432",
-	                 dbname = "emandi_local")
+	                 dbname = "eMandi")
 	return connection
 
 
@@ -34,7 +34,7 @@ def registerUser(user):
 		return 200, "OK"
 	except (Exception, psycopg2.Error) as error :
 		print ("Error while connecting to PostgreSQL", error)
-		return 500,error
+		return 500, error
 
 
 #################### CHECK USER LOGIN #################### 

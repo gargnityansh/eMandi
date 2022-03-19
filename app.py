@@ -9,6 +9,7 @@ import datetime
 import base64
 import cloudinary
 import cloudinary.uploader
+import cloudinary.api
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -258,7 +259,7 @@ def crop():
 		order_id = client.order.create({'amount':order_amount, 'currency':order_currency})
 	
 	if status_code == 200:
-		return render_template("photo-detail.html",crop_desc = crop_desc,username=username,usertype=usertype,isPaid=isPaid,order_id=order_id)
+		return render_template("photo-detail.html",crop_desc = crop_desc,username=username,usertype=usertype,isPaid=isPaid,order_id=order_id, today=datetime.date.today())
 	else:
 		return redirect("/")
 
@@ -301,9 +302,8 @@ def addCropSuccess():
 		'start_date': start,
 		'end_date': end
 	}
-	# print(request.files['crop_img'])
+
 	crop_img = request.files.get("crop_img")
-	# print('this is the image file',crop_img)
 	cloudinaryResult = cloudinary.uploader.upload(crop_img, public_id=crop['crop_name'])
 	if 'error' not in cloudinaryResult:
 		crop['crop_img'] = cloudinaryResult['secure_url']
@@ -350,13 +350,6 @@ def paymentSuccess(crop_id,order_id,price):
 	else:
 		return redirect("/")
 
-
-##################### MAIN #####################
-if __name__ == "__main__":
-	app.run(debug=True)
-
-
-'''
 #################### TEMP CLOSE ####################
 @app.route('/closeauction', methods=['POST'])
 def close_auction():
@@ -364,4 +357,9 @@ def close_auction():
 	b_username, error = db_query.close(crop_id)
 	return render_template('/closed.html', crop_id=crop_id, buyer=b_username)
 
-'''
+##################### MAIN #####################
+if __name__ == "__main__":
+	app.run(debug=True)
+
+
+
