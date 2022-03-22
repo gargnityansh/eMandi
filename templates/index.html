@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/templatemo-style.css')}}">
+    <link rel="stylesheet" href="../static//styles/custom-style.css"> 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
 </head>
 <body>
+    <div id="body">
     <!-- Page Loader -->
     <div id="loader-wrapper">
         <div id="loader"></div>
@@ -64,14 +67,14 @@
         </div>
     </nav>
 
-    <div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="{{url_for('static',filename='images/hero.jpg')}}">
+    <!-- <div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="{{url_for('static',filename='images/hero.jpg')}}"> -->
         <!-- <form class="d-flex tm-search-form" action="/search", method="get">
             <input class="form-control tm-search-input" type="search" placeholder="Search" aria-label="Search" name="search">
             <button class="btn btn-outline-success tm-search-btn" type="submit">
                 <i class="fas fa-search"></i>
             </button>
         </form> -->
-    </div>
+    <!-- </div> -->
 
     {% for message in get_flashed_messages() %}
         <h2 class="col-6 tm-text-primary">
@@ -80,7 +83,7 @@
     {% endfor %}
     <div class="container-fluid tm-container-content tm-mt-60">
         <div class="row tm-mb-90 tm-gallery">
-            <h4>Current Auctions</h4>
+            <h4 class="w3-card-2">Current Auctions</h4>
             {% for crop_ in crops %}
                 {% if crop_[-1] != None %}
             	   <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
@@ -98,7 +101,7 @@
                 {% endif %}
             {% endfor %}
 
-            <h4>Future Auctions</h4>
+            <h4 class="w3-card-2">Future Auctions</h4>
             {% for crop_ in crops %}
                 {% if crop_[-1] != None %}
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
@@ -116,7 +119,7 @@
                 {% endif %}
             {% endfor %}
 
-            <h4>Past Auctions</h4>
+            <h4 class="w3-card-2"> Past Auctions</h4>
             {% for crop_ in crops %}
                 {% if crop_[-1] != None %}
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
@@ -136,6 +139,7 @@
             
         </div>
     </div> <!-- container-fluid, tm-container-content -->
+</div>
     <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
         <div class="container-fluid tm-container-small">
             <div class="row">
