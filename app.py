@@ -259,7 +259,7 @@ def crop():
 		order_id = client.order.create({'amount':order_amount, 'currency':order_currency})
 	
 	if status_code == 200:
-		return render_template("photo-detail.html",crop_desc = crop_desc,username=username,usertype=usertype,isPaid=isPaid,order_id=order_id)
+		return render_template("photo-detail.html",crop_desc = crop_desc,username=username,usertype=usertype,isPaid=isPaid,order_id=order_id, today=datetime.date.today())
 	else:
 		return redirect("/")
 
@@ -350,13 +350,6 @@ def paymentSuccess(crop_id,order_id,price):
 	else:
 		return redirect("/")
 
-
-##################### MAIN #####################
-if __name__ == "__main__":
-	app.run(debug=True)
-
-
-'''
 #################### TEMP CLOSE ####################
 @app.route('/closeauction', methods=['POST'])
 def close_auction():
@@ -364,4 +357,9 @@ def close_auction():
 	b_username, error = db_query.close(crop_id)
 	return render_template('/closed.html', crop_id=crop_id, buyer=b_username)
 
-'''
+##################### MAIN #####################
+if __name__ == "__main__":
+	app.run(debug=True)
+
+
+

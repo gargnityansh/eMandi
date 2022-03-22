@@ -5,7 +5,7 @@
 -- Dumped from database version 14.1
 -- Dumped by pg_dump version 14.1
 
--- Started on 2021-12-21 14:41:38
+-- Started on 2022-03-19 13:30:10
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -27,7 +27,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 
 --
--- TOC entry 3399 (class 0 OID 0)
+-- TOC entry 3398 (class 0 OID 0)
 -- Dependencies: 2
 -- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
 --
@@ -45,8 +45,6 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public."Auction" (
-    "a_startDate" date,
-    "a_endDate" date,
     "bidAmount" numeric NOT NULL,
     b_username character varying NOT NULL,
     bid_time timestamp with time zone NOT NULL,
@@ -125,14 +123,14 @@ CREATE TABLE public."Crop" (
     crop_grade character varying,
     "grading_Date" date,
     min_bid_price numeric,
-    "pickup_Date" date,
-    "delivery_Date" date,
     f_username character varying NOT NULL,
-    a_username character varying,
-    "truck_chasisNo" character varying(17),
+    auditor_un character varying,
     b_username character varying,
     crop_img text,
-    crop_weight_kg numeric NOT NULL
+    crop_weight_kg numeric NOT NULL,
+    start_date date,
+    end_date date,
+    crop_certificate bytea
 );
 
 
@@ -284,7 +282,7 @@ ALTER TABLE ONLY public."Auction"
 --
 
 ALTER TABLE ONLY public."Crop"
-    ADD CONSTRAINT "auditor_crop_FK" FOREIGN KEY (a_username) REFERENCES public."Auditor"(a_username) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT "auditor_crop_FK" FOREIGN KEY (auditor_un) REFERENCES public."Auditor"(a_username) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -333,7 +331,7 @@ ALTER TABLE ONLY public."Crop"
 
 
 --
--- TOC entry 3253 (class 2606 OID 16923)
+-- TOC entry 3252 (class 2606 OID 16923)
 -- Name: Transaction transaction_buyer_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -342,7 +340,7 @@ ALTER TABLE ONLY public."Transaction"
 
 
 --
--- TOC entry 3254 (class 2606 OID 16928)
+-- TOC entry 3253 (class 2606 OID 16928)
 -- Name: Transaction transaction_crop_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -350,16 +348,7 @@ ALTER TABLE ONLY public."Transaction"
     ADD CONSTRAINT "transaction_crop_FK" FOREIGN KEY ("crop_ID") REFERENCES public."Crop"("crop_ID") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
---
--- TOC entry 3252 (class 2606 OID 16933)
--- Name: Crop truck_crop_FK; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Crop"
-    ADD CONSTRAINT "truck_crop_FK" FOREIGN KEY ("truck_chasisNo") REFERENCES public."Truck"("truck_chasisNo") ON UPDATE CASCADE ON DELETE CASCADE;
-
-
--- Completed on 2021-12-21 14:41:39
+-- Completed on 2022-03-19 13:30:12
 
 --
 -- PostgreSQL database dump complete
