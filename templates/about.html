@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='styles/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='styles/templatemo-style.css')}}">
+    <link rel="stylesheet" href="../static//styles/custom-style.css"> 
 <!--
     
 TemplateMo 556 Catalog-Z
@@ -16,6 +17,7 @@ https://templatemo.com/tm-556-catalog-z
 -->
 </head>
 <body>
+    <div id="body">
     <!-- Page Loader -->
     <div id="loader-wrapper">
         <div id="loader"></div>
@@ -68,7 +70,7 @@ https://templatemo.com/tm-556-catalog-z
         </div>
     </nav>
 
-    <div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="{{url_for('static', filename='images/hero.jpg')}}"></div>
+    <!-- <div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="{{url_for('static', filename='images/hero.jpg')}}"></div> -->
 
     <div class="container-fluid tm-mt-60">
         <div class="row mb-4">
@@ -108,6 +110,7 @@ https://templatemo.com/tm-556-catalog-z
             </div>
         </div>
     </div> <!-- container-fluid, tm-container-content -->
+    </div>
 
 <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
         <div class="container-fluid tm-container-small">
@@ -128,6 +131,7 @@ https://templatemo.com/tm-556-catalog-z
                 </div>
             </div>
         </div>
+
     </footer>
     
     <script src="{{url_for('static', filename='js/plugins.js')}}"></script>

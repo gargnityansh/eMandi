@@ -1,0 +1,25 @@
+#body{
+    
+   
+  width: 90%;
+  height: auto;
+ margin-left: 5%;
+  z-index: 15;
+  
+  left: 5%;
+
+  /* padding-bottom:250px; */
+ 
+   
+   
+}
+
+footer{
+    width: 100%;
+    
+  
+   
+}
+select{
+    width: 200px;
+}
