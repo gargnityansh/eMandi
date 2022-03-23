@@ -10,7 +10,7 @@ def connection():
 	                 password = "Garg@9406608047",
 	                 host = "127.0.0.1",
 	                 port = "5432",
-	                 dbname = "eMandi")
+	                 dbname = "mandi")
 	return connection
 
 

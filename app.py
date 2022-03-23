@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 import db_query
 from flask_cors import CORS
 import json
-from emails import sendMail
+import emails
 import razorpay
 import datetime
 import base64
@@ -92,7 +92,7 @@ def contactDetails():
 	message = request.form.get("message")
 	contactDetails = {"name":name, "email":email, "subject":subject, "message":message}
 	print("contactdetails", contactDetails)
-	sendMail('emandi@gmail.com', contactDetails)
+	emails.complaintMail('emandi0786@gmail.com', contactDetails)
 	flash("Your query has been registered. We will contact you soon")
 	return redirect("/contact.html")
 
@@ -121,6 +121,7 @@ def register():
 			flash("User not registered")
 			return render_template('signup.html')
 		elif registeration==200:
+			emails.registerMail(user['emailid'],user)
 			resp = make_response(redirect('/'))
 			resp.set_cookie("username",username)
 			resp.set_cookie("usertype", usertype)	
@@ -221,6 +222,7 @@ def grade_crops():
 	}
 	grade_status, error = db_query.updateCropGrade(crop)
 	if grade_status ==200:
+		emails.gradeCropFarmerMail("emandi0786@gmail.com",{})
 		crop_status, crop_list = db_query.searchCrop("%")
 		return render_template("auditor_index.html",username=username, crops=crop_list)
 	else:
@@ -309,6 +311,8 @@ def addCropSuccess():
 		crop['crop_img'] = cloudinaryResult['secure_url']
 	crop_insert_status, crop_id = db_query.insert_crop(crop)
 	if crop_insert_status == 200:
+		emails.farmerCropRegister('emandi0786@gmail.com',{})
+		emails.auditorCropGrade('emandi0786@gmail.com',{})
 		flash("Your Crop is added successfully")
 		return redirect("/mycrops")
 	else:
