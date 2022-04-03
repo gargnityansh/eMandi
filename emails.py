@@ -36,19 +36,19 @@ def complaintMail(reciever_address, contactDetails):
 def registerMail(reciever_address,details):
 	fromaddr = "emandi0786@gmail.com"
 	toaddr = reciever_address 
-	sub = "Thanks for Registering on eMandi"
-	body = """<p>we are glad to have on board on eMandi.</p><p>Visit our website for participating in auctions</p>"""		   
+	sub = "eMandi Registration"
+	body = """<p>Thank you for registering with eMandi! We are glad to have you.</p><p>Visit our website for more details.</p>"""		   
 	if mailSend(fromaddr,toaddr,sub,body) == 200:
 		return 200, "OK"
 	else:
 		print("mail error")
 		return 400 ,"error"
 
-def gradeCropFarmerMail(reciever_address,details):
+def gradeCropFarmerMail(reciever_address, details):
 	fromaddr = "emandi0786@gmail.com"
 	toaddr = reciever_address 
-	sub = "Crop with id is graded"
-	body = """<p>Your crop with the following cropid has been graded. If you found any mismatch please feel free to raise a complaint.</p>"""		   
+	sub = "Crop has been graded"
+	body = """<p>Your crop [name, type] has been graded. If you are not satisfied with the grade, please feel free to raise a complaint.</p>"""		   
 	if mailSend(fromaddr,toaddr,sub,body) == 200:
 		return 200, "OK"
 	else:
@@ -58,8 +58,10 @@ def gradeCropFarmerMail(reciever_address,details):
 def farmerCropRegister(reciever_address,details):
 	fromaddr = "emandi0786@gmail.com"
 	toaddr = reciever_address 
-	sub = "Thanks for Registering on eMandi"
-	body = """<p>Please send a 200-500gm sample of crop to the nearest grading sample. Address of sample is. Please label the samplw with the following cropId</p>"""
+	sub = "Crop Registration"
+	body = """<p>Thank you for choosing us.</p> 
+	<p>As a part of the next step please send a 200-500gm sample of crop to grading center. 
+	Address of center is []. Please label the sample with the following [cropId]</p>"""
 	if mailSend(fromaddr,toaddr,sub,body) == 200:
 		return 200, "OK"
 	else:
@@ -69,8 +71,9 @@ def farmerCropRegister(reciever_address,details):
 def auditorCropGrade(reciever_address,details):
 	fromaddr = "emandi0786@gmail.com"
 	toaddr = reciever_address 
-	sub = "Thanks for Registering on eMandi"
-	body = """<p>following are the details of crop which is recently added to be grade.</p>"""
+	sub = "New Crop Added"
+	body = """<p>A new crop has been added for grading.</p>
+	<p>Please grade the crop and attach a grading report and set the minimum bidding price as early as possible.</p>"""
 	if mailSend(fromaddr,toaddr,sub,body) == 200:
 		return 200, "OK"
 	else:

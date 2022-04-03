@@ -216,7 +216,7 @@ def grade_crops():
 	crop = {
 		'crop_id':request.form.get('crop_id'),
 		'crop_grade':request.form.get('grade'),
-		'min_bid_price':request.form.get('min_bid_price'),
+		'min_bid_price':0.9*float(request.form.get('min_bid_price')),
 		'a_username':username,
 		'crop_certificate' : request.files.get("crop_certificate").read()
 	}
