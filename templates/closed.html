@@ -30,8 +30,11 @@
     </nav>
 
     <h2 class="col-6 tm-text-primary">
-            Crop_ID: {{crop_id}} <br>
-            Winner: {{buyer}}
+        <h2>Closed active auctions successfully!</h2>
+        <h3>Crop ID for closed auctions:</h3>
+        {% for id in closed %}
+            {{ id }}
+        {% endfor %}
     </h2>
     <script src="{{url_for('static', filename='js/plugins.js')}}"></script>
     <script>

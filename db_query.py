@@ -7,10 +7,10 @@ import string
 
 def connection():
 	connection = psycopg2.connect(user = "postgres",
-	                 password = "admin123",
+	                 password = "4597",
 	                 host = "127.0.0.1",
 	                 port = "5432",
-	                 dbname = "mandi")
+	                 dbname = "eMandi")
 	return connection
 
 
@@ -138,25 +138,47 @@ def updateCropGrade(crop):
 
 
 ##################### CLOSE AUCTION [MANUAL] ####################
-def close(crop_id):
+def get_active_auctions(today):
 	try:
 		connect = connection()
 		cursor = connect.cursor()
-		cursor.execute("SELECT b_username, \"bidAmount\" from \"Auction\" WHERE \"crop_ID\"=%s ORDER BY \"bidAmount\" desc limit 1", (crop_id,))
+		cursor.execute("SELECT \"crop_ID\" FROM \"Crop\" WHERE %s BETWEEN start_date AND end_date", (today,))
 		record = cursor.fetchall()
 		if len(record)==0:
-			return None, "No Bidders Found"
+			return None, "No active auctions"
 		else:
-			winner = record[0][0]
-			cursor.execute("UPDATE \"Crop\" SET b_username=%s WHERE \"crop_ID\"=%s", (winner, crop_id))
+			ids = list(x[0] for x in record)
 		if(connect):
 			cursor.close()
 			connect.commit()
 			connect.close()
-		return winner, 'no error'
+		return ids, 'no error'
 	except (Exception, psycopg2.Error) as error :
 		print ("Error while connecting to PostgreSQL", error)
 		return None, error
+
+def close(ids):
+	try:
+		connect = connection()
+		cursor = connect.cursor()
+		closed = []
+		for crop_id in ids:
+			cursor.execute("SELECT b_username, \"bidAmount\" from \"Auction\" WHERE \"crop_ID\"=%s ORDER BY \"bidAmount\" desc limit 1", (crop_id,))
+			record = cursor.fetchall()
+			if len(record)==0:
+				continue
+			else:
+				winner = record[0][0]
+				cursor.execute("UPDATE \"Crop\" SET b_username=%s WHERE \"crop_ID\"=%s", (winner, crop_id))
+				closed.append(crop_id)
+		if(connect):
+			cursor.close()
+			connect.commit()
+			connect.close()
+		return closed
+	except (Exception, psycopg2.Error) as error :
+		print ("Error while connecting to PostgreSQL", error)
+		return error
 
 
 #################### CROP SEARCH FOR DISPLAY #################### 

@@ -355,11 +355,11 @@ def paymentSuccess(crop_id,order_id,price):
 		return redirect("/")
 
 #################### TEMP CLOSE ####################
-@app.route('/closeauction', methods=['POST'])
+@app.route('/closeauction', methods=['GET'])
 def close_auction():
-	crop_id = request.form.get("crop_id")
-	b_username, error = db_query.close(crop_id)
-	return render_template('/closed.html', crop_id=crop_id, buyer=b_username)
+	crop_ids, err = db_query.get_active_auctions(datetime.date.today())
+	closed = db_query.close(crop_ids)
+	return render_template('/closed.html', closed=closed)
 
 ##################### MAIN #####################
 if __name__ == "__main__":
