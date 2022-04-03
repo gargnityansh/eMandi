@@ -1,1 +1,1 @@
-web: gunicorn app:app
+web: gunicorn emandi0786:app
