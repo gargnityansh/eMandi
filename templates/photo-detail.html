@@ -75,21 +75,34 @@
             <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
                 <div class="tm-bg-gray tm-video-details">
                     <div class="mb-4 d-flex flex-wrap">
-                        <div class="mr-4 mb-2">
-                            <span class="tm-text-gray-dark">Quantity: </span><span class="tm-text-primary">{{crop_desc[0][13]}}Kg</span>
-                        </div>
-                        <div class="mr-4 mb-2">
-                            <span class="tm-text-gray-dark">Crop Type: </span><span class="tm-text-primary">{{crop_desc[0][1]}}</span>
-                        </div>
+                        <table>
+                            <tr>
+                                <td><b>Quantity</b></td>
+                                <td>{{crop_desc[0][13]}} Kg</td>
+                                
+                            </tr>
+                            <tr>
+                                <td><b>Crop Type</b></td>
+                             
+                              <td>{{crop_desc[0][1]}}</td>
+                             
+                            </tr>
+                            <tr>
+                                <td><b>Crop Region</b></td>
+                              <td>{{crop_desc[0][2]}}</td>
+                             
+                            </tr>
+                            <tr>
+                                <td><b>Bid Price</b></td>
+                              <td>Rs. {{crop_desc[0][5]}}</td>
+                             
+                            </tr>
+                            </table>
+                      
+                        
                     </div>
-                    <div class="mb-4">
-                        <h3 class="tm-text-gray-dark mb-3">Crop Region:</h3>
-                        <p>{{crop_desc[0][2]}}</p>
-                    </div>
-                    <div class="mb-4">
-                        <h3 class="tm-text-gray-dark mb-3">Bid Price:</h3>
-                        <p>Rs. {{crop_desc[0][5]}}</p>
-                    </div>
+                  
+                   
                     <div class="text-center mb-5">
                         <a href="data:application/pdf;base64,{{crop_desc[0][-1]}}" class="btn btn-primary tm-btn-big" download="{{crop_desc[0][3]}}_{{crop_desc[0][0]}}" rel="noopener noreferrer">Crop Certificate</a>
                     </div>

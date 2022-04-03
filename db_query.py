@@ -3,14 +3,19 @@ import json
 from datetime import datetime
 import random
 import string
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 
+DB_NAME= os.getenv('DB_NAME')
+DB_PASSWORD= os.getenv('DB_PASSWORD')
 def connection():
 	connection = psycopg2.connect(user = "postgres",
-	                 password = "admin123",
+	                 password = DB_PASSWORD,
 	                 host = "127.0.0.1",
 	                 port = "5432",
-	                 dbname = "mandi")
+	                 dbname = DB_NAME)
 	return connection
 
 
