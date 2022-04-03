@@ -244,7 +244,9 @@ body {
   padding: 54px 80px 36px 55px; }
 
 .form-group {
-  margin-bottom: 23px; }
+  margin-bottom: 23px;
+  
+ }
 
 input {
   border: none;
