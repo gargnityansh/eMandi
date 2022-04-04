@@ -73,7 +73,7 @@ def resetPassword(resetdetails):
 		cursor = connection.cursor()
 		if resetdetails['password']==None:
 			return 404, "password not found"
-		cursor.execute("""UPDATE user_details SET password = crypt(%s,gen_salt('bf')) WHERE username=%s""",(resetdetails['password'],resetdetails['username']))
+		cursor.execute("""UPDATE \"Farmer\" SET f_password = crypt(%s,gen_salt('bf')) WHERE f_username=%s""",(resetdetails['password'],resetdetails['username']))
 		number_of_rows_changed = cursor.rowcount
 		if number_of_rows_changed==0:
 			return 404,"user not found"
