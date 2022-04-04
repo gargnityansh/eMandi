@@ -93,3 +93,19 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+.btn{
+  min-width: 300px;
+}
+.make-bid{
+  z-index: 10;
+}
+
+input{
+  min-width: 300px;
+  padding: 5px;
+}
+select{
+  min-width: 300px;
+  padding: 5px;
+}

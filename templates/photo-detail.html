@@ -150,6 +150,7 @@
           transition: opacity 500ms;
           visibility: hidden;
           opacity: 0;
+          z-index: 20;
         }
         .overlay:target {
           visibility: visible;
@@ -182,7 +183,7 @@
               overflow: auto;
             }
     </style>
-    <div id='bid' class="overlay">
+    <div id='bid' class="overlay make-bid">
         <div id='popupBid'>
             <form action='/makebid' id='bid-form' method="post" name="bid-form">
                 <a class='close' href="#">&times;</a>
