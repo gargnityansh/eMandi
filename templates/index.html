@@ -89,15 +89,6 @@
         </div>
     </nav>
 
-    <!-- <div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="{{url_for('static',filename='images/hero.jpg')}}"> -->
-        <!-- <form class="d-flex tm-search-form" action="/search", method="get">
-            <input class="form-control tm-search-input" type="search" placeholder="Search" aria-label="Search" name="search">
-            <button class="btn btn-outline-success tm-search-btn" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
-        </form> -->
-    <!-- </div> -->
-
     {% for message in get_flashed_messages() %}
         <h2 class="col-6 tm-text-primary">
                 {{message}}

@@ -64,6 +64,10 @@
         </div>
     </nav>
 
+    {% for message in get_flashed_messages() %}
+        <h3 class="col-6 tm-text-primary">{{message}}</h3>
+    {% endfor %}
+
     <div class="container-fluid tm-container-content tm-mt-60">
         <div class="row mb-4">
             <h2 class="col-12 tm-text-primary">{{crop_desc[0][3]}}</h2>
