@@ -10,11 +10,13 @@ load_dotenv()
 
 DB_NAME= os.getenv('DB_NAME')
 DB_PASSWORD= os.getenv('DB_PASSWORD')
+DB_USER=os.getenv('DB_USER')
+DB_HOST=os.getenv('DB_HOST')
 def connection():
 	connection = psycopg2.connect(
-		user = "bhkkabdvjkocdi",
+		user = DB_USER,
 	    password = DB_PASSWORD,
-	    host = "ec2-52-30-67-143.eu-west-1.compute.amazonaws.com",
+	    host = DB_HOST,
 	    port = "5432",
 	    dbname = DB_NAME
 	)
@@ -69,18 +71,18 @@ def checkUser(user):
 #################### RESET PASS #################### 
 def resetPassword(resetdetails):
 	try:
-		connection = connection()
-		cursor = connection.cursor()
+		connect = connection()
+		cursor = connect.cursor()
 		if resetdetails['password']==None:
 			return 404, "password not found"
-		cursor.execute("""UPDATE user_details SET password = crypt(%s,gen_salt('bf')) WHERE username=%s""",(resetdetails['password'],resetdetails['username']))
+		cursor.execute("""UPDATE \"Farmer\" SET f_password = crypt(%s,gen_salt('bf')) WHERE f_username=%s""",(resetdetails['password'],resetdetails['username']))
 		number_of_rows_changed = cursor.rowcount
 		if number_of_rows_changed==0:
 			return 404,"user not found"
-		if(connection):
-			connection.commit()
+		if(connect):
+			connect.commit()
 			cursor.close()
-			connection.close()
+			connect.close()
 		return 200, "updated"
 	except (Exception, psycopg2.Error) as error :
 		print ("Error while connecting to PostgreSQL", error)

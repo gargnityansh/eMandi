@@ -79,6 +79,18 @@ def auditorCropGrade(reciever_address,details):
 	else:
 		print("mail error")
 		return 400 ,"error"
+
+def buyerWinBid(reciever_address,details):
+	fromaddr = "emandi0786@gmail.com"
+	toaddr = reciever_address 
+	sub = "Your purchase has been successfull!"
+	body = """<p>Thanks for purchasing the crop.</p>
+	<p>Your crop has been bidded successfully. We will dispatch your crop as earliest as possible.</p>"""
+	if mailSend(fromaddr,toaddr,sub,body) == 200:
+		return 200, "OK"
+	else:
+		print("mail error")
+		return 400 ,"error"
 	
 if __name__ == "__main__":
 	complaintMail('emandi@gmail.com',{})

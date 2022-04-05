@@ -413,7 +413,7 @@ def paymentSuccess(crop_id, order_id, price):
     }
     transactionStatus, insertTransaction = db_query.insertTransaction(transaction)
     if transactionStatus == 200:
-        emails.registerMail("emandi0786@gmail.com", {})
+        emails.buyerWinBid("emandi0786@gmail.com", {})
         return redirect("/mycrops")
     else:
         return redirect("/")

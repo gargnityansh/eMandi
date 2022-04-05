@@ -18,7 +18,8 @@
   // Get all elements with class="tabcontent" and hide them
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+      
+     tabcontent[i].style.display = "none";
   }
 
   // Get all elements with class="tablinks" and remove the class "active"
@@ -31,6 +32,7 @@
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 } 
+
 </script>
 <body>
     <div id="body">
@@ -97,7 +99,7 @@
     <div class="container-fluid tm-container-content tm-mt-60">
         <div class="row tm-mb-90 tm-gallery">
             <div class="tab">
-                <button class="tablinks" onclick="openCity(event, 'current')">Current</button>
+                <button class="tablinks " onclick="openCity(event, 'current')">Current</button>
                 <button class="tablinks" onclick="openCity(event, 'future')">Future</button>
                 <button class="tablinks" onclick="openCity(event, 'past')">Past</button>
               </div>
