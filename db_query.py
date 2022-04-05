@@ -10,11 +10,13 @@ load_dotenv()
 
 DB_NAME= os.getenv('DB_NAME')
 DB_PASSWORD= os.getenv('DB_PASSWORD')
+DB_USER=os.getenv('DB_USER')
+DB_HOST=os.getenv('DB_HOST')
 def connection():
 	connection = psycopg2.connect(
-		user = "bhkkabdvjkocdi",
+		user = DB_USER,
 	    password = DB_PASSWORD,
-	    host = "ec2-52-30-67-143.eu-west-1.compute.amazonaws.com",
+	    host = DB_HOST,
 	    port = "5432",
 	    dbname = DB_NAME
 	)
