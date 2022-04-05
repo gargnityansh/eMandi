@@ -12,9 +12,9 @@ DB_NAME= os.getenv('DB_NAME')
 DB_PASSWORD= os.getenv('DB_PASSWORD')
 def connection():
 	connection = psycopg2.connect(
-		user = "postgres",
+		user = "bhkkabdvjkocdi",
 	    password = DB_PASSWORD,
-	    host = "127.0.0.1",
+	    host = "ec2-52-30-67-143.eu-west-1.compute.amazonaws.com",
 	    port = "5432",
 	    dbname = DB_NAME
 	)
