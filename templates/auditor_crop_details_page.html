@@ -63,11 +63,12 @@ https://templatemo.com/tm-556-catalog-z
                             <h4>Crop Name: {{crop_desc[0][3]}}</h4>
                             <h4>Crop Type: {{crop_desc[0][1]}}</h4>
                             <h4>Crop Region: {{crop_desc[0][2]}}</h4>
-                            <h4>Quantity: {{crop_desc[0][13]}}Kg</h4>
+                            <h4>Quantity: {{crop_desc[0][13]}}Tons</h4>
                         </div>
                     </div>
                     <form action="/grade/crops" method="Post" enctype="multipart/form-data">
                         <input type="text" name="crop_id" value="{{crop_desc[0][0]}}" hidden>
+                        <br>
                         <label for="grade">Crop Grade:</label>
                           <select name="grade" id="crop_grade">
                             <option value="A">A</option>
@@ -79,8 +80,10 @@ https://templatemo.com/tm-556-catalog-z
                           </select><br>
                         <label>Set Minimum Bidding Price: </label>
                         <input type="text" name="min_bid_price">
+                        <br>
                         <label>Crop Certificate</label>
                         <input type="file" name="crop_certificate" class="form-control rounded-0" autocomplete="off" required/>
+                        <br>
                         <input type="submit" value="Submit">
                     </form>
                 </div>
