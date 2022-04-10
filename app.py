@@ -419,7 +419,7 @@ def paymentSuccess(crop_id, order_id, price):
         return redirect("/")
 
 
-#################### TEMP CLOSE ####################
+#################### CLOSE ####################
 @app.route("/closeauction", methods=["GET"])
 def close_auction():
     crop_ids, err = db_query.get_active_auctions(datetime.date.today())
