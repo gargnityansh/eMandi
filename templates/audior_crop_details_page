@@ -27,8 +27,7 @@ https://templatemo.com/tm-556-catalog-z
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">
-                <i class="fas fa-film mr-2"></i>
-                eMandi
+                🌾 eMandi
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
@@ -69,7 +68,7 @@ https://templatemo.com/tm-556-catalog-z
                     </p>                     -->
                     <div class="mb-4 d-flex flex-wrap">
                         <div class="mr-4 mb-2">
-                            <span class="tm-text-gray-dark">Quantity: </span><span class="tm-text-primary">{{crop_desc[0][16]}}Kg</span>
+                            <span class="tm-text-gray-dark">Quantity: </span><span class="tm-text-primary">{{crop_desc[0][16]}}Tons</span>
                         </div>
                         <div class="mr-4 mb-2">
                             <span class="tm-text-gray-dark">Crop Type: </span><span class="tm-text-primary">{{crop_desc[0][1]}}</span>
