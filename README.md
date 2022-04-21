@@ -1,15 +1,8 @@
-#eMandi - Agricultural Marketplace for Farmers
-
-SGSITS, 2021-2022 - Major Project
-
-Contributors-
-
-Abhishek Singh Baghel
-
-Ayush Pawar
-
-Nityansh Garg
-
-Prabhat Singh
-
-Sourin Roy
+<br /> #eMandi - Agricultural Marketplace for Farmers
+<br />SGSITS, 2021-2022 - Major Project
+<br />Contributors-
+<br />Abhishek Singh Baghel
+<br />Ayush Pawar
+<br />Nityansh Garg
+<br />Prabhat Singh
+<br />Sourin Roy
